@@ -1,0 +1,276 @@
+schema: topic/v1
+id: programming-fundamentals
+title: Programming fundamentals
+domain: programming
+level: 1
+status: published
+
+summary: >
+  The concepts every language shares: values and types, variables and binding,
+  expressions, control flow, functions, collections, mutability, and modules. Learned
+  once, then reused in every language you ever touch.
+
+why_it_matters: >
+  This is the topic everything else is built on, and the one most commonly learned
+  badly. People who skip it can produce working code by pattern-matching against
+  examples, and then hit a wall at the first problem no example covers - which is
+  every real problem. The specific failure is that they learned a language's syntax
+  instead of programming, so nothing transfers when the language changes. Learned
+  properly, this topic is the last time you have to learn most of it: a second
+  language then takes weeks rather than months.
+
+effort:
+  focused_hours: 120
+  calendar_weeks: "8-16"
+  assumes: >
+    Level 0 complete. Roughly 8-12 focused hours per week including both projects.
+    The wide range is real - this is the topic where individual variation is largest,
+    and taking 16 weeks is not a failure.
+
+prerequisites:
+  hard:
+    - id: what-programming-is
+      why: >
+        You need the idea that a program is a precise description of a process before
+        you can start writing one, or you will treat code as incantations.
+    - id: command-line-basics
+      why: >
+        You must be able to run a program, pass it arguments, and read its output.
+        Without this, every error is invisible and you will develop inside an IDE
+        button you do not understand.
+  soft:
+    - id: problem-solving-basics
+      why: >
+        Decomposition and tracing state by hand make the difference between debugging
+        and guessing. Learnable alongside, but the drills help.
+
+first_principles_chain:
+  - A computer executes instructions in sequence on data. That alone is enough to compute anything, and unusable for writing anything.
+  - So you need names for data, or every instruction must repeat the location it operates on. This gives you variables.
+  - You need to choose between instruction sequences based on the data. This gives you conditions.
+  - You need to repeat instructions without writing them out. This gives you loops.
+  - Repeated groups of instructions want a name and parameters, so they can be reused and tested. This gives you functions.
+  - Data comes in groups whose size is unknown when you write the code. This gives you collections.
+  - Two names can refer to the same data, so changing it through one changes it through both. This gives you mutability and aliasing.
+  - Real programs outgrow one file and one author. This gives you modules and namespaces.
+  - Anything can fail, and failure is data too. This gives you error handling.
+  - Every language is a set of choices about which of these to make easy, safe, or explicit.
+
+concepts:
+  - id: values-and-types
+    name: Values and types
+    depth: deep
+    note: >
+      What a type is - the set of values plus the operations allowed on them. Integers,
+      floats, strings, booleans, and why integer versus float division differs.
+      Includes the floating-point surprise: 0.1 + 0.2 is not 0.3, and you must know why.
+
+  - id: variables-and-binding
+    name: Variables and binding
+    depth: deep
+    note: >
+      A variable is a name bound to a value, not a box containing one. This distinction
+      is what makes aliasing, parameter passing, and closures comprehensible later.
+      Get it right now and three later confusions never happen.
+
+  - id: control-flow
+    name: Conditions and loops
+    depth: deep
+    note: >
+      Branching, iteration, boolean logic, short-circuit evaluation, off-by-one errors,
+      and loop invariants. Practise until you can trace a nested loop on paper without
+      running it.
+
+  - id: functions
+    name: Functions
+    depth: deep
+    note: >
+      Parameters, arguments, return values, scope, and the single most important habit:
+      one function does one thing you can name. Includes why a function that both
+      computes and prints is hard to test.
+
+  - id: collections
+    name: Collections
+    depth: deep
+    note: >
+      Lists, dictionaries or maps, sets, and tuples. Which to use for which access
+      pattern, and rough costs - lookup in a dict is fast, searching a list is not.
+      The full analysis is data-structures at Level 2.
+
+  - id: mutability-and-aliasing
+    name: Mutability and aliasing
+    depth: deep
+    note: >
+      Two names referring to the same object. The source of a whole class of bugs that
+      are invisible until they are not. Includes why the default-mutable-argument trap
+      exists in several languages.
+
+  - id: errors-and-exceptions
+    name: Errors and failure
+    depth: working
+    note: >
+      Failure as an expected outcome. Raising, catching, and letting errors propagate.
+      Enough to fail loudly and specifically; the design treatment is error-handling.
+
+  - id: debugging
+    name: Debugging
+    depth: working
+    note: >
+      Reading a stack trace, forming a hypothesis, bisecting, and using a debugger.
+      Deliberately introduced here, deepened in debugging-fundamentals. The skill that
+      most determines your pace for the next two levels.
+
+  - id: modules-and-imports
+    name: Modules and namespaces
+    depth: working
+    note: >
+      Splitting code across files, importing, and what a namespace prevents. Enough to
+      structure a few hundred lines without collisions.
+
+  - id: strings-and-encoding
+    name: Strings and text
+    depth: working
+    note: >
+      Strings as sequences, indexing and slicing, formatting, and the fact that
+      "length" is ambiguous for text - bytes, code points and characters are three
+      different counts.
+
+  - id: io-and-files
+    name: Input, output, and files
+    depth: working
+    note: >
+      Reading arguments, standard input and output, reading and writing files, and
+      that I/O is where your program meets a world that does not cooperate.
+
+  - id: recursion
+    name: Recursion
+    depth: working
+    note: >
+      A function calling itself, with a base case. Learn it now because some problems
+      are naturally recursive; the stack-depth consequences are concrete rather than
+      theoretical.
+
+  - id: complexity-intuition
+    name: Cost intuition
+    depth: aware
+    note: >
+      Noticing that a loop inside a loop over the same data grows quickly. No formal
+      notation yet - complexity-analysis at Level 2 does that properly.
+
+  - id: memory-model-details
+    name: How the language manages memory
+    depth: aware
+    note: >
+      Know that something manages memory for you and that objects live somewhere.
+      Reference counting, garbage collection and ownership belong to memory-management
+      at Level 3.
+
+  - id: concurrency-awareness
+    name: That concurrency exists
+    depth: aware
+    note: >
+      Know the word and that it introduces problems your sequential reasoning does not
+      cover. Do not start here. concurrency-and-parallelism is Level 3 for good reason.
+
+gates:
+  build:
+    - Complete cli-calculator, from a blank file, with no tutorial.
+    - Complete file-organizer, including its undo mode.
+  break:
+    - Feed your calculator 5,000 nested parentheses and explain the failure mechanism, then handle it deliberately.
+    - Give your file organiser filenames containing spaces, quotes, newlines, and a leading dash. Fix what breaks.
+    - Write a function that mutates a list passed as an argument, then demonstrate the surprise it causes to a caller who did not expect it.
+  debug:
+    - Take a program you wrote a week ago, introduce a subtle bug deliberately, then find it using a debugger rather than print statements.
+    - Given a stack trace from someone else's program, identify the failing line, the immediate cause, and which frame is the first one you wrote.
+  explain:
+    - Explain the difference between a variable and a value to someone at Level 0, using an example where two names refer to the same list.
+    - Explain why 0.1 + 0.2 does not equal 0.3, and what to do about it when handling money.
+    - Explain why a function that both computes a result and prints it is harder to test than one that only computes.
+  benchmark:
+    - Write two versions of a function that finds duplicates in a list - one scanning a list, one using a set - and measure both at 1,000 and 100,000 items. Explain the shape of the difference.
+  review:
+    - Read a 200-line program written by someone else and list three specific changes that would make it easier to change, with reasons.
+
+projects:
+  - id: cli-calculator
+    role: core
+    validates: [functions, control-flow, recursion, errors-and-exceptions, debugging]
+  - id: file-organizer
+    role: core
+    validates: [io-and-files, errors-and-exceptions, collections, strings-and-encoding]
+
+resources:
+  tier1:
+    - title: "The Python Tutorial (official)"
+      url: https://docs.python.org/3/tutorial/
+      why: >
+        If you chose Python, this is the primary source and it is unusually readable.
+        Sections 3-6 cover this entire topic. Reading official documentation early
+        builds a habit most engineers acquire far too late.
+    - title: "MDN JavaScript Guide"
+      url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
+      why: >
+        If you chose JavaScript, this is the reference maintained closest to the
+        standard. Use the Guide for learning and the Reference for lookup; treating
+        them as the same thing is why people end up on low-quality tutorial sites.
+    - title: "What Every Computer Scientist Should Know About Floating-Point Arithmetic - Goldberg"
+      url: https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
+      why: >
+        Read only the first two sections, now, when 0.1 + 0.2 first surprises you.
+        The rest is for later. Included because floating point is the first place a
+        beginner meets a machine limitation rather than a mistake of their own.
+
+  tier2:
+    - title: "Structure and Interpretation of Computer Programs (SICP)"
+      url: https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html
+      why: >
+        Hard, and the best available treatment of what programming actually is rather
+        than how one language spells it. Read chapters 1 and 2 slowly, doing the
+        exercises, ideally after your first project. Not a first resource - a
+        second one that reorganises what you already know.
+    - title: "Think Python - Allen Downey"
+      url: https://greenteapress.com/wp/think-python-3rd-edition/
+      why: >
+        A genuine introduction that teaches problem decomposition rather than syntax
+        tours, with exercises that are hard enough to be worth doing. Free, and the
+        best linear path through this topic if you want one.
+    - title: "Eloquent JavaScript - Marijn Haverbeke"
+      url: https://eloquentjavascript.net/
+      why: >
+        The JavaScript equivalent: teaches programming with JavaScript rather than
+        JavaScript features in order. Chapters 1-6 map onto this topic. Free online.
+    - title: "Debugging - David Agans"
+      url: https://debuggingrules.com/
+      why: >
+        Nine rules, none language-specific, all applicable for the rest of your career.
+        Short. Read it once now and once again after your first genuinely hard bug,
+        when the rules will mean something.
+
+  tier3:
+    - title: "Exercism"
+      url: https://exercism.org/
+      why: >
+        Small exercises with human mentorship in 70 languages. Listed rather than a
+        competitive-programming site because the feedback is about clarity and idiom,
+        which is what you need now, instead of speed.
+    - title: "Python Tutor - visualise execution"
+      url: https://pythontutor.com/
+      why: >
+        Steps through code showing variables, references and the call stack. The
+        fastest way to fix a wrong mental model of variables-and-binding or aliasing.
+        Use it for ten confusing lines, not for whole programs.
+
+next:
+  - id: version-control-git
+    why: You now write code worth not losing, and you are about to need to see what changed.
+  - id: data-structures
+    why: You have used lists and dictionaries. Next is understanding what they cost and why.
+  - id: debugging-fundamentals
+    why: You have debugged by necessity. Doing it deliberately is the highest-leverage skill available now.
+  - id: linux-fundamentals
+    why: Your programs run on a system. Being fluent there stops the environment being a source of mystery.
+
+version_sensitivity: low
+last_reviewed: "2026-08-11"
+maintainers: []

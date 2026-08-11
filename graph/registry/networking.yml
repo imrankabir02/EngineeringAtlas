@@ -1,0 +1,70 @@
+schema: registry/v1
+domain: networking
+
+topics:
+  - id: networking-fundamentals
+    title: Networking fundamentals
+    level: 1
+    status: planned
+    summary: >
+      How two machines exchange bytes: addresses and ports, the layered model as a
+      useful lie, packets, routing, NAT, and what "connection refused" versus
+      "timeout" tells you about where the failure is.
+    prerequisites:
+      hard: [internet-basics]
+      soft: [linux-fundamentals]
+
+  - id: http
+    title: HTTP
+    level: 2
+    status: planned
+    summary: >
+      The protocol most of your work travels over: methods and their semantics,
+      status codes that mean what they say, headers, statelessness and its cost,
+      caching semantics, and the differences between HTTP/1.1, 2 and 3.
+    prerequisites:
+      hard: [networking-fundamentals]
+
+  - id: dns
+    title: DNS
+    level: 2
+    status: planned
+    summary: >
+      Turning names into addresses: resolvers, record types, delegation, TTLs and
+      the caching layers you do not control - which is why DNS is a frequent and
+      frequently misdiagnosed cause of outages.
+    prerequisites:
+      hard: [networking-fundamentals]
+
+  - id: tls-and-cryptography-basics
+    title: TLS and applied cryptography basics
+    level: 2
+    status: planned
+    summary: >
+      What a secure channel actually provides: symmetric and asymmetric
+      primitives, hashing, the TLS handshake, certificates and chains of trust,
+      and what an expired certificate or a bad SNI configuration looks like.
+    prerequisites:
+      hard: [networking-fundamentals]
+
+  - id: tcp-ip-internals
+    title: TCP/IP internals
+    level: 3
+    status: planned
+    summary: >
+      Reliability built on an unreliable network: the handshake and teardown,
+      sequence numbers, retransmission, congestion control, windows, MTU and
+      fragmentation, and why latency and bandwidth are independent problems.
+    prerequisites:
+      hard: [networking-fundamentals, operating-systems-fundamentals]
+
+  - id: network-performance
+    title: Network performance
+    level: 4
+    status: planned
+    summary: >
+      Making the network stop being the bottleneck: connection reuse and pooling,
+      TLS session resumption, bandwidth-delay product, buffer bloat, head-of-line
+      blocking at each layer, and measuring latency rather than guessing.
+    prerequisites:
+      hard: [tcp-ip-internals, performance-engineering]

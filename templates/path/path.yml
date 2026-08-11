@@ -1,0 +1,61 @@
+# AUTHOR: rename to <path-id>.yml and place in paths/ or paths/stacks/.
+# AUTHOR: a sibling <path-id>.md is required.
+# AUTHOR: normative schema: ../docs/graph-schema.md
+# AUTHOR: delete every "# AUTHOR:" comment before committing.
+
+schema: path/v1
+id: path-id                       # AUTHOR: lowercase-hyphenated. Must match the filename.
+title: Path title
+
+audience: >
+  # AUTHOR: a specific person with a specific goal, stated as a CAPABILITY rather than a job
+  # AUTHOR: title. "Someone who can write small programs and wants to build and operate
+  # AUTHOR: production services" - not "developers who want to learn backend".
+
+entry_level: 1                    # AUTHOR: the level a learner must already be at.
+exit_level: 4                     # AUTHOR: must be greater than entry_level.
+
+prerequisite_paths: [some-path]   # AUTHOR: optional. Paths that cover the topics this one assumes.
+                                  # AUTHOR: The validator uses these to check step ordering, so
+                                  # AUTHOR: they are load-bearing rather than decorative.
+
+steps:
+  # AUTHOR: each item is EITHER a step (with `topic`) or a milestone (with only `milestone`).
+  #
+  # AUTHOR: THE VALIDATOR ENFORCES ORDERING: every step's hard prerequisites must appear
+  # AUTHOR: earlier in this path, in a prerequisite_path, or be strictly below entry_level.
+  # AUTHOR: That check is the mechanical version of "no framework before fundamentals", and it
+  # AUTHOR: is why a path here can be trusted. If it fails, the fix is usually to add the
+  # AUTHOR: missing topic earlier rather than to lower entry_level.
+
+  - topic: first-topic
+    emphasis: >
+      # AUTHOR: THE MOST IMPORTANT FIELD IN A PATH. What specifically matters about this topic
+      # AUTHOR: in THIS context - the idiom, the current default library, the peculiarity that
+      # AUTHOR: will bite, or what to skip.
+      #
+      # AUTHOR: This is where all stack-specific and role-specific guidance lives. The topic
+      # AUTHOR: itself is shared, so a path with no emphasis notes adds nothing over the graph
+      # AUTHOR: and will be rejected in review.
+    projects: [project-id]        # AUTHOR: optional. Projects that validate this step.
+
+  - topic: second-topic
+    emphasis: >
+      # AUTHOR: not every step needs emphasis, but most should have it.
+
+  - milestone: >
+      # AUTHOR: a CAPABILITY statement with evidence, not "finished the section".
+      #
+      # AUTHOR: At least one milestone is required, and a long path needs one every 8-15 steps.
+      # AUTHOR: They are the load-bearing part of the structure: a path that listed forty topics
+      # AUTHOR: in a row would say nothing about readiness.
+      #
+      # AUTHOR: "You have deployed a service with a real database, migrations, authentication,
+      # AUTHOR: and a test suite you rely on when refactoring" - checkable, and honest.
+
+  - topic: third-topic
+    emphasis: >
+      # AUTHOR: ...
+
+  - milestone: >
+      # AUTHOR: the final milestone should match the exit_level's test in graph/levels.yml.

@@ -1,0 +1,58 @@
+schema: registry/v1
+domain: cloud
+
+topics:
+  - id: cloud-fundamentals
+    title: Cloud fundamentals
+    level: 3
+    status: planned
+    summary: >
+      The primitives every provider sells under different names: compute, block and
+      object storage, virtual networks, identity, and managed services - plus the
+      shared responsibility model and where lock-in actually bites.
+    prerequisites:
+      hard: [networking-fundamentals, linux-administration]
+
+  - id: serverless
+    title: Serverless
+    level: 3
+    status: planned
+    summary: >
+      Running code without managing servers: functions and events, cold starts,
+      execution limits, statelessness as a hard constraint, local development
+      difficulties, and the workloads where it is genuinely cheaper.
+    prerequisites:
+      hard: [cloud-fundamentals, backend-development]
+
+  - id: cloud-networking
+    title: Cloud networking
+    level: 4
+    status: planned
+    summary: >
+      Networking inside a provider: VPCs and subnets, routing and gateways,
+      security groups versus network ACLs, private connectivity to managed
+      services, cross-region links, and egress as a line item.
+    prerequisites:
+      hard: [cloud-fundamentals, tcp-ip-internals]
+
+  - id: cloud-architecture
+    title: Cloud architecture
+    level: 4
+    status: planned
+    summary: >
+      Designing within a provider's constraints: account and tenancy boundaries,
+      availability zones and regions, managed versus self-hosted decisions, quotas
+      as design limits, and identity as the real perimeter.
+    prerequisites:
+      hard: [cloud-fundamentals, large-scale-system-design]
+
+  - id: disaster-recovery
+    title: Disaster recovery
+    level: 4
+    status: planned
+    summary: >
+      Surviving the loss of a region, a database, or a bad deploy: RPO and RTO as
+      negotiated numbers, backup strategy versus tested restores, failover
+      rehearsal, and the recovery plan you have actually executed at least once.
+    prerequisites:
+      hard: [cloud-architecture, distributed-databases]

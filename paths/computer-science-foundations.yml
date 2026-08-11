@@ -1,0 +1,66 @@
+schema: path/v1
+title: Computer science foundations
+id: computer-science-foundations
+audience: >
+  A working programmer who wants the theory that predicts behaviour rather than the theory
+  that appears in exams: data structures, complexity, algorithms, and the mathematics needed
+  to read systems and algorithms papers. Ends at the point where you can reason about cost
+  before writing code.
+entry_level: 2
+exit_level: 4
+prerequisite_paths: [programming-foundations]
+
+steps:
+  - topic: discrete-math-for-engineers
+    emphasis: >
+      Only the parts that appear in engineering: sets and relations, logic, proof by
+      induction, combinatorics, modular arithmetic, graph theory. Skip anything you cannot
+      connect to a program you might write.
+
+  - topic: complexity-analysis
+    emphasis: >
+      Learn the notation, then learn its limits in the same week. Constants, cache behaviour,
+      and real input distributions all matter and none of them appears in O(n).
+
+  - topic: data-structures
+    emphasis: >
+      Build them from primitives and benchmark them against the built-ins. The gap between
+      identical complexity and 20x different speed is the most valuable lesson here.
+    projects: [ds-from-scratch]
+
+  - topic: algorithms
+    emphasis: >
+      Study the techniques - divide and conquer, greedy choice, invariants - rather than
+      memorising solutions. Your standard library already has the implementations.
+
+  - milestone: >
+      You can choose a data structure from a stated access pattern and defend it against an
+      alternative, state the complexity of your own code, and explain why a measurement
+      contradicted your analysis.
+
+  - topic: advanced-algorithms
+    emphasis: >
+      Graphs, dynamic programming, string algorithms, and probabilistic structures - chosen
+      because each one appears inside infrastructure you already use. Find the Bloom filter
+      in your database.
+
+  - topic: reading-research-papers
+    emphasis: >
+      Start here rather than later. Pick one algorithms paper and answer four questions: what
+      is the contribution, what assumption makes it work, what does it cost, does it apply
+      to you.
+
+  - topic: computation-theory
+    emphasis: >
+      The practical payoff is recognising an intractable problem so you stop trying to solve
+      it exactly. Reductions and NP-completeness matter more than automata.
+
+  - topic: information-theory
+    emphasis: >
+      Entropy, coding, and error detection. Explains the limits of compression and why
+      hashing and checksums behave as they do.
+
+  - milestone: >
+      You can read an algorithms or systems paper and judge whether it applies to your
+      system, and you can recognise when a problem is intractable and needs an approximation
+      rather than more effort.

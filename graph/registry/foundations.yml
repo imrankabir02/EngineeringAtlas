@@ -1,0 +1,79 @@
+schema: registry/v1
+domain: foundations
+
+topics:
+  - id: computer-basics
+    title: How computers work
+    level: 0
+    status: published
+    dir: topics/foundations/computer-basics
+    summary: >
+      What a computer physically is and what "running a program" actually means:
+      CPU, memory, storage, and the instructions that move between them. The
+      foundation for every later claim about why something is fast or slow.
+
+  - id: operating-system-basics
+    title: What an operating system does
+    level: 0
+    status: planned
+    summary: >
+      The OS as the program that manages all the others: processes, memory
+      isolation, files, and devices. Why your program cannot see another
+      program's memory, and why that is a feature.
+    prerequisites:
+      hard: [computer-basics]
+
+  - id: files-and-directories
+    title: Files and directories
+    level: 0
+    status: planned
+    summary: >
+      Paths, absolute versus relative, the tree structure, permissions at a
+      glance, and the fact that a file extension is a convention rather than a
+      property of the data.
+    prerequisites:
+      hard: [operating-system-basics]
+
+  - id: command-line-basics
+    title: Command line basics
+    level: 0
+    status: planned
+    summary: >
+      Navigating, running programs with arguments, standard input and output,
+      redirection, and pipes. The point is not speed; it is that the command line
+      shows you what is actually happening.
+    prerequisites:
+      hard: [files-and-directories]
+
+  - id: internet-basics
+    title: How the internet works
+    level: 0
+    status: planned
+    summary: >
+      Client and server, what a URL names, what happens between pressing Enter
+      and seeing a page, and the idea that the internet is machines sending
+      messages to other machines.
+    prerequisites:
+      hard: [computer-basics]
+
+  - id: what-programming-is
+    title: What programming is
+    level: 0
+    status: planned
+    summary: >
+      A program as a precise description of a process: instructions, sequence,
+      and state. Why computers are fast and literal, and why that combination is
+      the source of every bug.
+    prerequisites:
+      hard: [computer-basics]
+
+  - id: problem-solving-basics
+    title: Problem solving
+    level: 0
+    status: planned
+    summary: >
+      Decomposition, following a procedure exactly, tracing state by hand, and
+      noticing your own assumptions. Practised away from a keyboard as well as
+      at one, because the skill is not about syntax.
+    prerequisites:
+      hard: [what-programming-is]

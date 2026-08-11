@@ -1,0 +1,20 @@
+# Personal progress tracking, if kept in a working copy rather than a fork.
+my-progress.yml
+progress.local.yml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

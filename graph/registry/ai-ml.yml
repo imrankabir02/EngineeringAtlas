@@ -1,0 +1,59 @@
+schema: registry/v1
+domain: ai-ml
+
+topics:
+  - id: machine-learning-fundamentals
+    title: Machine learning fundamentals
+    level: 3
+    status: planned
+    summary: >
+      Learning a function from examples: supervised and unsupervised settings, loss
+      and optimisation, generalisation, the bias-variance trade-off, regularisation,
+      and recognising when the right answer is not machine learning.
+    prerequisites:
+      hard: [statistics-for-engineers, data-structures]
+
+  - id: ml-evaluation
+    title: Machine learning evaluation
+    level: 3
+    status: planned
+    summary: >
+      Measuring a model honestly: train/validation/test discipline, leakage,
+      choosing a metric that matches the decision, class imbalance, calibration,
+      baselines, and offline metrics that do not predict online behaviour.
+    prerequisites:
+      hard: [machine-learning-fundamentals, statistics-for-engineers]
+
+  - id: deep-learning
+    title: Deep learning
+    level: 4
+    status: planned
+    summary: >
+      Neural networks in practice: backpropagation, architectures and what each
+      exploits about its data, transformers and attention, training dynamics,
+      hardware constraints, and transfer learning versus training from scratch.
+    prerequisites:
+      hard: [machine-learning-fundamentals]
+
+  - id: mlops
+    title: MLOps
+    level: 4
+    status: planned
+    summary: >
+      Operating models as production systems: reproducible training, data and model
+      versioning, feature stores, serving and batch inference, monitoring for drift,
+      and rollback when the model rather than the code is wrong.
+    prerequisites:
+      hard: [machine-learning-fundamentals, ci-cd, observability]
+
+  - id: llm-engineering
+    title: LLM engineering
+    level: 4
+    status: planned
+    summary: >
+      Building systems around language models: prompting as an interface, context
+      limits, retrieval augmentation, tool use and agent loops, evaluation of
+      non-deterministic output, cost and latency budgets, and injection risk.
+    prerequisites:
+      hard: [deep-learning, rest-apis]
+      soft: [caching, application-security]

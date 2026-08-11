@@ -1,0 +1,22 @@
+blank_issues_enabled: true
+
+contact_links:
+  - name: Read the architecture first
+    url: https://github.com/imrankabir02/EngineeringAtlas/blob/main/docs/architecture.md
+    about: >
+      Most proposals about structure are already answered here, including why domains are storage
+      rather than taxonomy, why languages are paths rather than topics, and why unwritten topics
+      have no directory. Worth ten minutes before opening a structural issue.
+
+  - name: Deliberate non-goals
+    url: https://github.com/imrankabir02/EngineeringAtlas/blob/main/ROADMAP.md
+    about: >
+      A web app, a progress database, video content, certificates, exhaustive link lists, and an
+      interview question bank are all deliberately not planned, with reasons. Check before proposing
+      one.
+
+  - name: What to work on
+    url: https://github.com/imrankabir02/EngineeringAtlas/blob/main/CONTRIBUTING.md
+    about: >
+      The highest-value contributions are smaller than most people expect - adding a graph node
+      takes ten minutes and makes a gap visible.

@@ -1,0 +1,122 @@
+# AUTHOR: fill this in FIRST. It is the source of truth; the Markdown must not contradict it.
+# AUTHOR: delete every "# AUTHOR:" comment before committing.
+# AUTHOR: normative schema: ../../../docs/graph-schema.md
+
+schema: topic/v1
+id: topic-id                      # AUTHOR: lowercase-hyphenated. Name the concept, not the product.
+title: Topic title                # AUTHOR: sentence case. Must match the registry entry exactly.
+domain: domain-id                 # AUTHOR: must exist in graph/domains.yml and match the directory.
+level: 2                          # AUTHOR: 0-5, from the tests in graph/levels.yml. Not "how hard it feels".
+status: published                 # published | drafting
+
+summary: >
+  # AUTHOR: 1-3 sentences. What it is AND why it matters. This is what a learner reads
+  # AUTHOR: when deciding whether this topic is their gap, so it has to discriminate.
+  # AUTHOR: Must match the registry summary.
+
+why_it_matters: >
+  # AUTHOR: Concretely: what breaks, costs more, or stays mysterious without this?
+  # AUTHOR: Not "it is important". Name the failure it prevents.
+
+effort:
+  focused_hours: 40               # AUTHOR: honest estimate of focused hours, including the project.
+  calendar_weeks: "3-5"           # AUTHOR: a range, always. Never a single number.
+  assumes: >
+    # AUTHOR: what the estimate assumes - prerequisites met, hours per week, project included.
+
+prerequisites:
+  hard:
+    - id: some-prerequisite
+      why: >
+        # AUTHOR: what specifically becomes impossible or arbitrary without it.
+        # AUTHOR: Writing this often reveals a prerequisite you did not need, or one you missed.
+  soft:
+    - id: another-topic
+      why: >
+        # AUTHOR: how it makes this topic concrete rather than abstract. Skippable, and say so.
+
+first_principles_chain:
+  # AUTHOR: each step is a PROBLEM the next step answers. Minimum 3 steps.
+  # AUTHOR: If it reads as a list of subtopics, it is a table of contents, not a derivation.
+  # AUTHOR: Quote any line containing ": " or YAML will parse it as a mapping.
+  - The situation that creates the problem.
+  - Why the obvious response is insufficient.
+  - What that forces you to do instead - and this is the topic.
+  - What new problem the solution created.
+
+concepts:
+  # AUTHOR: depth is 'aware' | 'working' | 'deep'. MOST SHOULD BE 'working'.
+  # AUTHOR: Everything marked 'deep' means you have not made a judgment call. The validator
+  # AUTHOR: rejects that. Telling a learner what to skim is as valuable as what to master.
+  - id: central-concept
+    name: The central concept
+    depth: deep
+    note: >
+      # AUTHOR: what to take from it, and how the learner knows they have it.
+
+  - id: supporting-concept
+    name: A supporting concept
+    depth: working
+    note: >
+      # AUTHOR: enough to use correctly and explain the trade-off.
+
+  - id: adjacent-concept
+    name: Something adjacent and deep
+    depth: aware
+    note: >
+      # AUTHOR: say explicitly which topic treats this properly, and why not here.
+      # AUTHOR: These markings save the learner the most time. Be generous with them.
+
+gates:
+  # AUTHOR: every gate is an ACTION with an OBSERVABLE OUTCOME.
+  # AUTHOR: "Understand X" is not a gate. If you cannot tell whether someone passed, rewrite it.
+  # AUTHOR: 'build' and 'explain' are mandatory. Others where they discriminate.
+  build:
+    - Complete <project-id>, from a blank directory, with no tutorial.
+  break:
+    - Cause a specific failure deliberately, and explain the mechanism.
+  debug:
+    - Given a stated symptom, identify the root cause from evidence.
+  explain:
+    - Explain <the hard part> in writing, to someone one level below you.
+  benchmark:
+    - Predict a number, measure it, and report how wrong you were.
+  review:
+    - Review someone else's implementation and identify one specific hazard.
+
+projects:
+  - id: project-id
+    role: core                    # core | stretch
+    validates: [central-concept]  # AUTHOR: must be concept ids declared above.
+
+resources:
+  # AUTHOR: 5-15 total. FEWER, BETTER. tier1 and tier2 need at least one each; tier3 caps at 5.
+  # AUTHOR: 'why' answers "why this instead of the twenty alternatives", not "what this is".
+  # AUTHOR: See ../../../templates/resource-list.md for the difference, worked out.
+  tier1:
+    - title: The specification, documentation, source, or original paper
+      url: https://example.com/spec
+      why: >
+        # AUTHOR: which sections, in what order, and what to take from it.
+
+  tier2:
+    - title: A book, university course, or long-form explanation
+      url: https://example.com/book
+      why: >
+        # AUTHOR: would this still be worth reading if every tool it names were replaced?
+        # AUTHOR: If no, it belongs in tier3.
+
+  tier3:
+    - title: A tutorial, engineering blog post, or reference implementation
+      url: https://example.com/post
+      why: >
+        # AUTHOR: what concrete thing it shows that the tiers above do not.
+
+next:
+  - id: following-topic
+    why: >
+      # AUTHOR: why this follows - the question this topic left open that the next one answers.
+
+version_sensitivity: low          # low | medium | high - see ../../../docs/version-awareness.md
+last_reviewed: "2026-01-01"       # AUTHOR: quote it. Update when you verify, even if nothing changed.
+maintainers: []                   # AUTHOR: GitHub handles, or leave empty.

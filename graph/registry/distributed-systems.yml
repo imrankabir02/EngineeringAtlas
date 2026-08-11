@@ -1,0 +1,80 @@
+schema: registry/v1
+domain: distributed-systems
+
+topics:
+  - id: distributed-systems-fundamentals
+    title: Distributed systems fundamentals
+    level: 3
+    status: planned
+    summary: >
+      What changes when a call can leave the machine: partial failure, the
+      impossibility of distinguishing slow from dead, timeouts and retry storms,
+      idempotency, unreliable clocks, and CAP as a starting point not a conclusion.
+    prerequisites:
+      hard: [networking-fundamentals, operating-systems-fundamentals, databases-introduction]
+
+  - id: replication-and-consistency
+    title: Replication and consistency
+    level: 4
+    status: planned
+    summary: >
+      Keeping copies of data in agreement: leader-follower and multi-leader and
+      leaderless replication, replication lag and the anomalies it produces, the
+      consistency model spectrum, quorums, and read-your-writes.
+    prerequisites:
+      hard: [distributed-systems-fundamentals, transactions-and-isolation]
+
+  - id: partitioning-and-sharding
+    title: Partitioning and sharding
+    level: 4
+    status: planned
+    summary: >
+      Splitting data across machines: range versus hash partitioning, consistent
+      hashing, hot partitions and how to detect one, rebalancing without downtime,
+      secondary indexes across shards, and choosing a partition key you cannot change.
+    prerequisites:
+      hard: [distributed-systems-fundamentals, indexing-and-query-optimization]
+
+  - id: consensus
+    title: Consensus
+    level: 4
+    status: planned
+    summary: >
+      Getting several machines to agree despite failures: the FLP result, Paxos,
+      Raft and ZAB, leader leases, what each protocol actually guarantees, its
+      latency cost, and why you should use an existing implementation.
+    prerequisites:
+      hard: [replication-and-consistency]
+
+  - id: fault-tolerance
+    title: Fault tolerance
+    level: 4
+    status: planned
+    summary: >
+      Designing for components that will fail: failure domains, redundancy,
+      bulkheads, circuit breakers, timeouts and jittered backoff, graceful
+      degradation, and shrinking the blast radius of any single fault.
+    prerequisites:
+      hard: [distributed-systems-fundamentals]
+
+  - id: blockchain-fundamentals
+    title: Blockchain fundamentals
+    level: 4
+    status: planned
+    summary: >
+      Consensus among mutually distrusting parties: hash chains, Merkle trees,
+      Byzantine fault tolerance, proof of work and proof of stake, and an honest
+      account of which problems this solves and which it does not.
+    prerequisites:
+      hard: [consensus, tls-and-cryptography-basics]
+
+  - id: distributed-systems-verification
+    title: Verifying distributed systems
+    level: 5
+    status: planned
+    summary: >
+      Finding the bugs testing cannot: model checking with TLA+ and Alloy,
+      property-based and deterministic simulation testing, fault injection at
+      scale, and linearizability checking with tools such as Jepsen.
+    prerequisites:
+      hard: [consensus, experiment-design-and-benchmarking]

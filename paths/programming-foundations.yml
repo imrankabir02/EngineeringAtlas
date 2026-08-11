@@ -1,0 +1,86 @@
+schema: path/v1
+id: programming-foundations
+title: Programming foundations
+audience: >
+  Someone who can already write and debug a small program and wants the language-agnostic
+  programming and software-engineering foundation that everything else is built on. The
+  path stops at the point where you can build correct, tested, reviewable software.
+entry_level: 1
+exit_level: 2
+prerequisite_paths: [absolute-beginner]
+
+steps:
+  - topic: programming-fundamentals
+    emphasis: >
+      Included even if you have "done" it, because the depth markings matter more than
+      coverage. Verify you can pass the aliasing and floating-point explain gates before
+      moving on - most people cannot on the first attempt.
+    projects: [cli-calculator, file-organizer]
+
+  - topic: debugging-fundamentals
+    emphasis: >
+      The highest-leverage topic at this level. Hypothesis before change, bisect, and learn
+      a real debugger rather than only print statements.
+
+  - topic: error-handling
+    emphasis: >
+      Failure as an expected outcome. Catch specific errors, never a bare catch-all, and
+      never swallow silently.
+
+  - topic: version-control-git
+    emphasis: >
+      The object model first: a commit is a snapshot plus parents. Git's commands only make
+      sense once that does.
+
+  - milestone: >
+      You can write, debug, and version a few hundred lines of code without fear. When
+      something breaks you diagnose it from evidence rather than by changing things.
+
+  - topic: object-oriented-programming
+    emphasis: >
+      Composition over inheritance, and why deep hierarchies reliably fail. Learn interfaces
+      as a way of depending on behaviour rather than on a type.
+
+  - topic: functional-programming
+    emphasis: >
+      The ideas, not a functional language: purity, immutability, higher-order functions.
+      Notice that pure functions are the ones easy to test - that is not a coincidence.
+
+  - topic: type-systems
+    emphasis: >
+      What a type checker can and cannot prove. If your language is dynamic, add optional
+      typing to an existing project and see what it catches.
+
+  - topic: clean-code
+    emphasis: >
+      Readability as a throughput decision, not an aesthetic one. The main beneficiary is
+      you in three months.
+
+  - topic: testing-fundamentals
+    emphasis: >
+      What makes a test worth having. Notice that coverage percentage becomes harmful the
+      moment it becomes a target.
+
+  - topic: package-management
+    emphasis: >
+      Lockfiles, transitive dependencies, and the real cost of every dependency you add.
+
+  - topic: git-workflows
+    emphasis: >
+      Rebase versus merge, and resolving conflicts without panic. Practise on a repository
+      you do not mind damaging.
+
+  - topic: code-review
+    emphasis: >
+      Reviewing for design and failure modes rather than formatting. Evaluating code is a
+      different skill from writing it, and it is the one that builds judgment.
+
+  - topic: software-design-principles
+    emphasis: >
+      SOLID as heuristics with failure cases, not as laws. The important skill is
+      recognising when an abstraction is premature.
+
+  - milestone: >
+      You have built and deployed an application designed by you - not scaffolded from a
+      tutorial - with tests you actually rely on when refactoring, and you can review a
+      peer's pull request with comments about design rather than style. You are Level 2.

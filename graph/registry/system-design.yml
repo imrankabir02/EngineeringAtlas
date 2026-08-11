@@ -1,0 +1,59 @@
+schema: registry/v1
+domain: system-design
+
+topics:
+  - id: system-design-fundamentals
+    title: System design fundamentals
+    level: 3
+    status: planned
+    summary: >
+      Turning requirements into components: clarifying the actual problem, back-of
+      -the-envelope sizing, choosing storage, deciding what to cache, load
+      balancing, and drawing a diagram whose every box you can justify.
+    prerequisites:
+      hard: [backend-development, caching, distributed-systems-fundamentals]
+
+  - id: large-scale-system-design
+    title: Large-scale system design
+    level: 4
+    status: planned
+    summary: >
+      Design when scale changes the answers: sizing from requests per second
+      through bytes to machines to dollars, read and write path separation,
+      multi-region, and the standard exercises (feed, search, chat, storage).
+    prerequisites:
+      hard: [system-design-fundamentals, partitioning-and-sharding, message-queues-and-streaming]
+
+  - id: capacity-planning
+    title: Capacity planning
+    level: 4
+    status: planned
+    summary: >
+      Knowing when you run out: headroom targets, growth modelling, load testing
+      that resembles production, finding the saturation point before it finds you,
+      and Little's Law as a working tool rather than trivia.
+    prerequisites:
+      hard: [system-design-fundamentals, performance-engineering]
+
+  - id: architecture-tradeoffs
+    title: Architecture trade-offs
+    level: 5
+    status: planned
+    summary: >
+      Choosing under conflicting goods - latency, consistency, cost, operability,
+      delivery speed, team capability - and stating explicitly what you sacrificed,
+      what would change your mind, and how you will find out you were wrong.
+    prerequisites:
+      hard: [large-scale-system-design, sre-and-reliability]
+
+  - id: first-principles-systems-thinking
+    title: First-principles systems thinking
+    level: 5
+    status: planned
+    summary: >
+      Deriving a system's behaviour from mechanisms and physical limits rather than
+      from documentation or precedent: latency numbers, throughput ceilings,
+      queueing behaviour, and reasoning about a system nobody has written about.
+    prerequisites:
+      hard: [large-scale-system-design]
+      soft: [reading-research-papers, performance-engineering]

@@ -1,0 +1,114 @@
+schema: registry/v1
+domain: programming
+
+topics:
+  - id: programming-fundamentals
+    title: Programming fundamentals
+    level: 1
+    status: published
+    dir: topics/programming/programming-fundamentals
+    summary: >
+      The concepts every language shares: values and types, variables and
+      binding, expressions, control flow, functions, collections, mutability, and
+      modules. Learned once, then reused in every language you ever touch.
+
+  - id: debugging-fundamentals
+    title: Debugging
+    level: 1
+    status: planned
+    summary: >
+      Turning a symptom into a root cause with evidence: reading stack traces,
+      forming and disproving hypotheses, bisecting, and using a debugger rather
+      than guessing. The skill that most determines your pace for two levels.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: error-handling
+    title: Error handling
+    level: 1
+    status: planned
+    summary: >
+      Failure as an expected outcome rather than an exception to the design:
+      exceptions versus returned errors, where to handle and where to propagate,
+      and why silent failure is the most expensive choice available.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: object-oriented-programming
+    title: Object-oriented programming
+    level: 2
+    status: planned
+    summary: >
+      Bundling state with behaviour: encapsulation, interfaces, polymorphism, and
+      composition. Includes why deep inheritance hierarchies reliably fail and
+      what to do instead.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: functional-programming
+    title: Functional programming concepts
+    level: 2
+    status: planned
+    summary: >
+      Purity, immutability, higher-order functions, and algebraic data types, and
+      why these properties make code testable and concurrency tractable. You do
+      not need a functional language; you need the ideas.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: type-systems
+    title: Type systems
+    level: 2
+    status: planned
+    summary: >
+      What a type is, what a type checker can and cannot prove, static versus
+      dynamic and the real trade-off between them, generics, and gradual typing
+      in dynamic languages.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: concurrency-and-parallelism
+    title: Concurrency and parallelism
+    level: 3
+    status: planned
+    summary: >
+      Two different problems that share vocabulary: doing several things at once
+      versus using several cores. Threads, processes, races, locks, deadlock,
+      atomicity, and why "just add threads" is not a plan.
+    prerequisites:
+      hard: [programming-fundamentals, operating-systems-fundamentals]
+      soft: [functional-programming]
+
+  - id: async-programming
+    title: Async programming
+    level: 3
+    status: planned
+    summary: >
+      Non-blocking I/O and event loops: what an event loop actually does, why one
+      blocking call poisons an async program, backpressure, and when async buys
+      you nothing.
+    prerequisites:
+      hard: [concurrency-and-parallelism, networking-fundamentals]
+
+  - id: memory-management
+    title: Memory management
+    level: 3
+    status: planned
+    summary: >
+      Stack versus heap, allocation cost, ownership and lifetimes, reference
+      counting and tracing garbage collection, fragmentation, and how memory
+      layout determines cache behaviour and therefore speed.
+    prerequisites:
+      hard: [programming-fundamentals, operating-systems-fundamentals]
+
+  - id: compilers-and-interpreters
+    title: Compilers and interpreters
+    level: 4
+    status: planned
+    summary: >
+      How source text becomes execution: lexing, parsing, intermediate
+      representations, optimisation, code generation, bytecode VMs and JIT. Read
+      this to stop treating your language runtime as a black box.
+    prerequisites:
+      hard: [programming-fundamentals, data-structures, memory-management]
+      soft: [computation-theory]

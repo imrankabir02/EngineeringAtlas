@@ -1,0 +1,72 @@
+# AUTHOR: normative schema: ../../docs/graph-schema.md
+# AUTHOR: delete every "# AUTHOR:" comment before committing.
+
+schema: project/v1
+id: project-id                    # AUTHOR: lowercase-hyphenated. Must match the directory name.
+title: Project title
+level: 2                          # AUTHOR: 0-5. The level of the learner who should attempt it.
+
+summary: >
+  # AUTHOR: two or three sentences. What it is, and its defining constraint.
+
+validates:
+  # AUTHOR: THE FIELD THAT JUSTIFIES THE PROJECT'S EXISTENCE.
+  # AUTHOR: Competency statements, not features. Each begins "Can ...".
+  #
+  # AUTHOR: Weak:   "Builds a REST API"
+  # AUTHOR: Strong: "Can design an idempotent write endpoint and demonstrate that a
+  # AUTHOR:          duplicated request causes no double charge"
+  #
+  # AUTHOR: If you cannot write three of these, the project is not ready.
+  - Can <do a specific thing> and <demonstrate it in a checkable way>.
+  - Can <reason about something> rather than <the shallow version>.
+  - Can produce <an artifact> that <a sceptical reviewer would trust>.
+
+topics: [topic-id, another-topic-id]
+# AUTHOR: must resolve to registry ids. These are the topics the project validates.
+
+constraints:
+  # AUTHOR: what makes it EDUCATIONAL rather than assembly work. At least one is required.
+  # AUTHOR: The best constraints forbid the thing that would skip the lesson:
+  # AUTHOR:   "No eval" - the parser is the assignment
+  # AUTHOR:   "No third-party cache library" - the eviction is the assignment
+  # AUTHOR:   "No built-in dict inside your implementation" - the hash table is the assignment
+  # AUTHOR: State the reason in the constraint itself so it does not read as arbitrary difficulty.
+  - No <the shortcut that would remove the lesson>. That is the entire assignment.
+  - Must <a requirement that forces the hard part>.
+  - Must never <the failure mode this project exists to teach>.
+
+stages:
+  # AUTHOR: minimum 2. Each stage is a coherent milestone with checkable completion.
+  # AUTHOR: The last stage is usually measurement or deliberate breakage - the stages that
+  # AUTHOR: turn "it works" into "I understand it".
+  - name: Correct
+    goal: The simplest thing that genuinely works.
+    done_when:
+      - A checkable outcome, not "it works".
+      - Tests cover the edge cases that discriminate - name them specifically.
+
+  - name: Measured
+    goal: Numbers you can defend.
+    done_when:
+      - Reports p50/p95/p99, with warm-up excluded and the setup recorded.
+      - You predicted every number before measuring and the predictions are recorded unedited.
+
+break_it:
+  # AUTHOR: REQUIRED. Failures the learner must cause deliberately.
+  # AUTHOR: This is the section that separates a project from an exercise. See
+  # AUTHOR: ../../docs/competency-gates.md#4-break for the standard breakages.
+  # AUTHOR: Add a safety note if any of these can damage the learner's machine.
+  - <A specific failure to induce>. Predict the outcome first, then explain the mechanism.
+  - <Another>. Then implement one mitigation and measure its effect.
+
+anti_patterns:
+  # AUTHOR: the ways a learner produces something that looks finished and teaches nothing.
+  # AUTHOR: Be specific to THIS project - generic advice belongs in projects/README.md.
+  - <The shortcut that removes the lesson>. Then there is no project.
+  - <A measurement mistake that makes the results meaningless>.
+  - Concluding <the obvious thing> and stopping. <The mechanism> is the deliverable.
+
+stretch:
+  # AUTHOR: optional. Extensions that add a genuinely new lesson rather than more of the same.
+  - <An extension that teaches something the core stages could not>.

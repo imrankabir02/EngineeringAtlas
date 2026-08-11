@@ -1,0 +1,193 @@
+schema: topic/v1
+id: computer-basics
+title: How computers work
+domain: foundations
+level: 0
+status: published
+
+summary: >
+  What a computer physically is and what "running a program" actually means: CPU,
+  memory, storage, and the instructions that move between them. The foundation for
+  every later claim about why something is fast or slow.
+
+why_it_matters: >
+  Almost every performance problem you will ever debug comes down to data being in
+  the wrong place - too far from the processor that needs it. Without a physical
+  model of the machine, "the API is slow" has no possible explanation other than
+  magic, and every optimisation is a guess. This topic is also where the
+  measure-before-you-assume habit is installed, which is the single behaviour that
+  most separates engineers who improve from engineers who plateau.
+
+effort:
+  focused_hours: 12
+  calendar_weeks: "1-2"
+  assumes: >
+    No prior technical study. Roughly 6 focused hours per week including the
+    project, which is a written investigation rather than code.
+
+prerequisites:
+  hard: []
+  soft: []
+
+first_principles_chain:
+  - "A computer does one thing: it follows instructions on data, very fast and very literally."
+  - Instructions and data have to be somewhere the processor can reach.
+  - Getting data to the processor takes time, and the further away it is, the longer it takes.
+  - Fast storage is expensive and small; slow storage is cheap and large. You cannot have both.
+  - So machines are built as a hierarchy - registers, cache, memory, disk, network - each larger and slower than the last.
+  - Everything that survives a power loss is in the slow layers, which is why saving data is slower than changing it.
+  - Therefore performance is mostly a question of where your data is, and correctness is mostly a question of what survives.
+  - The operating system exists to manage this hierarchy and share it between programs that must not interfere.
+
+concepts:
+  - id: instruction-execution
+    name: What "running a program" means
+    depth: working
+    note: >
+      Fetch, decode, execute, repeat. You need the loop, not the microarchitecture.
+      Know that a program is data that describes a process.
+
+  - id: memory-hierarchy
+    name: The memory hierarchy
+    depth: deep
+    note: >
+      The most important idea in the topic. Registers, cache, RAM, disk, network,
+      each roughly an order of magnitude or more slower than the last. Learn the
+      rough numbers; you will use them for the rest of your career.
+
+  - id: volatile-vs-persistent
+    name: Volatile versus persistent storage
+    depth: deep
+    note: >
+      What is lost when power is removed and what is not. This distinction is the
+      root of durability, databases, and every "did it save?" question.
+
+  - id: hardware-vs-software
+    name: Hardware versus software
+    depth: working
+    note: >
+      Physical components versus instructions. Enough to know that software is data
+      and can therefore be copied, changed, and versioned.
+
+  - id: what-an-os-does
+    name: What an operating system does
+    depth: aware
+    note: >
+      A first pass only: it shares the hardware between programs and stops them
+      interfering. The real treatment is in operating-system-basics and later in
+      operating-systems-fundamentals.
+
+  - id: process
+    name: Processes
+    depth: aware
+    note: >
+      A running program with its own memory. You need to know many exist at once
+      and that they are isolated; the mechanism comes much later.
+
+  - id: files-are-bytes
+    name: Files are sequences of bytes
+    depth: working
+    note: >
+      A file has no inherent type. Extensions are conventions; the bytes are the
+      fact. Enough to stop believing renaming a file changes it.
+
+  - id: binary-and-encoding
+    name: Binary and character encoding
+    depth: working
+    note: >
+      Everything is numbers, and characters are numbers by agreement. You do not
+      need to do binary arithmetic by hand; you do need to know why a byte holds
+      256 values.
+
+  - id: latency-numbers
+    name: Rough latency numbers
+    depth: working
+    note: >
+      Memory in nanoseconds, SSD in microseconds, network round trips in
+      milliseconds. Approximate is fine; the ratios matter, not the digits.
+
+  - id: cpu-cache-mechanics
+    name: How CPU caches work internally
+    depth: aware
+    note: >
+      Know caches exist between the CPU and RAM and that they are why access
+      patterns matter. Cache lines, associativity and coherence belong to
+      operating-systems-fundamentals and memory-management.
+
+gates:
+  build:
+    - Complete the machine-anatomy project - a written investigation of your own computer with a command behind every number.
+  break:
+    - Fill a scratch directory until the disk is nearly full, then try to save a file. Record the exact error, then clean up.
+    - Watch memory usage while a program allocates steadily, and note what the system does before it fails.
+    - Rename a text file to have an image extension and try to open it. Explain the error using the difference between a convention and a fact.
+  debug:
+    - Given a machine that has become slow, name three resources that could be exhausted and one command that would check each.
+  explain:
+    - Explain to a non-technical person why a program loses unsaved work when the power goes out, without using the word "memory" as if it were self-explanatory.
+    - Explain why the second time you open a large file it opens faster.
+  benchmark:
+    - Predict, then measure, the time to read 1 GB from disk cold, from disk warm, and from memory. Report the ratios and how wrong your prediction was.
+  review:
+    - Read a hardware specification for a laptop and state, for each listed component, what running out of it would feel like to a user.
+
+projects:
+  - id: machine-anatomy
+    role: core
+    validates: [memory-hierarchy, volatile-vs-persistent, latency-numbers, process]
+
+resources:
+  tier1:
+    - title: "Intel 64 and IA-32 Architectures Software Developer Manual, Volume 1, chapter 3"
+      url: https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html
+      why: >
+        Do not read this cover to cover. Open chapter 3, look at the register
+        diagrams for ten minutes, and come away knowing that registers are real,
+        few, and named. That single observation removes a lot of later mystery.
+    - title: "man 5 proc - the Linux /proc filesystem"
+      url: https://man7.org/linux/man-pages/man5/proc.5.html
+      why: >
+        The authoritative description of where Linux publishes facts about your
+        machine. Use it as a lookup while doing the project: /proc/cpuinfo,
+        /proc/meminfo. It teaches that these numbers come from somewhere specific.
+
+  tier2:
+    - title: "Code: The Hidden Language of Computer Hardware and Software - Charles Petzold"
+      url: https://www.charlespetzold.com/code/
+      why: >
+        Builds a working computer from switches and relays, one step at a time, with
+        no prerequisites. The best available answer to "but how does it actually
+        work" and it never requires you to take anything on faith.
+    - title: "Crash Course Computer Science"
+      url: https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo
+      why: >
+        A recorded lecture series with a coherent curriculum, which is why it
+        qualifies at this tier. Use it for orientation and breadth before reading
+        Petzold for depth. Watch at most two episodes per session and write down
+        what you did not understand.
+    - title: "Latency Numbers Every Programmer Should Know"
+      url: https://colin-scott.github.io/personal_website/research/interactive_latency.html
+      why: >
+        The memory hierarchy as numbers you can see and compare. Look at it after
+        taking your own measurements in the project, so you compare against your
+        own data rather than memorising a table.
+
+  tier3:
+    - title: "Computer Science Crash Course - How a CPU works (Ben Eater, breadboard computer)"
+      url: https://eater.net/8bit
+      why: >
+        A CPU built by hand from discrete chips, on video. Watch the first few
+        episodes if the fetch-decode-execute loop still feels abstract. Optional -
+        it is a deep rabbit hole and the project does not require it.
+
+next:
+  - id: what-programming-is
+    why: You now know what a machine does; the next question is how you tell it what to do.
+  - id: operating-system-basics
+    why: You saw that many programs run at once and are isolated. The OS is how.
+  - id: internet-basics
+    why: The same hierarchy argument extends across machines, where the distances get much larger.
+
+version_sensitivity: low
+last_reviewed: "2026-08-11"
+maintainers: []

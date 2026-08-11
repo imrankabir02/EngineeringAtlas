@@ -1,0 +1,97 @@
+schema: registry/v1
+domain: mastery
+
+# These are the Level 4-5 capabilities that no single technology contains. They are
+# what "guru" actually means in docs/levels.md, and they are learned by doing them,
+# not by reading about them.
+
+topics:
+  - id: reading-source-code
+    title: Reading source code
+    level: 4
+    status: planned
+    summary: >
+      Answering questions about a large unfamiliar codebase by reading it: finding
+      the entry point, following one path end to end, using tests as documentation,
+      reading history to recover intent, and knowing when to stop.
+    prerequisites:
+      hard: [data-structures, debugging-fundamentals]
+      soft: [design-patterns]
+
+  - id: reading-research-papers
+    title: Reading research papers
+    level: 4
+    status: planned
+    summary: >
+      Extracting the contribution, the assumption that makes it work, and the cost -
+      and judging whether it applies to your system. Includes reading order,
+      evaluating an evaluation section, and finding the paper that matters.
+    prerequisites:
+      hard: [complexity-analysis]
+      soft: [discrete-math-for-engineers]
+
+  - id: open-source-engineering
+    title: Open-source engineering
+    level: 4
+    status: planned
+    summary: >
+      Contributing real changes to codebases you do not own: choosing a project,
+      scoping a first contribution, working with maintainers, review at a standard
+      you did not set, and the maintainer's side of the same relationship.
+    prerequisites:
+      hard: [git-workflows, code-review, reading-source-code]
+
+  - id: experiment-design-and-benchmarking
+    title: Experiment design and benchmarking
+    level: 5
+    status: planned
+    summary: >
+      Producing numbers others can trust: hypothesis, controlled setup, one variable,
+      warm-up, representative data, percentile reporting, coordinated omission, and
+      publishing enough that someone else can reproduce you.
+    prerequisites:
+      hard: [performance-engineering, statistics-for-engineers]
+
+  - id: designing-abstractions
+    title: Designing abstractions
+    level: 5
+    status: planned
+    summary: >
+      Creating interfaces that make a class of problems easier: finding the real
+      invariant, what to hide and what to expose, leaks and when they are acceptable,
+      migration paths, and the fact that most abstractions are net negative.
+    prerequisites:
+      hard: [software-architecture, design-patterns, reading-source-code]
+
+  - id: mentoring-and-teaching
+    title: Mentoring and teaching
+    level: 5
+    status: planned
+    summary: >
+      Raising other engineers' capability deliberately: diagnosing their gap rather
+      than restating your knowledge, calibrating explanations to a level, giving
+      problems instead of answers, and feedback that changes behaviour.
+    prerequisites:
+      hard: [code-review]
+
+  - id: research-engineering
+    title: Research engineering
+    level: 5
+    status: planned
+    summary: >
+      Building what does not exist yet: framing a question that can be answered,
+      surveying prior work honestly, prototyping to disprove your own idea quickly,
+      evaluating against the real alternative, and writing it up.
+    prerequisites:
+      hard: [reading-research-papers, experiment-design-and-benchmarking]
+
+  - id: technical-leadership
+    title: Technical leadership
+    level: 5
+    status: planned
+    summary: >
+      Influence at the scale of teams and years: setting technical direction under
+      uncertainty, making decisions reversible where possible, managing technical
+      debt as a portfolio, and being accountable for outcomes you cannot code.
+    prerequisites:
+      hard: [architecture-tradeoffs, mentoring-and-teaching]

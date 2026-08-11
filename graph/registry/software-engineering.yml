@@ -1,0 +1,148 @@
+schema: registry/v1
+domain: software-engineering
+
+topics:
+  - id: version-control-git
+    title: Version control with Git
+    level: 1
+    status: planned
+    summary: >
+      Commits, branches, merges and remotes - taught by explaining what a commit
+      actually is (a snapshot plus parents), because Git's commands only make
+      sense once its object model does.
+    prerequisites:
+      hard: [command-line-basics]
+
+  - id: git-workflows
+    title: Git workflows
+    level: 2
+    status: planned
+    summary: >
+      Working with other people in one repository: branching strategies, rebase
+      versus merge, pull requests, conflict resolution without panic, and
+      rewriting history safely.
+    prerequisites:
+      hard: [version-control-git]
+
+  - id: clean-code
+    title: Clean code
+    level: 2
+    status: planned
+    summary: >
+      Writing code the next person can change: naming, function size, cohesion
+      and coupling, comments that earn their place, and why readability is a
+      throughput decision rather than an aesthetic one.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: package-management
+    title: Package and dependency management
+    level: 2
+    status: planned
+    summary: >
+      Declaring, resolving and pinning dependencies: version constraints,
+      lockfiles, transitive dependency trees, semantic versioning as a promise
+      that is often broken, and the cost of every dependency you add.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: testing-fundamentals
+    title: Testing fundamentals
+    level: 2
+    status: planned
+    summary: >
+      What makes a test worth having: unit, integration and end-to-end, test
+      doubles and when they lie, arrange-act-assert, and why coverage percentage
+      is a weak proxy that becomes actively harmful when targeted.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: code-review
+    title: Code review
+    level: 2
+    status: planned
+    summary: >
+      Reviewing for design, correctness and failure modes rather than formatting;
+      giving feedback that changes outcomes rather than tone; and receiving review
+      without treating it as judgment of you.
+    prerequisites:
+      hard: [git-workflows, clean-code]
+
+  - id: documentation-engineering
+    title: Documentation
+    level: 2
+    status: planned
+    summary: >
+      Writing the four kinds that serve different needs - tutorial, how-to,
+      reference, explanation - plus architecture decision records, which are the
+      highest-value documents most teams never write.
+    prerequisites:
+      hard: [clean-code]
+
+  - id: software-design-principles
+    title: Software design principles
+    level: 2
+    status: planned
+    summary: >
+      Managing dependencies between parts: cohesion and coupling, dependency
+      direction and inversion, SOLID treated as heuristics rather than laws, and
+      recognising when an abstraction is premature.
+    prerequisites:
+      hard: [object-oriented-programming, clean-code]
+
+  - id: design-patterns
+    title: Design patterns
+    level: 3
+    status: planned
+    summary: >
+      Named solutions to recurring design problems, studied for the problems they
+      name rather than as a catalogue to apply. Includes which patterns are
+      workarounds for a missing language feature.
+    prerequisites:
+      hard: [software-design-principles]
+
+  - id: refactoring
+    title: Refactoring
+    level: 3
+    status: planned
+    summary: >
+      Changing structure without changing behaviour: recognising smells, small
+      safe transformations, characterisation tests for code you do not understand,
+      and refactoring under a deadline rather than instead of one.
+    prerequisites:
+      hard: [testing-fundamentals, software-design-principles]
+
+  - id: test-strategy
+    title: Test strategy
+    level: 3
+    status: planned
+    summary: >
+      Deciding what to test and at which level: the test pyramid and its critics,
+      contract tests, property-based testing, fixtures versus factories, flaky
+      test triage, and testing systems you cannot fully control.
+    prerequisites:
+      hard: [testing-fundamentals]
+      soft: [refactoring]
+
+  - id: domain-modeling
+    title: Domain modelling
+    level: 3
+    status: planned
+    summary: >
+      Turning a business problem into types and boundaries: entities, invariants
+      that the type system enforces, bounded contexts, and why the model that
+      matches the domain outlives the one that matches the database.
+    prerequisites:
+      hard: [software-design-principles, relational-modeling]
+
+  - id: software-architecture
+    title: Software architecture
+    level: 3
+    status: planned
+    summary: >
+      Structure at the scale where change is expensive: layering, boundaries,
+      dependency direction, modular monoliths, and writing decisions down so the
+      next team knows what you were constrained by.
+    prerequisites:
+      hard: [software-design-principles, rest-apis]
+      soft: [domain-modeling]

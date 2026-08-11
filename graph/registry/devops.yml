@@ -1,0 +1,102 @@
+schema: registry/v1
+domain: devops
+
+topics:
+  - id: containers-and-docker
+    title: Containers and Docker
+    level: 3
+    status: planned
+    summary: >
+      A container is a process with a restricted view of the system: namespaces,
+      cgroups, union filesystems and image layers. Docker automates that; knowing
+      the mechanism is what lets you debug it.
+    prerequisites:
+      hard: [linux-fundamentals, processes-and-scheduling, networking-fundamentals]
+
+  - id: ci-cd
+    title: CI/CD
+    level: 3
+    status: planned
+    summary: >
+      Automating the path from commit to production: pipelines, reproducible
+      builds, artifacts, environment promotion, deployment strategies (blue-green,
+      canary, rolling), and a rollback you have actually tested.
+    prerequisites:
+      hard: [git-workflows, testing-fundamentals, containers-and-docker]
+
+  - id: infrastructure-as-code
+    title: Infrastructure as code
+    level: 3
+    status: planned
+    summary: >
+      Declaring infrastructure so it can be reviewed and rebuilt: desired state
+      versus imperative scripts, state files and locking, drift, modules, and the
+      discipline of never changing production by hand.
+    prerequisites:
+      hard: [cloud-fundamentals]
+
+  - id: observability
+    title: Observability
+    level: 3
+    status: planned
+    summary: >
+      Debugging a system you cannot attach a debugger to: structured logs, metrics
+      and cardinality, distributed tracing, choosing SLIs, alerting on symptoms
+      rather than causes, and dashboards that answer a question.
+    prerequisites:
+      hard: [backend-development, linux-administration]
+
+  - id: kubernetes
+    title: Kubernetes
+    level: 4
+    status: planned
+    summary: >
+      A control loop that reconciles declared state with reality: the API and
+      objects, scheduling, services and ingress, storage, RBAC, and the
+      operational reality of debugging it. Includes when not to adopt it.
+    prerequisites:
+      hard: [containers-and-docker, networking-fundamentals, infrastructure-as-code]
+
+  - id: performance-engineering
+    title: Performance engineering
+    level: 4
+    status: planned
+    summary: >
+      Finding out where time actually goes: profiling and flame graphs, latency
+      percentiles and why the mean lies, coordinated omission, Little's Law,
+      queueing effects, and load tests that resemble real traffic.
+    prerequisites:
+      hard: [observability, operating-systems-fundamentals, complexity-analysis]
+
+  - id: sre-and-reliability
+    title: SRE and reliability engineering
+    level: 4
+    status: planned
+    summary: >
+      Managing reliability as a budget rather than an aspiration: SLIs, SLOs and
+      error budgets, toil reduction, change as the dominant cause of outages, and
+      deciding how reliable a system needs to be.
+    prerequisites:
+      hard: [observability, fault-tolerance]
+
+  - id: incident-response
+    title: Incident response
+    level: 4
+    status: planned
+    summary: >
+      Operating during failure: command roles, mitigating before diagnosing,
+      communication with people who are not engineers, and blameless post-mortems
+      that produce changes rather than documents.
+    prerequisites:
+      hard: [observability]
+
+  - id: cost-optimization
+    title: Cost optimisation
+    level: 4
+    status: planned
+    summary: >
+      Treating money as an engineering constraint: unit economics, the cost of a
+      request, egress and storage tiers, right-sizing, commitment models, and
+      recognising when engineering time costs more than the bill.
+    prerequisites:
+      hard: [cloud-fundamentals, capacity-planning]
