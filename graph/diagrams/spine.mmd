@@ -1,0 +1,67 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    computer_basics["computer-basics<br/>L0"]
+    operating_system_basics["operating-system-basics<br/>L0"]
+    files_and_directories["files-and-directories<br/>L0"]
+    command_line_basics["command-line-basics<br/>L0"]
+    internet_basics["internet-basics<br/>L0"]
+    what_programming_is["what-programming-is<br/>L0"]
+    programming_fundamentals["programming-fundamentals<br/>L1"]
+    networking_fundamentals["networking-fundamentals<br/>L1"]
+    linux_fundamentals["linux-fundamentals<br/>L1"]
+    databases_introduction["databases-introduction<br/>L1"]
+    data_structures["data-structures<br/>L2"]
+    sql["sql<br/>L2"]
+    http["http<br/>L2"]
+    rest_apis["rest-apis<br/>L2"]
+    backend_development["backend-development<br/>L2"]
+    operating_systems_fundamentals["operating-systems-fundamentals<br/>L3"]
+    concurrency_and_parallelism["concurrency-and-parallelism<br/>L3"]
+    transactions_and_isolation["transactions-and-isolation<br/>L3"]
+    caching["caching<br/>L3"]
+    distributed_systems_fundamentals["distributed-systems-fundamentals<br/>L3"]
+    system_design_fundamentals["system-design-fundamentals<br/>L3"]
+    large_scale_system_design["large-scale-system-design<br/>L4"]
+    sre_and_reliability["sre-and-reliability<br/>L4"]
+    architecture_tradeoffs["architecture-tradeoffs<br/>L5"]
+    technical_leadership["technical-leadership<br/>L5"]
+    architecture_tradeoffs --> technical_leadership
+    backend_development --> system_design_fundamentals
+    caching --> system_design_fundamentals
+    command_line_basics --> linux_fundamentals
+    command_line_basics --> programming_fundamentals
+    computer_basics --> internet_basics
+    computer_basics --> operating_system_basics
+    computer_basics --> operating_systems_fundamentals
+    computer_basics --> what_programming_is
+    concurrency_and_parallelism --> transactions_and_isolation
+    databases_introduction --> distributed_systems_fundamentals
+    databases_introduction --> sql
+    distributed_systems_fundamentals --> system_design_fundamentals
+    files_and_directories --> command_line_basics
+    http --> rest_apis
+    internet_basics --> networking_fundamentals
+    large_scale_system_design --> architecture_tradeoffs
+    networking_fundamentals --> caching
+    networking_fundamentals --> distributed_systems_fundamentals
+    networking_fundamentals --> http
+    operating_system_basics --> files_and_directories
+    operating_systems_fundamentals --> concurrency_and_parallelism
+    operating_systems_fundamentals --> distributed_systems_fundamentals
+    programming_fundamentals --> concurrency_and_parallelism
+    programming_fundamentals --> data_structures
+    programming_fundamentals --> databases_introduction
+    programming_fundamentals --> operating_systems_fundamentals
+    programming_fundamentals --> rest_apis
+    rest_apis --> backend_development
+    sql --> backend_development
+    sql --> caching
+    sql --> transactions_and_isolation
+    sre_and_reliability --> architecture_tradeoffs
+    system_design_fundamentals --> large_scale_system_design
+    what_programming_is --> programming_fundamentals
+    class computer_basics,programming_fundamentals,data_structures,caching published;

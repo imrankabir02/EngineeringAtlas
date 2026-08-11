@@ -88,7 +88,16 @@ because the depth increases monotonically.
 - **Relative links** between files, always. `../../databases/sql/README.md`, never
   a `github.com` URL. CI checks that they resolve.
 - **ASCII diagrams for chains and flows** (they render everywhere and diff
-  cleanly); Mermaid for graphs with more than about six nodes.
+  cleanly); Mermaid for graphs with more than about six nodes — but see below.
+- **Do not hand-write a Mermaid block for a dependency graph.** GitHub renders Mermaid on the web
+  and *not* in its mobile apps, where the fence degrades to raw source. Graphs derived from the
+  learning graph are generated as light/dark SVGs plus a text table by
+  `tools/generate_diagrams.py`; add a view to [`graph/diagrams.yml`](../graph/diagrams.yml) instead
+  of drawing one. Mermaid remains fine for a small illustrative diagram that is not derived from
+  the graph.
+- **Anything conveyed only by a picture must also exist as text.** A diagram is an overview; a
+  table, list, or ASCII chain is what works under ctrl-F, in a screen reader, and on a phone.
+  Always give an `alt` attribute that says what the image shows.
 - **No HTML** except `<details>` for genuinely optional long content.
 - **No badges** except build status and licence on the root README. Badge walls
   are visual noise that pushes the actual content below the fold.

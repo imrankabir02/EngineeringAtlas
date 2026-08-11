@@ -253,7 +253,9 @@ answers to memorise.
 │   ├── README.md                 How to query and extend the graph
 │   ├── domains.yml               Flat list of storage shelves
 │   ├── levels.yml                Level registry
-│   ├── dependency-map.md         Human-readable core map (rendered diagrams)
+│   ├── diagrams.yml              View definitions + authored prose for the rendered map
+│   ├── dependency-map.md         Human-readable core map. Diagram region is generated
+│   ├── diagrams/                 Generated: .mmd sources and light/dark SVGs
 │   └── registry/<domain>.yml     Node manifest, one file per domain
 │
 ├── topics/<domain>/<topic-id>/   Written topics only. 9-file standard structure.
@@ -337,8 +339,24 @@ runs on every pull request and checks:
 9. Relative Markdown links resolve to real files.
 10. Resource entries are well-formed and non-duplicated within a topic.
 
+11. Relative Markdown links *and* image references resolve, including the `<img src>` and
+    `<source srcset>` inside theme-aware `<picture>` blocks.
+12. The generated diagrams match the graph (`tools/generate_diagrams.py --check`).
+
 If a rule here cannot be checked mechanically, it belongs in the PR checklist in
 [CONTRIBUTING.md](../CONTRIBUTING.md), not in this list.
+
+### Nothing in the content tree is hand-derived from the graph
+
+The dependency map was originally hand-drawn Mermaid, which made it the one place where the graph
+said one thing and a picture said another with nothing to catch the drift. It is now generated —
+sources, images, and the prerequisite tables — from the registry.
+
+The principle generalises: **if something can be derived from the graph, derive it.** A view's
+title, node selection, and commentary are authored in `graph/diagrams.yml`; everything structural
+comes from the registry; and CI fails if the committed output is stale. Rendering is split so that
+the freshness check needs no browser — see
+[dependency-map.md § Regenerating](../graph/dependency-map.md#regenerating).
 
 ---
 

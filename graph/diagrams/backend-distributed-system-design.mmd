@@ -1,0 +1,68 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    web_fundamentals["web-fundamentals<br/>L1"]
+    authentication_and_authorization["authentication-and-authorization<br/>L2"]
+    backend_development["backend-development<br/>L2"]
+    rest_apis["rest-apis<br/>L2"]
+    api_design["api-design<br/>L3"]
+    background_jobs_and_queues["background-jobs-and-queues<br/>L3"]
+    caching["caching<br/>L3"]
+    event_driven_architecture["event-driven-architecture<br/>L3"]
+    message_queues_and_streaming["message-queues-and-streaming<br/>L3"]
+    api_gateways["api-gateways<br/>L4"]
+    microservices["microservices<br/>L4"]
+    distributed_systems_fundamentals["distributed-systems-fundamentals<br/>L3"]
+    blockchain_fundamentals["blockchain-fundamentals<br/>L4"]
+    consensus["consensus<br/>L4"]
+    fault_tolerance["fault-tolerance<br/>L4"]
+    partitioning_and_sharding["partitioning-and-sharding<br/>L4"]
+    replication_and_consistency["replication-and-consistency<br/>L4"]
+    distributed_systems_verification["distributed-systems-verification<br/>L5"]
+    system_design_fundamentals["system-design-fundamentals<br/>L3"]
+    capacity_planning["capacity-planning<br/>L4"]
+    large_scale_system_design["large-scale-system-design<br/>L4"]
+    architecture_tradeoffs["architecture-tradeoffs<br/>L5"]
+    first_principles_systems_thinking["first-principles-systems-thinking<br/>L5"]
+    http["http<br/>L2"]
+    networking_fundamentals["networking-fundamentals<br/>L1"]
+    sql["sql<br/>L2"]
+    tls_and_cryptography_basics["tls-and-cryptography-basics<br/>L2"]
+    api_design --> api_gateways
+    api_design --> microservices
+    backend_development --> background_jobs_and_queues
+    backend_development --> system_design_fundamentals
+    background_jobs_and_queues --> message_queues_and_streaming
+    caching --> api_gateways
+    caching --> system_design_fundamentals
+    consensus --> blockchain_fundamentals
+    consensus --> distributed_systems_verification
+    distributed_systems_fundamentals --> fault_tolerance
+    distributed_systems_fundamentals --> message_queues_and_streaming
+    distributed_systems_fundamentals --> microservices
+    distributed_systems_fundamentals --> partitioning_and_sharding
+    distributed_systems_fundamentals --> replication_and_consistency
+    distributed_systems_fundamentals --> system_design_fundamentals
+    http --> authentication_and_authorization
+    http --> rest_apis
+    large_scale_system_design --> architecture_tradeoffs
+    large_scale_system_design --> first_principles_systems_thinking
+    message_queues_and_streaming --> event_driven_architecture
+    message_queues_and_streaming --> large_scale_system_design
+    networking_fundamentals --> caching
+    networking_fundamentals --> distributed_systems_fundamentals
+    partitioning_and_sharding --> large_scale_system_design
+    replication_and_consistency --> consensus
+    rest_apis --> api_design
+    rest_apis --> backend_development
+    sql --> backend_development
+    sql --> caching
+    system_design_fundamentals --> capacity_planning
+    system_design_fundamentals --> large_scale_system_design
+    tls_and_cryptography_basics --> authentication_and_authorization
+    tls_and_cryptography_basics --> blockchain_fundamentals
+    class caching published;
+    class http,networking_fundamentals,sql,tls_and_cryptography_basics boundary;

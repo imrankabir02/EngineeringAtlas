@@ -1,0 +1,15 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    security_fundamentals["security-fundamentals<br/>L2"]
+    application_security["application-security<br/>L3"]
+    cryptography_applied["cryptography-applied<br/>L3"]
+    secure_software_supply_chain["secure-software-supply-chain<br/>L3"]
+    offensive_security["offensive-security<br/>L4"]
+    security_architecture["security-architecture<br/>L4"]
+    application_security --> offensive_security
+    application_security --> security_architecture
+    security_fundamentals --> application_security

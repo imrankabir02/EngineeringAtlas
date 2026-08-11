@@ -11,253 +11,313 @@ ask and the hardest to answer alone.
 
 **How to read it.** Arrows point from prerequisite to dependent: `A → B` means "learn A before B".
 Diagrams are grouped by area for legibility; the graph itself is one connected structure, not
-several.
-
-**Bold** topics are written. Everything else is declared in the map and not yet written — see
+several. A **thick border** means the topic is written; everything else is declared in the map and
+not yet written — see
 [architecture.md §4](../docs/architecture.md#4-the-registry-and-the-no-empty-files-rule) for why
 that is deliberate rather than a gap in the map.
 
+**Each diagram ships twice.** The image is the overview. Underneath it, a collapsible table carries
+**every** hard prerequisite as text — searchable with ctrl-F, readable by a screen reader, and legible
+on a phone, where a 2,000-pixel-wide graph is not. Where the two differ in coverage the table is
+complete: a picture showing every one-off cross-area dependency laid out to a 6:1 strip that was
+illegible at any size, so the images draw only cross-area prerequisites that two or more topics in
+that view share.
+
+**These files are generated.** The images, the tables, and the whole region between the
+`GENERATED DIAGRAMS` markers below are derived from [`registry/`](registry/) and
+[`diagrams.yml`](diagrams.yml). Do not edit them by hand — see
+[Regenerating](#regenerating) at the end of this file.
+
 ---
+
+<!-- BEGIN GENERATED DIAGRAMS -->
 
 ## The spine
 
 The path from nothing to production accountability, with only the load-bearing edges shown.
 
-```mermaid
-graph TD
-    CB["<b>computer-basics</b><br/>L0"] --> WPI[what-programming-is<br/>L0]
-    CB --> OSB[operating-system-basics<br/>L0]
-    CB --> IB[internet-basics<br/>L0]
-    OSB --> FD[files-and-directories<br/>L0]
-    FD --> CLI[command-line-basics<br/>L0]
-    WPI --> PF["<b>programming-fundamentals</b><br/>L1"]
-    CLI --> PF
-    IB --> NF[networking-fundamentals<br/>L1]
-    CLI --> LF[linux-fundamentals<br/>L1]
-    PF --> DI[databases-introduction<br/>L1]
-    PF --> DS["<b>data-structures</b><br/>L2"]
-    DI --> SQL[sql<br/>L2]
-    NF --> HTTP[http<br/>L2]
-    HTTP --> RA[rest-apis<br/>L2]
-    PF --> RA
-    RA --> BD[backend-development<br/>L2]
-    SQL --> BD
-    CB --> OSF[operating-systems-fundamentals<br/>L3]
-    PF --> OSF
-    OSF --> CP[concurrency-and-parallelism<br/>L3]
-    PF --> CP
-    SQL --> TI[transactions-and-isolation<br/>L3]
-    CP --> TI
-    NF --> CACHE["<b>caching</b><br/>L3"]
-    SQL --> CACHE
-    NF --> DSF[distributed-systems-fundamentals<br/>L3]
-    OSF --> DSF
-    DI --> DSF
-    BD --> SDF[system-design-fundamentals<br/>L3]
-    CACHE --> SDF
-    DSF --> SDF
-    SDF --> LSSD[large-scale-system-design<br/>L4]
-    LSSD --> AT[architecture-tradeoffs<br/>L5]
-    SRE[sre-and-reliability<br/>L4] --> AT
-    AT --> TL[technical-leadership<br/>L5]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/spine-dark.svg">
+  <img alt="Prerequisite graph — The spine" src="diagrams/spine-light.svg">
+</picture>
+
+**Thick border** = written. · 25 topics, 35 edges drawn. · [Mermaid source](diagrams/spine.mmd)
+
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
+
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| **`computer-basics`** | 0 | — |
+| `operating-system-basics` | 0 | `computer-basics` |
+| `files-and-directories` | 0 | `operating-system-basics` |
+| `command-line-basics` | 0 | `files-and-directories` |
+| `internet-basics` | 0 | `computer-basics` |
+| `what-programming-is` | 0 | `computer-basics` |
+| **`programming-fundamentals`** | 1 | `command-line-basics`, `what-programming-is` |
+| `networking-fundamentals` | 1 | `internet-basics` |
+| `linux-fundamentals` | 1 | `command-line-basics` |
+| `databases-introduction` | 1 | `programming-fundamentals` |
+| **`data-structures`** | 2 | `programming-fundamentals` |
+| `sql` | 2 | `databases-introduction` |
+| `http` | 2 | `networking-fundamentals` |
+| `rest-apis` | 2 | `http`, `programming-fundamentals` |
+| `backend-development` | 2 | `rest-apis`, `sql` |
+| `operating-systems-fundamentals` | 3 | `computer-basics`, `programming-fundamentals` |
+| `concurrency-and-parallelism` | 3 | `operating-systems-fundamentals`, `programming-fundamentals` |
+| `transactions-and-isolation` | 3 | `concurrency-and-parallelism`, `sql` |
+| **`caching`** | 3 | `networking-fundamentals`, `sql` |
+| `distributed-systems-fundamentals` | 3 | `databases-introduction`, `networking-fundamentals`, `operating-systems-fundamentals` |
+| `system-design-fundamentals` | 3 | `backend-development`, `caching`, `distributed-systems-fundamentals` |
+| `large-scale-system-design` | 4 | `message-queues-and-streaming`, `partitioning-and-sharding`, `system-design-fundamentals` |
+| `sre-and-reliability` | 4 | `fault-tolerance`, `observability` |
+| `architecture-tradeoffs` | 5 | `large-scale-system-design`, `sre-and-reliability` |
+| `technical-leadership` | 5 | `architecture-tradeoffs`, `mentoring-and-teaching` |
+
+</details>
 
 Four observations worth drawing from that shape:
 
-**`programming-fundamentals` is the narrow gate.** Almost everything depends on it, directly or
-transitively. It is also the longest single topic in the repository. Rushing it is the most
-expensive possible saving.
+**`programming-fundamentals` is the narrow gate.** Almost everything depends on it,
+directly or transitively. It is also the longest single topic in the repository.
+Rushing it is the most expensive possible saving.
 
-**`operating-systems-fundamentals` is the second gate**, and it is the one people skip. Concurrency,
-memory, containers, performance, and distributed systems all sit behind it. Skipping it is why
-Kubernetes feels like magic and why race conditions feel like bad luck.
+**`operating-systems-fundamentals` is the second gate**, and it is the one people
+skip. Concurrency, memory, containers, performance, and distributed systems all sit
+behind it. Skipping it is why Kubernetes feels like magic and why race conditions
+feel like bad luck.
 
-**`caching` and `distributed-systems-fundamentals` both feed `system-design-fundamentals`**, and
-that is not an accident: system design is mostly reasoning about copies of data and about partial
-failure.
+**`caching` and `distributed-systems-fundamentals` both feed
+`system-design-fundamentals`**, and that is not an accident: system design is mostly
+reasoning about copies of data and about partial failure.
 
-**Level 5 has few inbound edges.** `architecture-tradeoffs` and `technical-leadership` depend on
-comparatively little *knowledge*. What they require is experience, which the graph cannot express —
-see [levels.md](../docs/levels.md#level-5--guru).
-
----
+**Level 5 has few inbound edges.** `architecture-tradeoffs` and
+`technical-leadership` depend on comparatively little *knowledge*. What they require
+is experience, which the graph cannot express — see
+[levels.md](../docs/levels.md#level-5--guru).
 
 ## Foundations and programming
 
-```mermaid
-graph TD
-    CB["<b>computer-basics</b>"] --> OSB[operating-system-basics]
-    CB --> IB[internet-basics]
-    CB --> WPI[what-programming-is]
-    OSB --> FD[files-and-directories]
-    FD --> CLI[command-line-basics]
-    WPI --> PSB[problem-solving-basics]
-    WPI --> PF["<b>programming-fundamentals</b>"]
-    CLI --> PF
-    PF --> DBG[debugging-fundamentals]
-    PF --> EH[error-handling]
-    PF --> OOP[object-oriented-programming]
-    PF --> FP[functional-programming]
-    PF --> TS[type-systems]
-    PF --> MM[memory-management]
-    OSF[operating-systems-fundamentals] --> MM
-    PF --> CP[concurrency-and-parallelism]
-    OSF --> CP
-    CP --> ASYNC[async-programming]
-    NF[networking-fundamentals] --> ASYNC
-    MM --> CI2[compilers-and-interpreters]
-    DS[data-structures] --> CI2
-    PF --> CI2
-```
+Everything before a language, and the language-agnostic programming concepts that follow.
 
----
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/foundations-and-programming-dark.svg">
+  <img alt="Prerequisite graph — Foundations and programming" src="diagrams/foundations-and-programming-light.svg">
+</picture>
+
+**Thick border** = written. · Dashed = prerequisite from another area, shared by two or more topics here. · 17 topics, 20 edges drawn. · [Mermaid source](diagrams/foundations-and-programming.mmd)
+
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
+
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| `command-line-basics` | 0 | `files-and-directories` |
+| **`computer-basics`** | 0 | — |
+| `files-and-directories` | 0 | `operating-system-basics` |
+| `internet-basics` | 0 | `computer-basics` |
+| `operating-system-basics` | 0 | `computer-basics` |
+| `problem-solving-basics` | 0 | `what-programming-is` |
+| `what-programming-is` | 0 | `computer-basics` |
+| `debugging-fundamentals` | 1 | `programming-fundamentals` |
+| `error-handling` | 1 | `programming-fundamentals` |
+| **`programming-fundamentals`** | 1 | `command-line-basics`, `what-programming-is` |
+| `functional-programming` | 2 | `programming-fundamentals` |
+| `object-oriented-programming` | 2 | `programming-fundamentals` |
+| `type-systems` | 2 | `programming-fundamentals` |
+| `async-programming` | 3 | `concurrency-and-parallelism`, `networking-fundamentals` |
+| `concurrency-and-parallelism` | 3 | `operating-systems-fundamentals`, `programming-fundamentals` |
+| `memory-management` | 3 | `operating-systems-fundamentals`, `programming-fundamentals` |
+| `compilers-and-interpreters` | 4 | `data-structures`, `memory-management`, `programming-fundamentals` |
+
+</details>
 
 ## Computer science
 
-```mermaid
-graph TD
-    PF["<b>programming-fundamentals</b>"] --> DS["<b>data-structures</b>"]
-    PF --> CA[complexity-analysis]
-    PF --> DM[discrete-math-for-engineers]
-    DS --> ALG[algorithms]
-    CA --> ALG
-    ALG --> AA[advanced-algorithms]
-    DM --> CT[computation-theory]
-    ALG --> CT
-    DM --> IT[information-theory]
-    DM --> STAT[statistics-for-engineers]
-    CA --> RRP[reading-research-papers]
-    DS --> RSC[reading-source-code]
-    DBG[debugging-fundamentals] --> RSC
-```
+The theory that predicts behaviour, plus the mastery topics that depend on it most directly.
 
-Note that `reading-source-code` and `reading-research-papers` sit here structurally but are Level 4
-`mastery` topics. Their prerequisites are modest; what makes them advanced is that they require
-tolerating confusion for hours, which is a disposition rather than a dependency.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/computer-science-dark.svg">
+  <img alt="Prerequisite graph — Computer science" src="diagrams/computer-science-light.svg">
+</picture>
 
----
+**Thick border** = written. · Dashed = prerequisite from another area, shared by two or more topics here. · 10 topics, 12 edges drawn. · [Mermaid source](diagrams/computer-science.mmd)
+
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
+
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| `algorithms` | 2 | `complexity-analysis`, `data-structures` |
+| `complexity-analysis` | 2 | `programming-fundamentals` |
+| **`data-structures`** | 2 | `programming-fundamentals` |
+| `discrete-math-for-engineers` | 2 | `programming-fundamentals` |
+| `advanced-algorithms` | 3 | `algorithms` |
+| `computation-theory` | 4 | `algorithms`, `discrete-math-for-engineers` |
+| `information-theory` | 4 | `discrete-math-for-engineers` |
+| `reading-research-papers` | 4 | `complexity-analysis` |
+| `reading-source-code` | 4 | `data-structures`, `debugging-fundamentals` |
+| `statistics-for-engineers` | 2 | `discrete-math-for-engineers` |
+
+</details>
+
+Note that `reading-source-code` and `reading-research-papers` sit here structurally
+but are Level 4 `mastery` topics. Their prerequisites are modest; what makes them
+advanced is that they require tolerating confusion for hours, which is a disposition
+rather than a dependency.
 
 ## Systems, networking, and databases
 
-```mermaid
-graph TD
-    CLI[command-line-basics] --> LF[linux-fundamentals]
-    LF --> LA[linux-administration]
-    CB[computer-basics] --> OSF[operating-systems-fundamentals]
-    PF[programming-fundamentals] --> OSF
-    OSF --> PS[processes-and-scheduling]
-    OSF --> FS[filesystems-and-storage]
-    OSF --> SP[systems-programming]
-    MM[memory-management] --> SP
+What runs beneath your program, how bytes reach other machines, and where data survives.
 
-    IB[internet-basics] --> NF[networking-fundamentals]
-    NF --> HTTP[http]
-    NF --> DNS[dns]
-    NF --> TLS[tls-and-cryptography-basics]
-    NF --> TCP[tcp-ip-internals]
-    OSF --> TCP
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/systems-networking-databases-dark.svg">
+  <img alt="Prerequisite graph — Systems, networking, and databases" src="diagrams/systems-networking-databases-light.svg">
+</picture>
 
-    PF --> DI[databases-introduction]
-    DI --> SQL[sql]
-    SQL --> RM[relational-modeling]
-    SQL --> TI[transactions-and-isolation]
-    CP[concurrency-and-parallelism] --> TI
-    SQL --> IQO[indexing-and-query-optimization]
-    DS[data-structures] --> IQO
-    RM --> NOSQL[nosql-data-models]
-    IQO --> DBI[database-internals]
-    TI --> DBI
-    FS --> DBI
-    DBI --> DDB[distributed-databases]
-    RC[replication-and-consistency] --> DDB
-```
+**Thick border** = written. · Dashed = prerequisite from another area, shared by two or more topics here. · 20 topics, 21 edges drawn. · [Mermaid source](diagrams/systems-networking-databases.mmd)
 
-The database chain is the clearest example of the map's value. `database-internals` requires
-indexing *and* transactions *and* filesystems — three L3 topics — which is why it is L4 and why
-attempting it early produces memorisation rather than understanding.
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
 
----
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| `linux-fundamentals` | 1 | `command-line-basics` |
+| `linux-administration` | 2 | `linux-fundamentals` |
+| `filesystems-and-storage` | 3 | `operating-systems-fundamentals` |
+| `operating-systems-fundamentals` | 3 | `computer-basics`, `programming-fundamentals` |
+| `processes-and-scheduling` | 3 | `operating-systems-fundamentals` |
+| `systems-programming` | 4 | `memory-management`, `operating-systems-fundamentals` |
+| `networking-fundamentals` | 1 | `internet-basics` |
+| `dns` | 2 | `networking-fundamentals` |
+| `http` | 2 | `networking-fundamentals` |
+| `tls-and-cryptography-basics` | 2 | `networking-fundamentals` |
+| `tcp-ip-internals` | 3 | `networking-fundamentals`, `operating-systems-fundamentals` |
+| `network-performance` | 4 | `performance-engineering`, `tcp-ip-internals` |
+| `databases-introduction` | 1 | `programming-fundamentals` |
+| `relational-modeling` | 2 | `sql` |
+| `sql` | 2 | `databases-introduction` |
+| `indexing-and-query-optimization` | 3 | `data-structures`, `sql` |
+| `nosql-data-models` | 3 | `relational-modeling` |
+| `transactions-and-isolation` | 3 | `concurrency-and-parallelism`, `sql` |
+| `database-internals` | 4 | `filesystems-and-storage`, `indexing-and-query-optimization`, `transactions-and-isolation` |
+| `distributed-databases` | 4 | `database-internals`, `replication-and-consistency` |
+
+</details>
+
+The database chain is the clearest example of the map's value. `database-internals`
+requires indexing *and* transactions *and* filesystems — three Level 3 topics — which
+is why it is Level 4, and why attempting it early produces memorisation rather than
+understanding.
 
 ## Backend, distributed systems, and system design
 
-```mermaid
-graph TD
-    HTTP[http] --> RA["rest-apis"]
-    PF[programming-fundamentals] --> RA
-    HTTP --> AUTH[authentication-and-authorization]
-    TLS[tls-and-cryptography-basics] --> AUTH
-    RA --> BD[backend-development]
-    SQL[sql] --> BD
-    RA --> AD[api-design]
-    NF[networking-fundamentals] --> CACHE["<b>caching</b>"]
-    SQL --> CACHE
-    BD --> BJQ[background-jobs-and-queues]
-    BJQ --> MQS[message-queues-and-streaming]
-    DSF[distributed-systems-fundamentals] --> MQS
-    MQS --> EDA[event-driven-architecture]
+Server-side engineering, what changes when more than one machine is involved, and composing the two into a system.
 
-    NF --> DSF
-    OSF[operating-systems-fundamentals] --> DSF
-    DI[databases-introduction] --> DSF
-    DSF --> RC[replication-and-consistency]
-    TI[transactions-and-isolation] --> RC
-    DSF --> PSH[partitioning-and-sharding]
-    IQO[indexing-and-query-optimization] --> PSH
-    RC --> CONS[consensus]
-    DSF --> FT[fault-tolerance]
-    CONS --> BC[blockchain-fundamentals]
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/backend-distributed-system-design-dark.svg">
+  <img alt="Prerequisite graph — Backend, distributed systems, and system design" src="diagrams/backend-distributed-system-design-light.svg">
+</picture>
 
-    BD --> SDF[system-design-fundamentals]
-    CACHE --> SDF
-    DSF --> SDF
-    SDF --> LSSD[large-scale-system-design]
-    PSH --> LSSD
-    MQS --> LSSD
-    SA[software-architecture] --> MS[microservices]
-    CD[containers-and-docker] --> MS
-    AD --> MS
-    DSF --> MS
-```
+**Thick border** = written. · Dashed = prerequisite from another area, shared by two or more topics here. · 23 topics, 33 edges drawn. · [Mermaid source](diagrams/backend-distributed-system-design.mmd)
 
----
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
 
-## Operations, cloud, and security
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| `web-fundamentals` | 1 | `internet-basics` |
+| `authentication-and-authorization` | 2 | `http`, `tls-and-cryptography-basics` |
+| `backend-development` | 2 | `rest-apis`, `sql` |
+| `rest-apis` | 2 | `http`, `programming-fundamentals` |
+| `api-design` | 3 | `rest-apis` |
+| `background-jobs-and-queues` | 3 | `backend-development` |
+| **`caching`** | 3 | `networking-fundamentals`, `sql` |
+| `event-driven-architecture` | 3 | `message-queues-and-streaming` |
+| `message-queues-and-streaming` | 3 | `background-jobs-and-queues`, `distributed-systems-fundamentals` |
+| `api-gateways` | 4 | `api-design`, `caching` |
+| `microservices` | 4 | `api-design`, `containers-and-docker`, `distributed-systems-fundamentals`, `software-architecture` |
+| `distributed-systems-fundamentals` | 3 | `databases-introduction`, `networking-fundamentals`, `operating-systems-fundamentals` |
+| `blockchain-fundamentals` | 4 | `consensus`, `tls-and-cryptography-basics` |
+| `consensus` | 4 | `replication-and-consistency` |
+| `fault-tolerance` | 4 | `distributed-systems-fundamentals` |
+| `partitioning-and-sharding` | 4 | `distributed-systems-fundamentals`, `indexing-and-query-optimization` |
+| `replication-and-consistency` | 4 | `distributed-systems-fundamentals`, `transactions-and-isolation` |
+| `distributed-systems-verification` | 5 | `consensus`, `experiment-design-and-benchmarking` |
+| `system-design-fundamentals` | 3 | `backend-development`, `caching`, `distributed-systems-fundamentals` |
+| `capacity-planning` | 4 | `performance-engineering`, `system-design-fundamentals` |
+| `large-scale-system-design` | 4 | `message-queues-and-streaming`, `partitioning-and-sharding`, `system-design-fundamentals` |
+| `architecture-tradeoffs` | 5 | `large-scale-system-design`, `sre-and-reliability` |
+| `first-principles-systems-thinking` | 5 | `large-scale-system-design` |
 
-```mermaid
-graph TD
-    LF[linux-fundamentals] --> CD[containers-and-docker]
-    PS[processes-and-scheduling] --> CD
-    NF[networking-fundamentals] --> CD
-    GW[git-workflows] --> CICD[ci-cd]
-    TF[testing-fundamentals] --> CICD
-    CD --> CICD
-    NF --> CF[cloud-fundamentals]
-    LA[linux-administration] --> CF
-    CF --> IAC[infrastructure-as-code]
-    CD --> K8S[kubernetes]
-    IAC --> K8S
-    NF --> K8S
-    BD[backend-development] --> OBS[observability]
-    LA --> OBS
-    OBS --> PE[performance-engineering]
-    OSF[operating-systems-fundamentals] --> PE
-    CA[complexity-analysis] --> PE
-    OBS --> SRE[sre-and-reliability]
-    FT[fault-tolerance] --> SRE
-    OBS --> IR[incident-response]
-    SDF[system-design-fundamentals] --> CAP[capacity-planning]
-    PE --> CAP
-    CF --> COST[cost-optimization]
-    CAP --> COST
+</details>
 
-    NF --> SF[security-fundamentals]
-    HTTP[http] --> SF
-    SF --> APPSEC[application-security]
-    BD --> APPSEC
-    APPSEC --> OFF[offensive-security]
-    APPSEC --> SECARCH[security-architecture]
-    CA2[cloud-architecture] --> SECARCH
-```
+## Operations and cloud
+
+Running software, and renting the infrastructure it runs on.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/operations-and-cloud-dark.svg">
+  <img alt="Prerequisite graph — Operations and cloud" src="diagrams/operations-and-cloud-light.svg">
+</picture>
+
+**Thick border** = written. · Dashed = prerequisite from another area, shared by two or more topics here. · 14 topics, 19 edges drawn. · [Mermaid source](diagrams/operations-and-cloud.mmd)
+
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
+
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| `ci-cd` | 3 | `containers-and-docker`, `git-workflows`, `testing-fundamentals` |
+| `containers-and-docker` | 3 | `linux-fundamentals`, `networking-fundamentals`, `processes-and-scheduling` |
+| `infrastructure-as-code` | 3 | `cloud-fundamentals` |
+| `observability` | 3 | `backend-development`, `linux-administration` |
+| `cost-optimization` | 4 | `capacity-planning`, `cloud-fundamentals` |
+| `incident-response` | 4 | `observability` |
+| `kubernetes` | 4 | `containers-and-docker`, `infrastructure-as-code`, `networking-fundamentals` |
+| `performance-engineering` | 4 | `complexity-analysis`, `observability`, `operating-systems-fundamentals` |
+| `sre-and-reliability` | 4 | `fault-tolerance`, `observability` |
+| `cloud-fundamentals` | 3 | `linux-administration`, `networking-fundamentals` |
+| `serverless` | 3 | `backend-development`, `cloud-fundamentals` |
+| `cloud-architecture` | 4 | `cloud-fundamentals`, `large-scale-system-design` |
+| `cloud-networking` | 4 | `cloud-fundamentals`, `tcp-ip-internals` |
+| `disaster-recovery` | 4 | `cloud-architecture`, `distributed-databases` |
+
+</details>
+
+## Security
+
+Keeping systems working while someone is trying to break them.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/security-dark.svg">
+  <img alt="Prerequisite graph — Security" src="diagrams/security-light.svg">
+</picture>
+
+**Thick border** = written. · 6 topics, 3 edges drawn. · [Mermaid source](diagrams/security.mmd)
+
+<details>
+<summary>Every prerequisite as a table — complete, searchable, and readable on a phone</summary>
+
+| Topic | Level | Requires (all hard prerequisites) |
+|---|---|---|
+| `security-fundamentals` | 2 | `http`, `networking-fundamentals` |
+| `application-security` | 3 | `backend-development`, `security-fundamentals` |
+| `cryptography-applied` | 3 | `tls-and-cryptography-basics` |
+| `secure-software-supply-chain` | 3 | `ci-cd`, `package-management` |
+| `offensive-security` | 4 | `application-security`, `linux-administration`, `tcp-ip-internals` |
+| `security-architecture` | 4 | `application-security`, `cloud-architecture` |
+
+</details>
+
+Security has the flattest dependency structure of any area on the map, and that is
+informative rather than convenient: almost every topic here depends on understanding
+a *different* area deeply — networking, backend, cloud, Linux — rather than on other
+security topics. It is why security specialisation is hard to reach early, and why
+`security-fundamentals` at Level 2 is mostly about trust boundaries rather than
+techniques.
+
+<!-- END GENERATED DIAGRAMS -->
 
 ---
 
@@ -375,8 +435,7 @@ memory hierarchy are the usual ones.
 
 ## Querying the graph
 
-The diagrams above are hand-maintained for readability. The authoritative graph is the YAML, and it
-is queryable:
+The authoritative graph is the YAML, and it is queryable:
 
 ```bash
 python3 tools/validate_graph.py --stats
@@ -385,6 +444,30 @@ python3 tools/validate_graph.py --stats
 which reports node counts by level, status, and domain; the number of hard edges; the entry points
 (topics with no prerequisites); and the topics with the deepest transitive prerequisite trees.
 
-If you add a topic whose edges change the shape of one of these diagrams, update the diagram in the
-same pull request. It is the one piece of duplication the architecture accepts, because a rendered
-map is worth the maintenance and no generator would produce diagrams this legible.
+---
+
+## Regenerating
+
+Everything between the `GENERATED DIAGRAMS` markers above, plus `diagrams/*.mmd` and
+`diagrams/*.svg`, is generated. Two stages, deliberately separate:
+
+```bash
+python3 tools/generate_diagrams.py     # graph -> .mmd + this file's diagram region
+tools/render_diagrams.sh               # .mmd  -> light and dark .svg
+```
+
+Stage 1 is pure Python and instant. Stage 2 needs Node and a Chromium, which is why it is kept out
+of CI — instead, stage 1 stamps each `.mmd` with a checksum and stage 2 writes that checksum into
+the SVG it produced, so CI can verify the whole chain without rendering anything:
+
+```bash
+python3 tools/generate_diagrams.py --check
+```
+
+That runs on every pull request. **If you change the graph, run both commands and commit the
+result**, or CI will tell you which diagram is stale and which command fixes it.
+
+Authored content — a view's title, caption, node selection, and the commentary under each diagram —
+lives in [`diagrams.yml`](diagrams.yml). Structure comes from the registry. The one thing you cannot
+do is edit the pictures or the tables directly; they are build output, and hand-editing them is how
+a map starts disagreeing with the graph it claims to describe.
