@@ -1,0 +1,43 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    ci_cd["ci-cd<br/>L3"]
+    containers_and_docker["containers-and-docker<br/>L3"]
+    infrastructure_as_code["infrastructure-as-code<br/>L3"]
+    observability["observability<br/>L3"]
+    cost_optimization["cost-optimization<br/>L4"]
+    incident_response["incident-response<br/>L4"]
+    kubernetes["kubernetes<br/>L4"]
+    performance_engineering["performance-engineering<br/>L4"]
+    sre_and_reliability["sre-and-reliability<br/>L4"]
+    cloud_fundamentals["cloud-fundamentals<br/>L3"]
+    serverless["serverless<br/>L3"]
+    cloud_architecture["cloud-architecture<br/>L4"]
+    cloud_networking["cloud-networking<br/>L4"]
+    disaster_recovery["disaster-recovery<br/>L4"]
+    backend_development["backend-development<br/>L2"]
+    linux_administration["linux-administration<br/>L2"]
+    networking_fundamentals["networking-fundamentals<br/>L1"]
+    backend_development --> observability
+    backend_development --> serverless
+    cloud_architecture --> disaster_recovery
+    cloud_fundamentals --> cloud_architecture
+    cloud_fundamentals --> cloud_networking
+    cloud_fundamentals --> cost_optimization
+    cloud_fundamentals --> infrastructure_as_code
+    cloud_fundamentals --> serverless
+    containers_and_docker --> ci_cd
+    containers_and_docker --> kubernetes
+    infrastructure_as_code --> kubernetes
+    linux_administration --> cloud_fundamentals
+    linux_administration --> observability
+    networking_fundamentals --> cloud_fundamentals
+    networking_fundamentals --> containers_and_docker
+    networking_fundamentals --> kubernetes
+    observability --> incident_response
+    observability --> performance_engineering
+    observability --> sre_and_reliability
+    class backend_development,linux_administration,networking_fundamentals boundary;

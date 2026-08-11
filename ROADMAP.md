@@ -135,8 +135,11 @@ review exercises against real pull requests. That means Phase 5 is mostly
 - **Rot review.** A scheduled job surfacing topics whose `last_reviewed` exceeds their
   `version_sensitivity` cadence (6 months for `high`, annually for `medium`, 2 years for `low`), plus
   external link checking. See [version-awareness.md](docs/version-awareness.md).
-- **Graph rendering.** Generated diagrams from the YAML, so `dependency-map.md` stops being
-  hand-maintained. Currently the only duplication the architecture accepts.
+- ~~**Graph rendering.** Generated diagrams from the YAML, so `dependency-map.md` stops being
+  hand-maintained.~~ **Done, brought forward from this phase.** `tools/generate_diagrams.py`
+  derives every diagram and its accompanying prerequisite table from the registry;
+  `tools/render_diagrams.sh` renders light and dark SVGs; CI verifies freshness without needing
+  a browser. This removes the last hand-maintained duplication in the repository.
 - **Translation.** Only once the English content is stable — translating a moving target wastes
   contributors' effort.
 

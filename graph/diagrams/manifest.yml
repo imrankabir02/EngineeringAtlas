@@ -1,0 +1,10 @@
+schema: diagrams-manifest/v1
+# Generated. Checksums of the .mmd sources, for the CI staleness check.
+sources:
+  spine: 31a8c4cf63434a3d
+  foundations-and-programming: ab4d1ba3ef11cd2d
+  computer-science: daf066b844a4c627
+  systems-networking-databases: d7bd3b5dcb946fd9
+  backend-distributed-system-design: 9d1d1851813a62e2
+  operations-and-cloud: 150485fbee4be9df
+  security: 7c70170246d8a512

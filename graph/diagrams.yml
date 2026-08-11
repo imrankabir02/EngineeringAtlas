@@ -1,0 +1,139 @@
+schema: diagrams/v1
+
+# Authored source for the diagram section of dependency-map.md.
+#
+# The images, tables, and the whole generated region of dependency-map.md are DERIVED
+# from graph/registry/*.yml plus this file. Do not edit graph/diagrams/*.{mmd,svg} or the
+# region between the GENERATED markers in dependency-map.md - it is overwritten, and CI
+# fails if it drifts from the graph.
+#
+#   python3 tools/generate_diagrams.py     graph -> .mmd + markdown  (pure Python)
+#   tools/render_diagrams.sh               .mmd  -> light/dark .svg  (node + chromium)
+#
+# A view's node set comes from `domains` and/or `topics`, plus `extra`. Edges are the hard
+# prerequisites between nodes in that set. `boundary: prerequisites` also pulls in hard
+# prerequisites that fall outside the set and draws them dashed, so a domain view never
+# silently hides a dependency.
+#
+# `caption` and `notes` are the authored prose. Everything else is structure.
+
+defaults:
+  boundary: prerequisites
+
+views:
+  # Curated rather than derived: the point of the spine is that it omits almost
+  # everything. Adding a topic here is an editorial decision, which is why it is an
+  # explicit list.
+  - id: spine
+    title: The spine
+    caption: >
+      The path from nothing to production accountability, with only the load-bearing edges
+      shown.
+    boundary: none
+    topics:
+      - computer-basics
+      - operating-system-basics
+      - files-and-directories
+      - command-line-basics
+      - internet-basics
+      - what-programming-is
+      - programming-fundamentals
+      - networking-fundamentals
+      - linux-fundamentals
+      - databases-introduction
+      - data-structures
+      - sql
+      - http
+      - rest-apis
+      - backend-development
+      - operating-systems-fundamentals
+      - concurrency-and-parallelism
+      - transactions-and-isolation
+      - caching
+      - distributed-systems-fundamentals
+      - system-design-fundamentals
+      - large-scale-system-design
+      - sre-and-reliability
+      - architecture-tradeoffs
+      - technical-leadership
+    notes: |
+      Four observations worth drawing from that shape:
+
+      **`programming-fundamentals` is the narrow gate.** Almost everything depends on it,
+      directly or transitively. It is also the longest single topic in the repository.
+      Rushing it is the most expensive possible saving.
+
+      **`operating-systems-fundamentals` is the second gate**, and it is the one people
+      skip. Concurrency, memory, containers, performance, and distributed systems all sit
+      behind it. Skipping it is why Kubernetes feels like magic and why race conditions
+      feel like bad luck.
+
+      **`caching` and `distributed-systems-fundamentals` both feed
+      `system-design-fundamentals`**, and that is not an accident: system design is mostly
+      reasoning about copies of data and about partial failure.
+
+      **Level 5 has few inbound edges.** `architecture-tradeoffs` and
+      `technical-leadership` depend on comparatively little *knowledge*. What they require
+      is experience, which the graph cannot express — see
+      [levels.md](../docs/levels.md#level-5--guru).
+
+  - id: foundations-and-programming
+    title: Foundations and programming
+    caption: >
+      Everything before a language, and the language-agnostic programming concepts that
+      follow.
+    domains: [foundations, programming]
+
+  - id: computer-science
+    title: Computer science
+    caption: >
+      The theory that predicts behaviour, plus the mastery topics that depend on it most
+      directly.
+    domains: [computer-science]
+    extra: [reading-research-papers, reading-source-code, statistics-for-engineers]
+    notes: |
+      Note that `reading-source-code` and `reading-research-papers` sit here structurally
+      but are Level 4 `mastery` topics. Their prerequisites are modest; what makes them
+      advanced is that they require tolerating confusion for hours, which is a disposition
+      rather than a dependency.
+
+  - id: systems-networking-databases
+    title: Systems, networking, and databases
+    caption: >
+      What runs beneath your program, how bytes reach other machines, and where data
+      survives.
+    domains: [systems, networking, databases]
+    notes: |
+      The database chain is the clearest example of the map's value. `database-internals`
+      requires indexing *and* transactions *and* filesystems — three Level 3 topics — which
+      is why it is Level 4, and why attempting it early produces memorisation rather than
+      understanding.
+
+  - id: backend-distributed-system-design
+    title: Backend, distributed systems, and system design
+    caption: >
+      Server-side engineering, what changes when more than one machine is involved, and
+      composing the two into a system.
+    domains: [backend, distributed-systems, system-design]
+
+  # Split from a single operations view: devops + cloud + security laid out at a 6:1
+  # aspect ratio, which is an illegible strip at any screen size. Two views is also the
+  # more honest grouping - security is its own concern, not an operations subtopic.
+  - id: operations-and-cloud
+    title: Operations and cloud
+    caption: >
+      Running software, and renting the infrastructure it runs on.
+    domains: [devops, cloud]
+
+  - id: security
+    title: Security
+    caption: >
+      Keeping systems working while someone is trying to break them.
+    domains: [security]
+    notes: |
+      Security has the flattest dependency structure of any area on the map, and that is
+      informative rather than convenient: almost every topic here depends on understanding
+      a *different* area deeply — networking, backend, cloud, Linux — rather than on other
+      security topics. It is why security specialisation is hard to reach early, and why
+      `security-fundamentals` at Level 2 is mostly about trust boundaries rather than
+      techniques.

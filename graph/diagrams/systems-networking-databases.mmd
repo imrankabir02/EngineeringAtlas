@@ -1,0 +1,49 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    linux_fundamentals["linux-fundamentals<br/>L1"]
+    linux_administration["linux-administration<br/>L2"]
+    filesystems_and_storage["filesystems-and-storage<br/>L3"]
+    operating_systems_fundamentals["operating-systems-fundamentals<br/>L3"]
+    processes_and_scheduling["processes-and-scheduling<br/>L3"]
+    systems_programming["systems-programming<br/>L4"]
+    networking_fundamentals["networking-fundamentals<br/>L1"]
+    dns["dns<br/>L2"]
+    http["http<br/>L2"]
+    tls_and_cryptography_basics["tls-and-cryptography-basics<br/>L2"]
+    tcp_ip_internals["tcp-ip-internals<br/>L3"]
+    network_performance["network-performance<br/>L4"]
+    databases_introduction["databases-introduction<br/>L1"]
+    relational_modeling["relational-modeling<br/>L2"]
+    sql["sql<br/>L2"]
+    indexing_and_query_optimization["indexing-and-query-optimization<br/>L3"]
+    nosql_data_models["nosql-data-models<br/>L3"]
+    transactions_and_isolation["transactions-and-isolation<br/>L3"]
+    database_internals["database-internals<br/>L4"]
+    distributed_databases["distributed-databases<br/>L4"]
+    programming_fundamentals["programming-fundamentals<br/>L1"]
+    database_internals --> distributed_databases
+    databases_introduction --> sql
+    filesystems_and_storage --> database_internals
+    indexing_and_query_optimization --> database_internals
+    linux_fundamentals --> linux_administration
+    networking_fundamentals --> dns
+    networking_fundamentals --> http
+    networking_fundamentals --> tcp_ip_internals
+    networking_fundamentals --> tls_and_cryptography_basics
+    operating_systems_fundamentals --> filesystems_and_storage
+    operating_systems_fundamentals --> processes_and_scheduling
+    operating_systems_fundamentals --> systems_programming
+    operating_systems_fundamentals --> tcp_ip_internals
+    programming_fundamentals --> databases_introduction
+    programming_fundamentals --> operating_systems_fundamentals
+    relational_modeling --> nosql_data_models
+    sql --> indexing_and_query_optimization
+    sql --> relational_modeling
+    sql --> transactions_and_isolation
+    tcp_ip_internals --> network_performance
+    transactions_and_isolation --> database_internals
+    class programming_fundamentals boundary;

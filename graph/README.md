@@ -17,7 +17,9 @@ a graph in YAML can be validated in CI. See
 | [`domains.yml`](domains.yml) | The storage shelves. A flat, deliberately boring list |
 | [`levels.yml`](levels.yml) | The six levels, with the "you are here when" test for each |
 | [`registry/<domain>.yml`](registry/) | The node manifest: every topic in the map, one file per domain |
-| [`dependency-map.md`](dependency-map.md) | The graph rendered for humans, with the first-principles chains |
+| [`diagrams.yml`](diagrams.yml) | View definitions and authored prose for the rendered map |
+| [`dependency-map.md`](dependency-map.md) | The graph rendered for humans, with the first-principles chains. **Diagram region is generated** |
+| `diagrams/` | **Generated.** Mermaid sources and light/dark SVGs |
 
 Prerequisites for **written** topics live in their own `topics/<domain>/<id>/topic.yml`, not here.
 The registry carries provisional prerequisites only for `planned` nodes, which have no `topic.yml`
@@ -91,6 +93,17 @@ cycle, and a hard prerequisite at a higher level than the topic requiring it. Th
 a large class of ordering mistakes automatically, and it is worth reading the error carefully rather
 than working around it — a level inversion usually means either the level or the dependency is wrong.
 
+5. Regenerate the diagrams, because they derive from what you just changed:
+
+```bash
+python3 tools/generate_diagrams.py     # graph -> .mmd + dependency-map.md's diagram region
+tools/render_diagrams.sh               # .mmd  -> light and dark SVGs
+```
+
+CI runs `python3 tools/generate_diagrams.py --check` and will name the stale file and the command
+that fixes it. Stage 2 needs Node and a Chromium; if you cannot run it, say so in the pull request
+and a maintainer will render for you rather than you hand-editing the output.
+
 ### Choosing an ID
 
 IDs are permanent. Renaming one breaks every reference, so choose for the long term:
@@ -158,3 +171,7 @@ the dependent topic's prerequisite `why` says which part.
 **Alternative routes.** There is often more than one order that works. The graph encodes the
 constraint (A before B) rather than a route; [`paths/`](../paths/) encode routes, and several paths
 can traverse the same subgraph differently.
+
+**Editorial emphasis.** Which topics belong in a curated view like the spine, and what is worth
+saying about a diagram, are judgments. Those live in [`diagrams.yml`](diagrams.yml) alongside the
+view definitions, which keeps them versioned and reviewable without pretending they are derivable.

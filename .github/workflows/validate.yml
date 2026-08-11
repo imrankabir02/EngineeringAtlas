@@ -31,6 +31,13 @@ jobs:
       - name: Validate the learning graph
         run: python3 tools/validate_graph.py --stats
 
+      # Verifies the generated diagrams still match the graph. Pure Python: stage 1 of the
+      # pipeline stamps each .mmd with a checksum and stage 2 writes it into the SVG, so
+      # staleness is detectable without Node or a browser in CI. If this fails, run
+      # `python3 tools/generate_diagrams.py && tools/render_diagrams.sh` and commit.
+      - name: Check generated diagrams are current
+        run: python3 tools/generate_diagrams.py --check
+
   prose:
     name: Prose conventions
     runs-on: ubuntu-latest

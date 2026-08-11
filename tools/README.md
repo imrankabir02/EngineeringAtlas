@@ -1,5 +1,13 @@
 # Tools
 
+| Tool | Does | Needs |
+|---|---|---|
+| [`validate_graph.py`](#validate_graphpy) | Enforces the architecture. Runs in CI | PyYAML |
+| [`generate_diagrams.py`](#generate_diagramspy) | Derives the dependency-map diagrams and tables from the graph. Freshness check runs in CI | PyYAML |
+| [`render_diagrams.sh`](#render_diagramssh) | Renders the diagram sources to light/dark SVGs | Node + Chromium |
+
+---
+
 ## `validate_graph.py`
 
 The enforcement mechanism for the architecture. Architecture that is not enforced is a suggestion.
@@ -39,6 +47,7 @@ scheduled job — see [ROADMAP.md](../ROADMAP.md).
 | **Resources** | Tier 1 and Tier 2 non-empty, Tier 3 capped at five, every entry has a `why`, no duplicate URLs, absolute URLs |
 | **Path ordering** | Every step's hard prerequisites appear earlier in the path, in a prerequisite path, or below `entry_level`; at least one milestone; no duplicate topics |
 | **Links** | Relative Markdown links resolve to real files; heading anchors checked as warnings |
+| **Images** | Markdown images and the HTML forms — `<img src>`, `<source srcset>` — resolve, so a theme-aware `<picture>` block cannot rot silently |
 | **YAML subset** | No tabs, no anchors or aliases, and prose accidentally parsed as a mapping is caught with a specific error |
 
 The last one deserves a note. A YAML scalar containing `": "` silently becomes a single-key mapping:
@@ -99,3 +108,67 @@ To add a rule:
 
 The script deliberately has one dependency (PyYAML) and lives in one file. It is meant to be readable
 by a contributor who wants to know why their pull request failed, which rules out any framework.
+
+---
+
+## `generate_diagrams.py`
+
+Derives the diagrams in [`graph/dependency-map.md`](../graph/dependency-map.md) from
+[`graph/registry/`](../graph/registry/) and the view definitions in
+[`graph/diagrams.yml`](../graph/diagrams.yml).
+
+```bash
+python3 tools/generate_diagrams.py           # write .mmd, the manifest, and the map's diagram region
+python3 tools/generate_diagrams.py --check   # verify committed output is current (runs in CI)
+```
+
+Per view it emits a Mermaid source, and into `dependency-map.md`: a theme-aware `<picture>` block, a
+legend, and a **collapsible table of every hard prerequisite**.
+
+Three decisions worth knowing:
+
+**Why images at all, when GitHub renders Mermaid.** It renders Mermaid on the *web* and not in its
+mobile apps, where a ` ```mermaid ` fence degrades to raw source. Committed SVGs render everywhere.
+
+**Why a table as well as an image.** The largest diagram is 2,600 pixels wide. Scaled to a phone that
+is tappable but not readable, and it is invisible to a screen reader and to ctrl-F. The table is the
+same data in a form that always works, and because both come from one source they cannot disagree.
+Where coverage differs the **table is complete**: the images draw only cross-area prerequisites that
+two or more topics in the view share, because drawing every one-off dependency laid one view out at a
+6:1 aspect ratio that was illegible at any size.
+
+**Why the generated Mermaid avoids `<b>` and quotes every label.** The hand-written version used
+`<b>` for emphasis, which works only while Mermaid's `htmlLabels` are enabled — verified by rendering
+with them off, where the emphasis silently disappears. `classDef` carries the distinction instead, and
+no colours are hard-coded, so one source renders correctly in both themes. `<br/>` is safe either way
+because Mermaid converts it to `tspan`s regardless of that setting.
+
+---
+
+## `render_diagrams.sh`
+
+Stage 2: renders each `.mmd` to a light and a dark SVG.
+
+```bash
+tools/render_diagrams.sh          # all views
+tools/render_diagrams.sh spine    # one view, by id
+```
+
+Reuses a preinstalled Chromium when it finds one (`PUPPETEER_EXECUTABLE_PATH`, `/opt/pw-browsers`,
+or a `chromium`/`google-chrome` on `PATH`) rather than downloading another.
+
+### How the freshness check works without a browser
+
+Node and Chromium are too heavy a dependency to add to CI for a repository whose tooling story is
+otherwise "one file, one dependency". So the two stages are linked by a checksum instead:
+
+```text
+generate_diagrams.py  →  writes .mmd, records sha256(.mmd) in diagrams/manifest.yml
+render_diagrams.sh    →  stamps that same sha into the SVG as an XML comment
+--check               →  regenerates .mmd in memory, compares to the committed .mmd,
+                         and compares each SVG's stamp to the current sha
+```
+
+That catches all three ways a diagram can go stale — graph changed, `.mmd` not regenerated, SVG not
+re-rendered — using only Python. The error message names the command that fixes it.
+

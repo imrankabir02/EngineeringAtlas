@@ -14,7 +14,56 @@ Versioning here describes the **curriculum**, not software:
 
 ## [Unreleased]
 
-Nothing yet. See [ROADMAP.md](ROADMAP.md) for what is planned next.
+### Changed — the dependency map is now generated, and renders on mobile
+
+The diagrams in `graph/dependency-map.md` were hand-written Mermaid. Two problems, one reported and
+one found while investigating it:
+
+- **GitHub does not render Mermaid in its mobile apps** — only on the web — so the whole file
+  degraded to raw source on a phone. This is a documented limitation that GitHub has said is not on
+  their roadmap.
+- The diagrams were the **only hand-maintained duplication in the repository**: the graph could say
+  one thing and the picture another, with nothing to catch the drift.
+
+Both are now fixed by deriving the diagrams from the graph and shipping them as images plus text.
+
+- **Added `tools/generate_diagrams.py`** — derives each view's Mermaid source, a theme-aware
+  `<picture>` block, and a **collapsible table of every hard prerequisite** from
+  `graph/registry/` and the new `graph/diagrams.yml`. Manages a delimited region of
+  `dependency-map.md`; `--check` verifies the committed output is current and runs in CI.
+- **Added `tools/render_diagrams.sh`** — renders light and dark SVGs, reusing a preinstalled
+  Chromium where one exists.
+- **Added `graph/diagrams.yml`** — view definitions plus the authored prose (titles, captions, and
+  the commentary under each diagram). Structure comes from the registry; judgment stays here.
+- **Added `graph/diagrams/`** — generated `.mmd` sources and 14 SVGs.
+
+Notable details:
+
+- **Every diagram now ships twice.** The image is the overview; the table is what actually works
+  under ctrl-F, in a screen reader, and on a phone, where a 2,600-pixel-wide graph is tappable but
+  not readable. Both derive from one source, so they cannot disagree. Where coverage differs the
+  table is complete.
+- **CI needs no browser.** Stage 1 records a checksum per `.mmd`; stage 2 stamps it into the SVG it
+  produced. The Python-only `--check` compares both links in that chain, catching all three
+  staleness modes — graph changed, `.mmd` not regenerated, SVG not re-rendered.
+- **The generated Mermaid is more robust than the hand-written version was.** Every label is quoted,
+  and emphasis uses `classDef` rather than `<b>`, which was verified to disappear silently when
+  Mermaid's `htmlLabels` are disabled. No colours are hard-coded, so one source renders correctly in
+  both themes.
+- **Images draw only cross-area prerequisites shared by two or more topics in a view.** Drawing every
+  one-off dependency laid one view out at a 6:1 aspect ratio, illegible at any size. The table carries
+  the rest.
+- **Split the operations diagram** into "Operations and cloud" and "Security" — a layout fix and the
+  more honest grouping, since security depends on other areas rather than on other security topics.
+
+### Added
+
+- `validate_graph.py` now checks **image references** too — Markdown images plus `<img src>` and
+  `<source srcset>` — so a theme-aware `<picture>` block cannot rot silently.
+- `docs/style-guide.md` gains two rules: do not hand-write Mermaid for a graph derived from the
+  registry, and anything conveyed only by a picture must also exist as text with an `alt`.
+
+See [ROADMAP.md](ROADMAP.md) for what is planned next — this work was brought forward from Phase 5.
 
 ---
 

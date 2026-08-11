@@ -801,6 +801,12 @@ def check_path_ordering(paths: dict, nodes: dict, hard_edges: dict[str, set[str]
 # ---------------------------------------------------------------------------- links
 
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+# Markdown images plus the HTML forms, so theme-aware <picture> blocks are covered too.
+IMAGE_RE = re.compile(
+    r"!\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)"
+    r"|<img\b[^>]*?\ssrc=\"([^\"]+)\""
+    r"|<source\b[^>]*?\ssrcset=\"([^\"]+)\""
+)
 
 
 def check_links(report: Report) -> int:
@@ -844,6 +850,14 @@ def check_links(report: Report) -> int:
                 other_anchors = {slugify(line) for line in other.splitlines() if line.startswith("#")}
                 if slugify_anchor(anchor) not in other_anchors:
                     report.warn(rel(path), f"anchor '#{anchor}' not found in {file_part}")
+
+        for match in IMAGE_RE.finditer(text):
+            target = next(g for g in match.groups() if g)
+            if target.startswith(("http://", "https://", "data:")):
+                continue
+            checked += 1
+            if not (path.parent / target.split("#")[0]).resolve().exists():
+                report.error(rel(path), f"broken image reference '{target}'")
     return checked
 
 

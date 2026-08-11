@@ -1,0 +1,31 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    algorithms["algorithms<br/>L2"]
+    complexity_analysis["complexity-analysis<br/>L2"]
+    data_structures["data-structures<br/>L2"]
+    discrete_math_for_engineers["discrete-math-for-engineers<br/>L2"]
+    advanced_algorithms["advanced-algorithms<br/>L3"]
+    computation_theory["computation-theory<br/>L4"]
+    information_theory["information-theory<br/>L4"]
+    reading_research_papers["reading-research-papers<br/>L4"]
+    reading_source_code["reading-source-code<br/>L4"]
+    statistics_for_engineers["statistics-for-engineers<br/>L2"]
+    programming_fundamentals["programming-fundamentals<br/>L1"]
+    algorithms --> advanced_algorithms
+    algorithms --> computation_theory
+    complexity_analysis --> algorithms
+    complexity_analysis --> reading_research_papers
+    data_structures --> algorithms
+    data_structures --> reading_source_code
+    discrete_math_for_engineers --> computation_theory
+    discrete_math_for_engineers --> information_theory
+    discrete_math_for_engineers --> statistics_for_engineers
+    programming_fundamentals --> complexity_analysis
+    programming_fundamentals --> data_structures
+    programming_fundamentals --> discrete_math_for_engineers
+    class data_structures published;
+    class programming_fundamentals boundary;

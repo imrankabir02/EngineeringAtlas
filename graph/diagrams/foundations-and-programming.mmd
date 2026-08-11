@@ -1,0 +1,46 @@
+%% GENERATED FILE - do not edit.
+%% Source: graph/registry/*.yml + graph/diagrams.yml
+%% Regenerate: python3 tools/generate_diagrams.py
+graph TD
+    classDef published stroke-width:3px;
+    classDef boundary stroke-dasharray:5 3;
+    command_line_basics["command-line-basics<br/>L0"]
+    computer_basics["computer-basics<br/>L0"]
+    files_and_directories["files-and-directories<br/>L0"]
+    internet_basics["internet-basics<br/>L0"]
+    operating_system_basics["operating-system-basics<br/>L0"]
+    problem_solving_basics["problem-solving-basics<br/>L0"]
+    what_programming_is["what-programming-is<br/>L0"]
+    debugging_fundamentals["debugging-fundamentals<br/>L1"]
+    error_handling["error-handling<br/>L1"]
+    programming_fundamentals["programming-fundamentals<br/>L1"]
+    functional_programming["functional-programming<br/>L2"]
+    object_oriented_programming["object-oriented-programming<br/>L2"]
+    type_systems["type-systems<br/>L2"]
+    async_programming["async-programming<br/>L3"]
+    concurrency_and_parallelism["concurrency-and-parallelism<br/>L3"]
+    memory_management["memory-management<br/>L3"]
+    compilers_and_interpreters["compilers-and-interpreters<br/>L4"]
+    operating_systems_fundamentals["operating-systems-fundamentals<br/>L3"]
+    command_line_basics --> programming_fundamentals
+    computer_basics --> internet_basics
+    computer_basics --> operating_system_basics
+    computer_basics --> what_programming_is
+    concurrency_and_parallelism --> async_programming
+    files_and_directories --> command_line_basics
+    memory_management --> compilers_and_interpreters
+    operating_system_basics --> files_and_directories
+    operating_systems_fundamentals --> concurrency_and_parallelism
+    operating_systems_fundamentals --> memory_management
+    programming_fundamentals --> compilers_and_interpreters
+    programming_fundamentals --> concurrency_and_parallelism
+    programming_fundamentals --> debugging_fundamentals
+    programming_fundamentals --> error_handling
+    programming_fundamentals --> functional_programming
+    programming_fundamentals --> memory_management
+    programming_fundamentals --> object_oriented_programming
+    programming_fundamentals --> type_systems
+    what_programming_is --> problem_solving_basics
+    what_programming_is --> programming_fundamentals
+    class computer_basics,programming_fundamentals published;
+    class operating_systems_fundamentals boundary;
