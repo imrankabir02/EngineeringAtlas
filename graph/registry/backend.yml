@@ -1,0 +1,127 @@
+schema: registry/v1
+domain: backend
+
+topics:
+  - id: web-fundamentals
+    title: Web fundamentals
+    level: 1
+    status: planned
+    summary: >
+      The shape of the web before any framework: URLs, requests and responses,
+      what the browser does versus what the server does, static versus dynamic
+      content, and where the boundary between them sits.
+    prerequisites:
+      hard: [internet-basics]
+
+  - id: rest-apis
+    title: REST APIs
+    level: 2
+    status: planned
+    summary: >
+      Resource-oriented HTTP interfaces: modelling resources, choosing methods and
+      status codes correctly, idempotency, pagination, error representation, and
+      versioning without breaking clients you cannot deploy.
+    prerequisites:
+      hard: [http, programming-fundamentals]
+
+  - id: authentication-and-authorization
+    title: Authentication and authorisation
+    level: 2
+    status: planned
+    summary: >
+      Two different problems: proving who someone is, and deciding what they may
+      do. Password storage, sessions versus tokens, JWT and its footguns, OAuth's
+      actual shape, and where authorisation checks belong.
+    prerequisites:
+      hard: [http, tls-and-cryptography-basics]
+
+  - id: backend-development
+    title: Backend development
+    level: 2
+    status: planned
+    summary: >
+      Assembling a service that works: request lifecycle, routing, validation,
+      persistence, configuration, structured logging, migrations, and the
+      layering that keeps business rules out of your HTTP handlers.
+    prerequisites:
+      hard: [rest-apis, sql]
+      soft: [testing-fundamentals]
+
+  - id: api-design
+    title: API design
+    level: 3
+    status: planned
+    summary: >
+      Designing interfaces other teams depend on: contracts and compatibility,
+      REST versus RPC versus GraphQL and what each optimises for, rate limiting,
+      bulk operations, and evolving an API that already has users.
+    prerequisites:
+      hard: [rest-apis]
+      soft: [domain-modeling]
+
+  - id: caching
+    title: Caching
+    level: 3
+    status: published
+    dir: topics/backend/caching
+    summary: >
+      Keeping a copy of data closer to its reader, trading memory and staleness
+      risk for latency. The most common way to make a system fast and the most
+      common source of bugs that cannot be reproduced.
+
+  - id: background-jobs-and-queues
+    title: Background jobs and queues
+    level: 3
+    status: planned
+    summary: >
+      Doing work outside the request: job queues, workers, retries and backoff,
+      idempotent handlers, scheduling, visibility into a queue that is falling
+      behind, and what happens to a job when a worker dies mid-execution.
+    prerequisites:
+      hard: [backend-development]
+      soft: [caching]
+
+  - id: message-queues-and-streaming
+    title: Message queues and streaming
+    level: 3
+    status: planned
+    summary: >
+      Decoupling producers from consumers durably: brokers versus logs, ordering
+      guarantees, consumer groups, at-least-once delivery and why exactly-once is
+      mostly marketing, dead-letter queues, and replay.
+    prerequisites:
+      hard: [background-jobs-and-queues, distributed-systems-fundamentals]
+
+  - id: event-driven-architecture
+    title: Event-driven architecture
+    level: 3
+    status: planned
+    summary: >
+      Systems that communicate by publishing facts: events versus commands,
+      choreography versus orchestration, eventual consistency as a product
+      decision, event sourcing and CQRS, and the debugging cost you accept.
+    prerequisites:
+      hard: [message-queues-and-streaming]
+
+  - id: microservices
+    title: Microservices
+    level: 4
+    status: planned
+    summary: >
+      Splitting a system along team and data boundaries: what distribution buys,
+      what it costs in latency and operational surface, service discovery, and the
+      honest answer that most systems should stay a modular monolith.
+    prerequisites:
+      hard: [software-architecture, containers-and-docker, api-design, distributed-systems-fundamentals]
+
+  - id: api-gateways
+    title: API gateways and edge
+    level: 4
+    status: planned
+    summary: >
+      The component in front of everything: routing, authentication offload, rate
+      limiting, request shaping, TLS termination, and the risk you take by making
+      one thing a dependency of every request.
+    prerequisites:
+      hard: [api-design, caching]
+      soft: [kubernetes]

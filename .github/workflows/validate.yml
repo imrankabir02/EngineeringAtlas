@@ -1,0 +1,59 @@
+name: validate
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  graph:
+    name: Graph, schema, and links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      # The single check that enforces the architecture. See docs/architecture.md section 10.
+      # Covers: registry consistency, the published/planned directory invariant in both
+      # directions, schema conformance, reference resolution, prerequisite acyclicity, level
+      # monotonicity, the nine-file requirement with placeholder detection, path step ordering,
+      # resource well-formedness, and relative markdown links including heading anchors.
+      - name: Validate the learning graph
+        run: python3 tools/validate_graph.py --stats
+
+  prose:
+    name: Prose conventions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Advisory rather than blocking. Style is a review conversation; only the mechanical
+      # part is checked here, and a long line is never a reason to fail a good contribution.
+      - name: Report prose lines over 100 characters
+        continue-on-error: true
+        run: |
+          echo "Prose should wrap at 80 characters so diffs are reviewable line by line."
+          echo "Tables, code blocks, and long URLs are exempt. See docs/style-guide.md."
+          echo
+          found=0
+          while IFS= read -r file; do
+            awk -v f="$file" '
+              /^```/       { fence = !fence; next }
+              fence        { next }
+              /^ *\|/      { next }        # tables
+              /^ *[0-9]*\. *\[.*\]\(/ { next }
+              /https?:\/\// { next }       # lines carrying URLs
+              length($0) > 100 { printf "%s:%d: %d chars\n", f, NR, length($0) }
+            ' "$file"
+          done < <(git ls-files '*.md') | head -60
+          exit 0

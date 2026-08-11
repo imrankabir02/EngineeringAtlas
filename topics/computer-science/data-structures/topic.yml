@@ -1,0 +1,261 @@
+schema: topic/v1
+id: data-structures
+title: Data structures
+domain: computer-science
+level: 2
+status: published
+
+summary: >
+  How data is arranged in memory and what that arrangement makes cheap or expensive:
+  arrays, linked lists, hash tables, trees, heaps, and graphs. The topic that turns
+  "it works" into "it works at scale".
+
+why_it_matters: >
+  Choosing the wrong structure is the most common cause of code that is correct at
+  1,000 items and unusable at 1,000,000. Your language already provides good
+  implementations, so the value here is not implementation - it is prediction: knowing
+  which operations a structure makes cheap, which it makes expensive, and why the
+  answer sometimes contradicts the asymptotic analysis because of memory layout. This
+  is also the first topic where the gap between theory and measurement becomes
+  visible, which is the beginning of engineering judgment.
+
+effort:
+  focused_hours: 80
+  calendar_weeks: "6-10"
+  assumes: >
+    Programming fundamentals complete, including the collections and cost-intuition
+    concepts. Roughly 8-10 focused hours per week including the project, which is
+    substantial.
+
+prerequisites:
+  hard:
+    - id: programming-fundamentals
+      why: >
+        You must be fluent enough that implementing a linked list is about pointers and
+        invariants rather than about syntax. You also need the collections concept -
+        this topic explains what you have been using.
+  soft:
+    - id: discrete-math-for-engineers
+      why: >
+        Induction and basic counting make complexity arguments provable rather than
+        plausible. Learnable alongside; the topic does not stall without it.
+    - id: complexity-analysis
+      why: >
+        Formal notation makes the trade-offs precise. Deliberately soft, because
+        measuring first and formalising second works better than the reverse.
+
+first_principles_chain:
+  - Memory is a huge numbered sequence of slots, and reaching a slot by its number is fast.
+  - So if you store items consecutively, you can compute any item's location arithmetically. This is an array, and it explains why indexing is instant.
+  - But consecutive storage means inserting in the middle requires shifting everything after it, and growing requires copying to a bigger block.
+  - If instead each item stores the location of the next, insertion is local and no shifting is needed. This is a linked list - and now finding item N requires walking N links.
+  - So there is no best structure. Every layout makes some operations cheap by making others expensive.
+  - If you could compute an item's location from its value rather than its position, lookup by value would be as fast as lookup by index. This is hashing.
+  - But two values can compute to the same location, so you need a collision strategy, and performance depends on how full the structure is.
+  - If you need order as well as fast lookup, arrange items so each comparison eliminates half. This is a binary search tree, and keeping it balanced is the hard part.
+  - If you only need the smallest item quickly, you need a weaker invariant than full order, which is cheaper to maintain. This is a heap.
+  - If relationships matter more than sequence, you store items and the connections between them. This is a graph.
+  - Finally - the machine reads memory in blocks and caches them, so contiguous layouts often beat asymptotically better ones at realistic sizes. Measurement, not analysis, decides.
+
+concepts:
+  - id: memory-layout
+    name: Memory layout and locality
+    depth: deep
+    note: >
+      Contiguous versus scattered, and why the same operation count can differ tenfold
+      in wall-clock time. The concept that explains most of your benchmark surprises.
+
+  - id: dynamic-arrays
+    name: Dynamic arrays
+    depth: deep
+    note: >
+      Growth by a multiplicative factor, amortised O(1) append, and the resize spikes
+      you can see in a latency graph. Know why doubling and not +1.
+
+  - id: linked-lists
+    name: Linked lists
+    depth: deep
+    note: >
+      O(1) insertion given a node, O(n) to find one, and poor cache behaviour. Learn
+      them because they are the mechanism inside LRU caches and adjacency lists, not
+      because you will choose one directly.
+
+  - id: hash-tables
+    name: Hash tables
+    depth: deep
+    note: >
+      The most important structure in practice. Hashing, collisions, chaining versus
+      open addressing, load factor, resizing, and how it degrades to O(n) under
+      adversarial keys.
+
+  - id: trees-and-bst
+    name: Trees and binary search trees
+    depth: deep
+    note: >
+      Ordered operations, and the honest worst case: sorted insertion degrades a BST to
+      a linked list. Implement delete including the two-child case.
+
+  - id: heaps
+    name: Heaps and priority queues
+    depth: working
+    note: >
+      A weaker invariant than a BST, therefore cheaper to maintain. Array-backed,
+      excellent locality. Know why heapify is O(n) rather than O(n log n).
+
+  - id: graphs
+    name: Graphs
+    depth: working
+    note: >
+      Vertices and edges, adjacency list versus matrix and when each is right, BFS and
+      DFS. The algorithms themselves belong to algorithms and advanced-algorithms.
+
+  - id: sets-and-maps
+    name: Sets and maps as interfaces
+    depth: working
+    note: >
+      The distinction between an interface (a map) and its implementation (hash table
+      or balanced tree). Recognising this separation is worth more than either.
+
+  - id: strings-as-structures
+    name: Strings as data structures
+    depth: working
+    note: >
+      Immutability and why concatenation in a loop is quadratic; when a rope, builder,
+      or trie is the right answer instead.
+
+  - id: choosing-a-structure
+    name: Choosing a structure
+    depth: deep
+    note: >
+      Start from the access pattern, not the structure. The single most useful skill in
+      the topic and the one interviews actually probe.
+
+  - id: balanced-trees
+    name: Balanced trees (AVL, red-black)
+    depth: aware
+    note: >
+      Know what problem rebalancing solves and roughly how, because sorted insertion is
+      not an exotic input. You do not need to implement one; database-internals covers
+      B-trees where it matters.
+
+  - id: probabilistic-structures
+    name: Probabilistic structures
+    depth: aware
+    note: >
+      Bloom filters, HyperLogLog, count-min sketch. Know they exist and that they trade
+      exactness for space. advanced-algorithms treats them properly.
+
+  - id: persistent-structures
+    name: Persistent and immutable structures
+    depth: aware
+    note: >
+      Structures that return a new version instead of mutating, sharing most of their
+      storage. Know the idea; functional-programming and memory-management go deeper.
+
+  - id: concurrent-structures
+    name: Concurrent data structures
+    depth: aware
+    note: >
+      Know that making a structure thread-safe is a separate hard problem. Do not start
+      here - concurrency-and-parallelism at Level 3 has the prerequisites.
+
+gates:
+  build:
+    - Complete ds-from-scratch - dynamic array, hash table, BST, and heap from primitives, with benchmarks.
+  break:
+    - Insert 100,000 keys engineered to collide into your hash table. Measure lookup time and explain the shape of the curve.
+    - Insert sorted integers into your BST and measure its height against log2(n). Explain what a balanced variant would fix.
+    - Graph append latency across 1,000,000 dynamic-array appends and identify the resize spikes.
+    - Use a mutable object as a hash key, mutate it, then fail to find it. Explain the mechanism.
+  debug:
+    - Given a program that is fast in testing and unusable in production, list four structure-related causes and one measurement that would distinguish them.
+    - Find a real hash-table deletion bug - delete a key that collided with another, then look up the other - and explain why a naive open-addressing delete breaks it.
+  explain:
+    - Explain amortised O(1) append using your own latency graph rather than a definition.
+    - Explain why a hash table can be O(1) on average and O(n) in the worst case, and what makes the worst case reachable in practice.
+    - Explain to a peer why your hand-written structure is much slower than the built-in despite identical complexity, naming a mechanism.
+  benchmark:
+    - Measure hash-table lookup at load factors 0.3, 0.7, 0.9 and 0.99. Plot it, identify the knee, and explain why real implementations resize around 0.7.
+    - Compare a contiguous array traversal with a linked-list traversal of the same length. Predict the ratio, measure it, and explain the gap using locality.
+  review:
+    - Read a standard library's hash-map or list implementation and identify one decision that trades memory for speed, stating what it costs.
+  design:
+    - Given a requirement to serve the top 10 trending items from a stream of 100,000 events per second, choose your structures and justify each against one alternative.
+
+projects:
+  - id: ds-from-scratch
+    role: core
+    validates: [dynamic-arrays, hash-tables, trees-and-bst, heaps, memory-layout]
+  - id: in-memory-cache
+    role: stretch
+    validates: [hash-tables, linked-lists, choosing-a-structure]
+
+resources:
+  tier1:
+    - title: "CPython source - Objects/dictobject.c"
+      url: https://github.com/python/cpython/blob/main/Objects/dictobject.c
+      why: >
+        A production hash table with its reasoning in the comments. Read the header
+        comment on the design of compact dicts, not the whole file. Seeing real
+        engineering trade-offs annotated by the people who made them is worth more
+        than another explanation of chaining.
+    - title: "Java SE API - HashMap"
+      url: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html
+      why: >
+        The class documentation states load factor, resizing behaviour, and the
+        treeification threshold explicitly. A rare case where the official docs make a
+        structure's performance contract precise enough to reason about.
+
+  tier2:
+    - title: "Algorithms, 4th edition - Sedgewick and Wayne"
+      url: https://algs4.cs.princeton.edu/home/
+      why: >
+        The clearest treatment of structures with real implementations and honest
+        empirical measurement alongside the analysis. Chapters 1-3 cover this topic.
+        Site includes the full text of key sections and all code.
+    - title: "MIT 6.006 Introduction to Algorithms (OCW)"
+      url: https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/
+      why: >
+        Lectures and problem sets from a course that derives structures from their
+        invariants rather than presenting them as recipes. Use the problem sets; they
+        are where the learning is.
+    - title: "Open Data Structures - Pat Morin"
+      url: https://opendatastructures.org/
+      why: >
+        Free, rigorous, and unusually direct about the cost of each operation, with
+        pseudocode plus real implementations in several languages. Good as the reference
+        you check against while doing the project.
+    - title: "The Lost Art of Structure Packing - Eric Raymond"
+      url: http://www.catb.org/esr/structure-packing/
+      why: >
+        Explains why the same data in a different order occupies different memory and
+        runs at a different speed. The most direct available bridge from "data
+        structures" to "why is my code slow", and it is short.
+
+  tier3:
+    - title: "Visualgo - data structure visualisations"
+      url: https://visualgo.net/en
+      why: >
+        Animates insertion, deletion, and rebalancing step by step. Use it when a
+        BST delete or a heap sift-down will not resolve in your head; ten minutes here
+        beats an hour of rereading.
+    - title: "Cache-line effects - a 'Mythical Man Month' of memory (Igor Ostrovsky)"
+      url: https://igoro.com/archive/gallery-of-processor-cache-effects/
+      why: >
+        Seven small experiments where the only change is the memory access pattern and
+        the runtime changes by an order of magnitude. Run them yourself. This is the
+        most convincing demonstration available that complexity is not the whole story.
+
+next:
+  - id: algorithms
+    why: You have the structures. Algorithms are the techniques that operate on them.
+  - id: complexity-analysis
+    why: You have measured the shapes. Now formalise them so you can predict without measuring.
+  - id: sql
+    why: A database is data structures you query. Indexing will make sense immediately.
+  - id: caching
+    why: Your hash table plus your linked list is an LRU cache. That is the next real system.
+
+version_sensitivity: low
+last_reviewed: "2026-08-11"
+maintainers: []

@@ -1,0 +1,73 @@
+name: Report a content error
+description: Something is technically wrong, misleading, or overstates its own certainty
+title: "[error] "
+labels: [error]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This is the highest-value issue type in the repository.** A confident wrong claim costs a
+        reader more than a missing topic does, and fixing errors outranks writing anything new.
+
+        You do not need to fix it. Reporting it is a complete contribution.
+
+  - type: input
+    id: location
+    attributes:
+      label: Where
+      description: File path, and the heading or line if you have it.
+      placeholder: topics/backend/caching/fundamentals.md — "Step 4: invalidation"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of error
+      options:
+        - Factually wrong
+        - Misleading — technically true, wrong impression
+        - Overstates certainty — presents a trade-off as settled
+        - Out of date — was true, no longer is
+        - Prerequisite is wrong, missing, or unnecessary
+        - Depth marking is wrong (aware/working/deep)
+        - Gate is not checkable, or does not validate what it claims
+        - Resource is dead, low quality, or paywalled with no free alternative
+        - Internal inconsistency between two files
+    validations:
+      required: true
+
+  - type: textarea
+    id: claim
+    attributes:
+      label: The claim as written
+      description: Quote it, so the discussion is about the same text.
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What you believe is true instead
+      description: >
+        With a mechanism, a number, or a primary source if you have one. If it is your experience
+        rather than something you can cite, say so — that is still useful, and the repository's own
+        style guide asks authors to make the same distinction.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: What a reader would do wrong because of this
+      description: >
+        Optional, and it helps prioritise. An error that leads to a wrong architectural decision
+        matters more than one that is merely imprecise.
+
+  - type: checkboxes
+    id: offer
+    attributes:
+      label: Would you like to fix it
+      options:
+        - label: I can open a pull request
+        - label: I would rather someone else fixed it

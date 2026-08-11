@@ -1,0 +1,277 @@
+schema: topic/v1
+id: caching
+title: Caching
+domain: backend
+level: 3
+status: published
+
+summary: >
+  Keeping a copy of data closer to its reader, trading memory and staleness risk for
+  latency. The most common way to make a system fast and the most common source of bugs
+  that cannot be reproduced.
+
+why_it_matters: >
+  Every layer of every real system caches, usually without being asked - the CPU, the
+  operating system's page cache, the database buffer pool, the ORM identity map, the
+  HTTP client, the CDN. You are already relying on several caches you did not
+  configure. Learning caching deliberately does two things: it gives you the standard
+  tool for making reads fast, and it makes a whole class of "impossible" bugs
+  diagnosable, because you can name which copy of the truth is wrong. It is also the
+  cheapest place to learn that adding a component adds a failure mode.
+
+effort:
+  focused_hours: 40
+  calendar_weeks: "3-5"
+  assumes: >
+    Prerequisites met, roughly 8-10 focused hours per week including the project. Add
+    two weeks if you also do the url-shortener stretch project.
+
+prerequisites:
+  hard:
+    - id: networking-fundamentals
+      why: >
+        A cache trades one cost for another, and the cost it removes is usually a
+        network round trip. Without knowing what a round trip costs you cannot tell
+        whether a cache is worth its complexity.
+    - id: sql
+      why: >
+        The canonical cache sits in front of a database. You need to know what it is
+        protecting, and you need to be able to tell a slow query from a query that is
+        called too often - the fix is different.
+  soft:
+    - id: operating-systems-fundamentals
+      why: >
+        The page cache is a cache you already depend on, and seeing it makes eviction
+        and locality concrete rather than abstract.
+    - id: data-structures
+      why: >
+        An LRU cache is a hash table plus a doubly linked list. The project is much
+        easier if you have built both.
+
+first_principles_chain:
+  - Why is this request slow? Measure before assuming - the answer is often not what you would guess.
+  - Some of that time is spent fetching data from somewhere further away than memory.
+  - Memory is roughly a thousand times faster than local storage and a hundred thousand times faster than a network round trip.
+  - Some data is read far more often than it changes. This property is called locality, and without it nothing below works.
+  - Therefore keep a copy of hot data closer to the reader. That is a cache.
+  - But now two copies of the truth exist, and one of them can be wrong. This is invalidation, and it is the hard part.
+  - The copy is smaller than the truth, so you must choose what to discard. This is eviction.
+  - When the copy is missing, many readers may ask the origin at once. This is a stampede.
+  - One machine's memory is not enough, so copies live on several machines, and now you must decide which machine holds which key.
+  - Redis, Memcached, your CDN, and your CPU's L1 cache are all implementations of the above, with different answers to the same questions.
+
+concepts:
+  - id: locality
+    name: Locality of reference
+    depth: deep
+    note: >
+      Temporal and spatial locality; why caching works at all, and why it fails on
+      uniformly distributed access. The single concept that determines whether a cache
+      is worth adding.
+
+  - id: hit-ratio
+    name: Hit ratio and its dependence on workload
+    depth: deep
+    note: >
+      Hit ratio is a property of the access distribution, not of the cache. The same
+      cache can be 10% effective on uniform traffic and 90% on skewed traffic. Measure
+      your distribution before designing.
+
+  - id: invalidation
+    name: Invalidation
+    depth: deep
+    note: >
+      When the cached copy is wrong, how you find out, and what it costs to prevent.
+      TTLs, explicit invalidation, versioned keys, and write-through. The hardest part
+      of the topic and the source of the worst bugs.
+
+  - id: eviction
+    name: Eviction policies
+    depth: working
+    note: >
+      LRU, LFU, FIFO, TTL, and random. Know LRU deeply enough to implement it in O(1);
+      know the others by shape and by which workload each suits.
+
+  - id: caching-patterns
+    name: Cache-aside, read-through, write-through, write-behind
+    depth: deep
+    note: >
+      Where the cache sits relative to the write path. Each pattern moves the
+      consistency problem somewhere different rather than solving it.
+
+  - id: stampede
+    name: Stampedes and thundering herds
+    depth: deep
+    note: >
+      Concurrent misses on a hot key, mass simultaneous expiry, and cold starts. Plus
+      the mitigations: single-flight, jittered TTLs, stale-while-revalidate, and
+      pre-warming.
+
+  - id: cache-layers
+    name: The layers you already have
+    depth: working
+    note: >
+      CPU cache, page cache, database buffer pool, ORM identity map, HTTP caching, CDN,
+      DNS. Recognising which layer served a wrong value is a debugging skill.
+
+  - id: http-caching
+    name: HTTP caching
+    depth: working
+    note: >
+      Cache-Control, ETag, conditional requests, and the difference between private and
+      shared caches. The cheapest cache available, because someone else operates it.
+
+  - id: distributed-caching
+    name: Distributed caching
+    depth: working
+    note: >
+      Several machines holding parts of the cache: consistent hashing, hot keys,
+      rebalancing on node loss, and why a shared cache is a shared failure domain.
+
+  - id: negative-caching
+    name: Negative caching
+    depth: working
+    note: >
+      Caching the absence of a value, why it is necessary against miss-flood attacks,
+      and the bug it introduces the moment the value starts existing.
+
+  - id: cache-key-design
+    name: Key design
+    depth: working
+    note: >
+      Keys as a namespace you must version and reason about. Including every input that
+      affects the value, or serving one user another user's data.
+
+  - id: measuring-caches
+    name: Measuring a cache
+    depth: deep
+    note: >
+      Hit ratio, p50/p95/p99 on hit and miss paths, origin load, and eviction rate. A
+      cache you have not measured is a guess with extra failure modes.
+
+  - id: cpu-cache-coherence
+    name: Hardware cache coherence
+    depth: aware
+    note: >
+      Know that caches exist below your program and that keeping them consistent across
+      cores costs real time. memory-management and performance-engineering go deeper.
+
+  - id: cdn-architecture
+    name: CDN internals
+    depth: aware
+    note: >
+      Know that a CDN is a geographically distributed cache with its own eviction and
+      invalidation, and that purging is slower than you expect. cloud-architecture and
+      frontend-performance treat it properly.
+
+  - id: consistency-models
+    name: Formal consistency models
+    depth: aware
+    note: >
+      Know that "eventually consistent" has precise definitions and that a cache makes
+      your system one. replication-and-consistency at Level 4 is where this belongs.
+
+gates:
+  build:
+    - Complete in-memory-cache - an O(1) LRU with TTLs, thread safety, metrics, and a benchmark harness, in front of a real datastore.
+  break:
+    - Send 500 concurrent requests for the same cold key and measure how many reach the origin. Explain the number, then fix it and measure again.
+    - Set capacity to 1 with two equally hot keys, measure the hit ratio, and explain the result.
+    - Write to the datastore directly, bypassing the cache, then measure how long the wrong value is served.
+    - Restart the process under load with a cold cache and measure origin latency during recovery.
+    - Store values large enough to exhaust memory while staying under the entry-count limit. Explain why counting entries was the wrong bound.
+  debug:
+    - Given a user reporting stale data, determine which of your cache layers served it, and state the evidence that identified the layer.
+    - Given a cache with a 2 percent hit ratio, decide whether to fix it or remove it, and justify the decision with the access distribution.
+  explain:
+    - Explain cache-aside versus write-through, and when each is wrong, in writing.
+    - Explain why hit ratio is a property of the workload rather than of the cache, using your own measurements at two distributions.
+    - Explain to a product owner what "up to 60 seconds stale" means for their feature, without using the word cache.
+  benchmark:
+    - Measure p50/p95/p99 with the cache cold, warm, and disabled, and report the hit ratio for each.
+    - Measure hit ratio under a uniform and a Zipfian key distribution with the same cache, and explain the gap.
+  review:
+    - Review a peer's caching layer, or an open-source one, and identify one invalidation hazard and one missing measurement.
+  design:
+    - Design the caching strategy for a product page that must show live stock levels but tolerates stale descriptions. State what you cache, for how long, and what you deliberately do not cache.
+
+projects:
+  - id: in-memory-cache
+    role: core
+    validates: [locality, eviction, invalidation, stampede, measuring-caches]
+  - id: url-shortener
+    role: stretch
+    validates: [hit-ratio, caching-patterns, cache-key-design]
+
+resources:
+  tier1:
+    - title: "RFC 9111 - HTTP Caching"
+      url: https://www.rfc-editor.org/rfc/rfc9111.html
+      why: >
+        The specification for the cache you get for free. Read sections 4 and 5 -
+        constructing responses from caches, and the header field definitions. It is the
+        clearest existing statement of what freshness, validation, and staleness mean,
+        and every application-level cache reinvents these ideas badly.
+    - title: "Redis documentation - key eviction"
+      url: https://redis.io/docs/latest/develop/reference/eviction/
+      why: >
+        The authoritative description of a real eviction implementation, including why
+        Redis approximates LRU by sampling rather than maintaining exact order - a
+        design constraint leaking into an API. Read it after implementing exact LRU
+        yourself, so the trade-off is visible.
+    - title: "Caching Guidance - Cache-Aside pattern (Microsoft)"
+      url: https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside
+      why: >
+        A precise, vendor-neutral statement of the pattern with its consistency
+        consequences spelled out, including the race between a write and a concurrent
+        read populating the cache. Short.
+
+  tier2:
+    - title: "Designing Data-Intensive Applications - Martin Kleppmann, chapters 1-3"
+      url: https://dataintensive.net/
+      why: >
+        Places caching inside the wider picture of latency, storage and replication, so
+        you stop seeing it as a trick and start seeing it as one point on a
+        consistency-versus-performance spectrum. Chapter 1's discussion of percentiles
+        is directly applicable to your benchmark gate.
+    - title: "Scaling Memcache at Facebook (NSDI 2013)"
+      url: https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf
+      why: >
+        The best available paper on what caching becomes at scale: leases to prevent
+        stampedes, handling of cold clusters, and the explicit acknowledgement that they
+        chose to serve stale data. Read section 3 first. Also a good first systems paper
+        because the problems are ones you will have caused yourself in the project.
+    - title: "The Page Cache - Linux kernel documentation"
+      url: https://docs.kernel.org/admin-guide/mm/concepts.html
+      why: >
+        The cache you already depend on and did not configure. Read this to understand
+        why your file read was fast the second time, and why "free memory" being low is
+        not a problem.
+
+  tier3:
+    - title: "Caching at Netflix - the hidden microservice (EVCache)"
+      url: https://netflixtechblog.com/announcing-evcache-distributed-in-memory-datastore-for-cloud-c42d99f8ab5f
+      why: >
+        A production distributed cache with its constraints stated: multi-zone
+        replication, cold-start warming, and what they do when a zone is lost. Useful for
+        seeing that operational concerns dominate at scale.
+    - title: "Cache stampede mitigation - XFetch and probabilistic early expiration"
+      url: https://cseweb.ucsd.edu/~avattani/papers/cache_stampede.pdf
+      why: >
+        Six pages on a single problem you will have caused in the project, with a
+        solution that is one line of arithmetic. A good demonstration that some
+        production problems have small, provable answers.
+
+next:
+  - id: message-queues-and-streaming
+    why: The next tool for keeping load away from the origin, by decoupling in time rather than by copying.
+  - id: distributed-systems-fundamentals
+    why: You now have two copies of the truth on purpose. That is the entry point to consistency and partial failure.
+  - id: system-design-fundamentals
+    why: Caching is the first component you chose deliberately with stated trade-offs. That is what system design is.
+  - id: performance-engineering
+    why: You measured percentiles and found a bottleneck. Doing that systematically is the next skill.
+
+version_sensitivity: low
+last_reviewed: "2026-08-11"
+maintainers: []

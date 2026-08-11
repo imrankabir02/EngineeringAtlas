@@ -1,0 +1,117 @@
+name: Propose a path
+description: Suggest a learning path, or claim a planned one
+title: "[path] "
+labels: [path]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Twelve paths are already declared as design briefs in
+        [paths/README.md](../blob/main/paths/README.md), each with its audience and what distinguishes
+        it. Claiming one of those is usually more useful than proposing a new one.
+
+        Two things get path proposals rejected, so check both first:
+
+        **Duplication.** Two paths differing in three steps should be one path with an emphasis note.
+        This is the most common rejection.
+
+        **No emphasis.** A path owns no content — it references topics that live once in `topics/`. The
+        `emphasis` notes, saying what specifically matters about each topic *in this context*, are the
+        path's actual content. A bare ordered topic list adds nothing over the graph. See
+        [python-backend.yml](../blob/main/paths/stacks/python-backend.yml) for the reference
+        implementation.
+
+  - type: dropdown
+    id: intent
+    attributes:
+      label: What are you doing
+      options:
+        - Claiming a planned path from paths/README.md
+        - Proposing a new path
+    validations:
+      required: true
+
+  - type: input
+    id: path-id
+    attributes:
+      label: Path ID
+      placeholder: frontend-engineer
+    validations:
+      required: true
+
+  - type: textarea
+    id: audience
+    attributes:
+      label: Audience
+      description: >
+        A specific person with a specific goal, stated as a **capability** rather than a job title.
+
+        Weak: "developers who want to learn frontend."
+        Strong: "someone who can write small programs and wants to build and ship an accessible,
+        fast web interface they can debug in a browser they did not choose."
+      validations:
+        required: true
+    validations:
+      required: true
+
+  - type: input
+    id: levels
+    attributes:
+      label: Entry and exit level
+      placeholder: L1 → L4
+    validations:
+      required: true
+
+  - type: textarea
+    id: distinct
+    attributes:
+      label: What distinguishes it from existing paths
+      description: >
+        Be concrete. Which topics does it include that no existing path does, and which existing-path
+        topics does it deliberately omit? If the answer is "roughly the same steps in a different
+        order", propose an emphasis note on the existing path instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: emphasis-sample
+    attributes:
+      label: Two sample emphasis notes
+      description: >
+        Pick two shared topics your path includes and write the emphasis you would give them. This is
+        the best single indicator of whether the path is worth adding, because it is where all the
+        value is.
+      placeholder: |
+        dom-and-browser: The event loop and task queues before any framework. Learn what layout,
+        paint and compositing cost, because every framework's performance advice is downstream of
+        this and stops making sense without it.
+
+        caching: HTTP caching first — Cache-Control and ETag eliminate the request entirely, which no
+        application cache can match. Then content-addressed URLs with a one-year immutable TTL, so
+        invalidation happens by changing the URL rather than by purging.
+    validations:
+      required: true
+
+  - type: textarea
+    id: milestones
+    attributes:
+      label: Milestones
+      description: >
+        Capability statements with evidence, not "finished the section". A long path needs one every
+        8–15 steps — they are the load-bearing part of the structure, because a path that lists forty
+        topics in a row says nothing about readiness.
+      placeholder: |
+        You have shipped an interface that works with a keyboard and a screen reader, and you verified
+        it with the tools users actually use rather than an automated checker.
+    validations:
+      required: true
+
+  - type: textarea
+    id: effort
+    attributes:
+      label: Honest effort estimate
+      description: >
+        Per phase, in focused hours and calendar time at a stated weekly commitment. Ranges, not single
+        numbers. Say if part of it substantially requires employment to learn.
+    validations:
+      required: true

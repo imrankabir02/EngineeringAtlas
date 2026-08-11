@@ -1,0 +1,143 @@
+name: Propose a topic
+description: Suggest a topic for the learning graph, or claim one to write
+title: "[topic] "
+labels: [topic]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two different things you can do here, and the first is much cheaper:
+
+        1. **Propose a node** — a topic that should exist in the map. Ten minutes, and it makes a gap
+           visible so paths have somewhere to point. You do not have to write it.
+        2. **Claim a topic to write** — the nine-file structure, 10–40 hours. Check
+           [ROADMAP.md](../blob/main/ROADMAP.md) for what is prioritised.
+
+        Before opening: search existing issues, and check
+        [graph/registry/](../blob/main/graph/registry/) — most obvious topics are already declared.
+
+  - type: dropdown
+    id: intent
+    attributes:
+      label: What are you doing
+      options:
+        - Proposing a node only (I am not writing it)
+        - Claiming this topic to write
+        - Proposing a change to an existing node
+    validations:
+      required: true
+
+  - type: input
+    id: topic-id
+    attributes:
+      label: Topic ID
+      description: >
+        Lowercase-hyphenated. Name the concept, not the product — `caching`, not `redis`. No level,
+        domain, or version in the ID.
+      placeholder: message-queues-and-streaming
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: Sentence case, except proper nouns.
+      placeholder: Message queues and streaming
+    validations:
+      required: true
+
+  - type: dropdown
+    id: level
+    attributes:
+      label: Level
+      description: >
+        From the "you are here when" tests in [levels.md](../blob/main/docs/levels.md) — not from how
+        hard the topic feels.
+      options: ["0", "1", "2", "3", "4", "5"]
+    validations:
+      required: true
+
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      description: >
+        From [domains.yml](../blob/main/graph/domains.yml). If you cannot decide, the choice does not
+        matter — domains are storage, not meaning, and moving a topic later is non-breaking.
+      placeholder: backend
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: >
+        One to three sentences saying what it is **and why it matters**. This is what a learner reads
+        when deciding whether the topic is their gap, so it has to discriminate. "Covers the
+        fundamentals of X" does not.
+      placeholder: >
+        Decoupling producers from consumers durably: brokers versus logs, ordering guarantees,
+        at-least-once delivery and why exactly-once is mostly marketing, dead-letter queues, and
+        replay.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-it-matters
+    attributes:
+      label: What breaks without this
+      description: >
+        Concretely. Not "it is important" or "it is widely used" — name the failure, cost, or
+        permanent mystery its absence causes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Hard prerequisites
+      description: >
+        Existing topic IDs, one per line, each with **why** it is required — what specifically becomes
+        impossible or arbitrary without it. Writing the `why` often reveals a prerequisite you did not
+        need, or one you missed.
+
+        Note: a hard prerequisite may not be at a higher level than this topic. The validator enforces
+        it, and a violation usually means either the level or the dependency is wrong.
+      placeholder: |
+        background-jobs-and-queues — you need to have felt the need to move work out of the request
+        distributed-systems-fundamentals — delivery guarantees are meaningless without partial failure
+    validations:
+      required: true
+
+  - type: textarea
+    id: soft-prerequisites
+    attributes:
+      label: Soft prerequisites
+      description: Helpful but skippable, with why each makes the topic concrete rather than abstract.
+
+  - type: textarea
+    id: chain
+    attributes:
+      label: First-principles chain
+      description: >
+        The derivation, in steps, where each step is a **problem** the next step answers. Minimum
+        three. If it reads as a list of subtopics, it is a table of contents rather than a derivation
+        — compare [caching's](../blob/main/topics/backend/caching/topic.yml).
+      placeholder: |
+        Work in the request path makes the request slow, and some of it does not need to be there.
+        So move it elsewhere - but now the caller does not know whether it happened.
+        And the worker can die mid-execution, so the work must be retryable.
+        Retryable means it may run twice, so handlers must be idempotent.
+        ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: >
+        Overlap with an existing topic, a reason it might be two topics rather than one, or a claim
+        you would like checked.

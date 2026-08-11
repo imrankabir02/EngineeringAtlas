@@ -1,0 +1,70 @@
+schema: registry/v1
+domain: frontend
+
+topics:
+  - id: html-css-fundamentals
+    title: HTML and CSS fundamentals
+    level: 1
+    status: planned
+    summary: >
+      Structure and presentation: semantic markup, the box model, the cascade and
+      specificity, flexbox and grid, and responsive layout. Learned as a
+      declarative layout system rather than as a list of properties.
+    prerequisites:
+      hard: [web-fundamentals]
+
+  - id: dom-and-browser
+    title: The DOM and the browser
+    level: 2
+    status: planned
+    summary: >
+      What the browser does with your page: parsing, the DOM tree, the event loop
+      and task queues, layout, paint and compositing, and why direct DOM
+      manipulation stops scaling as state grows.
+    prerequisites:
+      hard: [html-css-fundamentals, programming-fundamentals]
+
+  - id: accessibility
+    title: Accessibility
+    level: 2
+    status: planned
+    summary: >
+      Interfaces that work for people using screen readers, keyboards, and
+      magnification: semantics first, ARIA only when semantics run out, focus
+      management, contrast, and testing with the tools users actually use.
+    prerequisites:
+      hard: [html-css-fundamentals]
+
+  - id: frontend-frameworks
+    title: Frontend frameworks
+    level: 2
+    status: planned
+    summary: >
+      UI as a function of state: components, one-way data flow, reconciliation and
+      what it costs, list identity, and the differences between virtual-DOM,
+      compiled and signal-based approaches to the same problem.
+    prerequisites:
+      hard: [dom-and-browser]
+
+  - id: frontend-state-management
+    title: Frontend state management
+    level: 3
+    status: planned
+    summary: >
+      Deciding where state lives: local versus lifted versus global, server state
+      as a cache with all the invalidation problems that implies, derived state,
+      forms, and optimistic updates that must be undoable.
+    prerequisites:
+      hard: [frontend-frameworks]
+      soft: [caching]
+
+  - id: frontend-performance
+    title: Frontend performance
+    level: 3
+    status: planned
+    summary: >
+      Making pages fast on real devices and networks: the critical rendering path,
+      bundle size and code splitting, image strategy, rendering strategy
+      (client, server, static, streaming), and measuring on hardware users own.
+    prerequisites:
+      hard: [frontend-frameworks, http]

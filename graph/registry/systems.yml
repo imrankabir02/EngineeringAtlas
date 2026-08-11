@@ -1,0 +1,71 @@
+schema: registry/v1
+domain: systems
+
+topics:
+  - id: linux-fundamentals
+    title: Linux fundamentals
+    level: 1
+    status: planned
+    summary: >
+      Operating a Unix-like system with intent: the filesystem hierarchy,
+      permissions and ownership, processes and signals, pipes and text tools,
+      package managers, and working over SSH.
+    prerequisites:
+      hard: [command-line-basics]
+
+  - id: linux-administration
+    title: Linux administration
+    level: 2
+    status: planned
+    summary: >
+      Keeping a machine running: users and groups, systemd units, logs and
+      journald, cron and timers, disks and mounts, networking configuration, and
+      diagnosing a box you did not set up.
+    prerequisites:
+      hard: [linux-fundamentals]
+
+  - id: operating-systems-fundamentals
+    title: Operating systems
+    level: 3
+    status: planned
+    summary: >
+      The mechanisms your program depends on and rarely sees: processes and
+      threads, virtual memory and paging, the page cache, syscalls, file
+      descriptors, and interrupts. Explains most surprising performance.
+    prerequisites:
+      hard: [computer-basics, programming-fundamentals]
+      soft: [linux-fundamentals]
+
+  - id: processes-and-scheduling
+    title: Processes and scheduling
+    level: 3
+    status: planned
+    summary: >
+      How the kernel decides what runs: process states, context switches, CFS and
+      priorities, cgroups and resource limits, and reading load average, run
+      queues and CPU steal without misinterpreting them.
+    prerequisites:
+      hard: [operating-systems-fundamentals]
+
+  - id: filesystems-and-storage
+    title: Filesystems and storage
+    level: 3
+    status: planned
+    summary: >
+      What happens between write() and the data being durable: inodes, journals,
+      page cache and fsync, block devices, SSD behaviour and write amplification,
+      RAID, and the difference between a backup and a tested restore.
+    prerequisites:
+      hard: [operating-systems-fundamentals]
+
+  - id: systems-programming
+    title: Systems programming
+    level: 4
+    status: planned
+    summary: >
+      Writing programs against the kernel interface: syscalls directly, epoll and
+      io_uring, memory mapping, zero-copy techniques, shared memory, and the cost
+      of crossing the user-kernel boundary.
+    prerequisites:
+      hard: [operating-systems-fundamentals, memory-management]
+      soft: [concurrency-and-parallelism]

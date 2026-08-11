@@ -1,0 +1,212 @@
+schema: path/v1
+id: python-backend
+title: Python backend engineer
+audience: >
+  Someone who can write and debug small Python programs and wants to build and operate
+  production Python services. The reference stack path: it shows how a language-specific route
+  is expressed as emphasis over shared topics rather than as duplicated content.
+entry_level: 1
+exit_level: 4
+prerequisite_paths: [absolute-beginner]
+
+steps:
+  # ---- Phase 1: Python properly (Level 1-2)
+  - topic: error-handling
+    emphasis: >
+      Python's exception hierarchy, custom exception types, and the context-manager protocol.
+      Use `with` for anything holding a resource; `try/finally` by hand is a smell.
+
+  - topic: debugging-fundamentals
+    emphasis: >
+      `breakpoint()` and pdb, then your editor's debugger. Learn to read a Python traceback
+      bottom-up and find the first frame you wrote.
+
+  - topic: type-systems
+    emphasis: >
+      Type hints plus mypy or pyright. Python's hints are optional and gradual, which means
+      you get to see exactly what static checking catches - add them to an existing project and
+      count the real bugs found.
+
+  - topic: object-oriented-programming
+    emphasis: >
+      `dataclasses` for data, `Protocol` for structural interfaces, and composition. Deep
+      inheritance hierarchies are rarer in Python than in Java because duck typing removes the
+      reason for most of them. Dunder methods are the language's real interface system.
+
+  - topic: functional-programming
+    emphasis: >
+      Comprehensions, generators, and `itertools`. Generators are the idiomatic way to process
+      data larger than memory, and they are lazily evaluated - which surprises people once.
+
+  - topic: testing-fundamentals
+    emphasis: >
+      pytest: fixtures, `parametrize`, and `monkeypatch`. The main judgment call is what not to
+      mock - mocking what you do not own makes tests that pass while production breaks.
+
+  - topic: package-management
+    emphasis: >
+      Virtual environments, `pyproject.toml`, and a lockfile. uv or Poetry over bare pip for
+      anything real. Understand why the packaging story is fragmented; the history explains the
+      tooling.
+
+  - topic: clean-code
+    emphasis: >
+      PEP 8 via a formatter (ruff or black) so style stops being a discussion. Then spend the
+      attention on naming and function size, which formatters cannot fix.
+
+  - milestone: >
+      You can build a tested, typed, installable Python package with a CLI, and you can explain
+      what your type checker caught that your tests would not have.
+
+  # ---- Phase 2: the web and data layer (Level 2)
+  - topic: linux-fundamentals
+    emphasis: >
+      Your service will run here. Permissions, processes, signals, and reading logs over SSH.
+
+  - topic: networking-fundamentals
+  - topic: http
+    emphasis: >
+      Read RFC 9110 and 9111 sections rather than a framework tutorial. Every Python web
+      framework is a thin layer over these semantics.
+
+  - topic: tls-and-cryptography-basics
+
+  - topic: databases-introduction
+  - topic: sql
+    emphasis: >
+      Write SQL by hand before using an ORM. If you cannot read the query the ORM generated,
+      you cannot debug it - and you will need to.
+
+  - topic: relational-modeling
+    emphasis: >
+      Constraints belong in the database, not only in your models. A `NOT NULL` the database
+      enforces survives a buggy migration script; a validator in Python does not.
+
+  - topic: rest-apis
+    emphasis: >
+      FastAPI is the current default and pairs well with type hints, since Pydantic turns them
+      into runtime validation. Django REST Framework if you want the batteries. Either way the
+      resource modelling and status codes are the transferable part.
+
+  - topic: authentication-and-authorization
+    emphasis: >
+      Use the framework's implementation. Password hashing with argon2 or bcrypt via passlib,
+      never your own. Know why JWTs are awkward to revoke before choosing them over sessions.
+
+  - topic: backend-development
+    emphasis: >
+      Django for a large application with an admin and conventions; FastAPI for an API-first
+      service. Alembic or Django migrations, structured logging, and settings from the
+      environment. Keep business rules out of your request handlers.
+
+  - topic: git-workflows
+
+  - milestone: >
+      You have deployed a Python service with a real database, migrations, authentication, and
+      a test suite you rely on when refactoring. You can read the SQL your ORM emits.
+
+  # ---- Phase 3: making it survive reality (Level 3)
+  - topic: data-structures
+    emphasis: >
+      Know what `dict`, `list`, and `set` cost, and that `collections` has `deque`, `Counter`,
+      and `defaultdict`. Also know that a Python integer is an object with ~28 bytes of
+      overhead, which is why numeric work uses NumPy.
+    projects: [ds-from-scratch]
+
+  - topic: complexity-analysis
+
+  - topic: operating-systems-fundamentals
+    emphasis: >
+      Needed to understand what the GIL is actually about, and why a process is sometimes the
+      right unit of parallelism in Python where a thread would be elsewhere.
+
+  - topic: concurrency-and-parallelism
+    emphasis: >
+      The GIL means threads do not give you CPU parallelism but do give you I/O concurrency.
+      Use `multiprocessing` or a worker process pool for CPU-bound work. Watch the free-threaded
+      builds, and do not architect around them yet.
+
+  - topic: async-programming
+    emphasis: >
+      asyncio, and the rule that matters: one blocking call in an async handler stalls the whole
+      event loop. Know which of your libraries are async-native and which need a thread pool.
+      Do not make everything async by default - it is a real complexity cost.
+
+  - topic: transactions-and-isolation
+    emphasis: >
+      Know your framework's default transaction boundary - Django wraps a request in one only if
+      you ask - and check your database's default isolation level rather than assuming it.
+
+  - topic: indexing-and-query-optimization
+    emphasis: >
+      Read the execution plan, not the ORM. The N+1 query is the characteristic Python-web
+      performance bug; learn your ORM's eager-loading mechanism early.
+
+  - topic: caching
+    emphasis: >
+      `functools.lru_cache` for in-process, Redis for shared. Cause a stampede yourself before
+      trusting anything you read about caching.
+    projects: [in-memory-cache, url-shortener]
+
+  - topic: background-jobs-and-queues
+    emphasis: >
+      Celery is the incumbent and is operationally heavy; RQ or Dramatiq are simpler; a database
+      table plus a worker loop is a legitimate answer for low volume. Idempotent handlers matter
+      more than which library you chose.
+
+  - topic: test-strategy
+  - topic: software-design-principles
+  - topic: software-architecture
+
+  - milestone: >
+      Your service handles concurrent load, has a measured performance profile, and you can
+      explain the GIL's consequences for your architecture rather than repeating that it exists.
+
+  # ---- Phase 4: operating it (Level 3-4)
+  - topic: processes-and-scheduling
+  - topic: containers-and-docker
+    emphasis: >
+      Multi-stage builds, a non-root user, and pinned dependencies. Know why the naive Python
+      image is 1 GB and how to get it to 100 MB.
+
+  - topic: ci-cd
+    emphasis: >
+      Lint, type-check, test, build, deploy, with a rollback you have actually tested. Run the
+      type checker in CI or it will stop being true.
+
+  - topic: linux-administration
+  - topic: cloud-fundamentals
+  - topic: infrastructure-as-code
+
+  - topic: observability
+    emphasis: >
+      Structured logging over print, OpenTelemetry for traces, and metrics with bounded
+      cardinality. A trace through an async service is worth more than any amount of logging.
+
+  - topic: security-fundamentals
+  - topic: application-security
+    emphasis: >
+      The ORM protects you from SQL injection only while you use it correctly - raw queries with
+      f-strings undo it. Also: dependency risk, and never `pickle` untrusted data.
+
+  - topic: distributed-systems-fundamentals
+  - topic: message-queues-and-streaming
+  - topic: partitioning-and-sharding
+  - topic: system-design-fundamentals
+  - topic: performance-engineering
+    emphasis: >
+      py-spy for production profiling without restarting, cProfile for development, and
+      memray for memory. Measure before optimising; Python's slow parts are rarely where you
+      guess.
+
+  - topic: kubernetes
+    emphasis: >
+      Learn it if you operate it. Be able to say when a single machine with systemd would have
+      been the better answer - for many Python services it is.
+
+  - topic: large-scale-system-design
+
+  - milestone: >
+      You are accountable for a Python service in production: you can size it, cost it, debug it
+      from its telemetry, and state what you sacrificed in its design. Level 4. Continue with
+      docs/levels.md rather than another framework.

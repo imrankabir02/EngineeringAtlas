@@ -1,0 +1,67 @@
+schema: project/v1
+id: cli-calculator
+title: Expression calculator
+level: 1
+
+summary: >
+  A command-line calculator that evaluates real expressions with operator
+  precedence and parentheses, built without an eval function. The parser is the
+  project; arithmetic is incidental.
+
+validates:
+  - Can decompose a problem into stages with clear interfaces between them.
+  - Can implement recursion where recursion is the natural fit, and reason about its base case.
+  - Can treat malformed input as an expected case rather than a crash.
+  - Can write tests that pin behaviour, including the error cases.
+
+topics: [programming-fundamentals, error-handling, debugging-fundamentals]
+
+constraints:
+  - No eval, exec, or any built-in expression evaluator. That function is the entire assignment.
+  - No parser library, no regular-expression-only shortcut for the grammar.
+  - Every error must produce a message naming the position in the input, not a stack trace.
+  - The program must never crash on any input, including empty input and 10,000 characters of garbage.
+
+stages:
+  - name: Tokenise
+    goal: Turn a string into a list of tokens.
+    done_when:
+      - Tokenising '1 + 2*3' produces number, operator, number, operator, number.
+      - Multi-digit and decimal numbers tokenise as single tokens.
+      - Unknown characters produce an error naming the offending position.
+      - Tests cover empty input, only whitespace, and a lone operator.
+
+  - name: Parse and evaluate
+    goal: Respect precedence and parentheses.
+    done_when:
+      - 2 + 3 * 4 evaluates to 14, not 20.
+      - (2 + 3) * 4 evaluates to 20.
+      - Unary minus works, including -(-3) and 2 * -3.
+      - Right-associativity is correct if you implement exponentiation.
+      - Unbalanced parentheses produce a positioned error rather than a wrong answer.
+
+  - name: Harden
+    goal: Behave correctly on hostile input and edge cases.
+    done_when:
+      - Division by zero is reported as an error, not a crash or an infinity.
+      - A deeply nested expression fails with a clear message rather than a stack overflow.
+      - A test suite covers at least 20 cases, of which at least 8 are error cases.
+      - Running the program with no arguments prints usage rather than failing.
+
+break_it:
+  - Feed it 5,000 nested opening parentheses. Whatever happens, explain the mechanism and then handle it deliberately.
+  - Feed it a 1 MB single expression. Find out what gets slow and why.
+  - Feed it every one-character input including punctuation and non-ASCII. Every one must produce a message, never a traceback.
+  - Feed it "1 +++ 2" and "1 2 3" - both are invalid, and the error messages should differ usefully.
+
+anti_patterns:
+  - Reaching for eval. It makes the program work and teaches nothing.
+  - One 200-line function. The three stages exist so that each has a testable boundary.
+  - Returning a sentinel value such as -1 or 0 for errors, which the caller cannot distinguish from a result.
+  - Catching every exception and printing "invalid input". The position and the reason are the useful part.
+
+stretch:
+  - Add variables and assignment, which requires state that survives between lines.
+  - Add functions such as sqrt and min, which requires a different grammar rule.
+  - Print the parse tree with a flag, then use it to explain a precedence bug to someone else.
+  - Rewrite the parser using a different technique (recursive descent versus shunting-yard) and compare what each makes easy.

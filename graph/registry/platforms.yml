@@ -1,0 +1,50 @@
+schema: registry/v1
+domain: platforms
+
+# One shelf until any single platform exceeds roughly 25 topics, at which point it
+# earns its own domain. See ../../docs/architecture.md section 2.
+
+topics:
+  - id: mobile-development
+    title: Mobile development
+    level: 2
+    status: planned
+    summary: >
+      Building for a device you do not control: lifecycle and constrained memory,
+      offline-first data and sync, battery and network cost, platform UI
+      conventions, store release cycles, and native versus cross-platform.
+    prerequisites:
+      hard: [programming-fundamentals, rest-apis]
+
+  - id: desktop-development
+    title: Desktop development
+    level: 2
+    status: planned
+    summary: >
+      Applications that run on the user's machine: windowing and event loops, local
+      state and files, packaging and code signing per OS, auto-update, and the
+      trade-off between native toolkits and web-based shells.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: embedded-systems
+    title: Embedded systems
+    level: 3
+    status: planned
+    summary: >
+      Programming where resources are fixed and there may be no OS: microcontrollers,
+      registers and peripherals, interrupts, real-time constraints, no dynamic
+      allocation, cross-compilation, and debugging with a logic analyser.
+    prerequisites:
+      hard: [memory-management, operating-systems-fundamentals]
+
+  - id: game-development
+    title: Game development
+    level: 3
+    status: planned
+    summary: >
+      Software with a hard frame budget: the game loop, fixed versus variable
+      timestep, entity-component design, data-oriented layout for cache locality,
+      rendering pipelines, physics, and netcode with prediction and rollback.
+    prerequisites:
+      hard: [programming-fundamentals, data-structures, memory-management]

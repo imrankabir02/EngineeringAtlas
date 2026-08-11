@@ -1,0 +1,92 @@
+schema: registry/v1
+domain: databases
+
+topics:
+  - id: databases-introduction
+    title: Introduction to databases
+    level: 1
+    status: planned
+    summary: >
+      Why a file is not enough: persistence, concurrent access, querying,
+      integrity, and crash safety. Establishes what a database gives you before
+      any product or query language is introduced.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: sql
+    title: SQL
+    level: 2
+    status: planned
+    summary: >
+      Describing what you want rather than how to get it: selection, joins,
+      aggregation, grouping, subqueries, window functions, and NULL semantics -
+      which are the source of most incorrect query results.
+    prerequisites:
+      hard: [databases-introduction]
+
+  - id: relational-modeling
+    title: Relational modelling
+    level: 2
+    status: planned
+    summary: >
+      Designing a schema that keeps data correct by construction: keys,
+      relationships, normal forms and when to deliberately denormalise,
+      constraints as enforced invariants, and choosing types honestly.
+    prerequisites:
+      hard: [sql]
+
+  - id: transactions-and-isolation
+    title: Transactions and isolation
+    level: 3
+    status: planned
+    summary: >
+      What ACID actually promises: atomicity and durability mechanisms, the
+      isolation levels and the specific anomalies each one permits, MVCC,
+      deadlocks, and why "serializable" is rarely your default.
+    prerequisites:
+      hard: [sql, concurrency-and-parallelism]
+
+  - id: indexing-and-query-optimization
+    title: Indexing and query optimisation
+    level: 3
+    status: planned
+    summary: >
+      Making queries fast on purpose: B-tree and hash indexes, composite index
+      column order, covering indexes, selectivity and statistics, reading
+      execution plans, and why the planner sometimes correctly ignores your index.
+    prerequisites:
+      hard: [sql, data-structures]
+
+  - id: nosql-data-models
+    title: NoSQL data models
+    level: 3
+    status: planned
+    summary: >
+      Document, key-value, wide-column and graph stores: what each model makes
+      cheap, what it makes impossible, and precisely which guarantee you traded
+      away to get it. Choosing by data access pattern, not by popularity.
+    prerequisites:
+      hard: [relational-modeling]
+      soft: [distributed-systems-fundamentals]
+
+  - id: database-internals
+    title: Database internals
+    level: 4
+    status: planned
+    summary: >
+      How a database is built: storage engines, B-trees versus LSM trees, buffer
+      pools, write-ahead logging, checkpointing, and the query planner - read this
+      to stop guessing about performance and start predicting it.
+    prerequisites:
+      hard: [indexing-and-query-optimization, transactions-and-isolation, filesystems-and-storage]
+
+  - id: distributed-databases
+    title: Distributed databases
+    level: 4
+    status: planned
+    summary: >
+      Databases across machines: replication topologies, quorums, leader election,
+      sharding and rebalancing, cross-shard queries, distributed transactions and
+      their real cost, and read-your-writes as a product requirement.
+    prerequisites:
+      hard: [database-internals, replication-and-consistency]

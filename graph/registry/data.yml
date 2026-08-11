@@ -1,0 +1,69 @@
+schema: registry/v1
+domain: data
+
+topics:
+  - id: statistics-for-engineers
+    title: Statistics for engineers
+    level: 2
+    status: planned
+    summary: >
+      Enough statistics to avoid fooling yourself: distributions, percentiles,
+      variance, sampling, confidence intervals, correlation versus causation, and
+      why a mean latency figure hides exactly what users notice.
+    prerequisites:
+      hard: [discrete-math-for-engineers]
+
+  - id: data-engineering-fundamentals
+    title: Data engineering fundamentals
+    level: 3
+    status: planned
+    summary: >
+      Moving data reliably: ingestion, ELT versus ETL, idempotent and replayable
+      pipelines, schema evolution, partitioning, orchestration and backfills, and
+      data quality checks that fail loudly.
+    prerequisites:
+      hard: [sql, programming-fundamentals]
+
+  - id: data-modeling-analytics
+    title: Analytical data modelling
+    level: 3
+    status: planned
+    summary: >
+      Modelling for questions rather than transactions: facts and dimensions, star
+      schemas, slowly changing dimensions, grain, and why the analytical model
+      differs from the operational one on purpose.
+    prerequisites:
+      hard: [relational-modeling]
+
+  - id: data-warehousing
+    title: Data warehousing and lakehouses
+    level: 3
+    status: planned
+    summary: >
+      Storage and compute for analytics: columnar formats, compression, partition
+      pruning, separation of storage and compute, table formats such as Iceberg and
+      Delta, and cost control on query engines that bill per byte scanned.
+    prerequisites:
+      hard: [data-modeling-analytics]
+
+  - id: data-science-fundamentals
+    title: Data science fundamentals
+    level: 3
+    status: planned
+    summary: >
+      Extracting defensible conclusions from data: exploratory analysis, cleaning
+      and its judgment calls, feature construction, visualisation that does not
+      mislead, hypothesis testing, and experiment design.
+    prerequisites:
+      hard: [statistics-for-engineers, programming-fundamentals]
+
+  - id: batch-and-stream-processing
+    title: Batch and stream processing
+    level: 4
+    status: planned
+    summary: >
+      Computing over large or unbounded data: partitioned batch execution, shuffles
+      and skew, windowing, event time versus processing time, watermarks, late data,
+      and checkpointing for exactly-once effects.
+    prerequisites:
+      hard: [data-engineering-fundamentals, message-queues-and-streaming]

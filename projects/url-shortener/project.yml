@@ -1,0 +1,87 @@
+schema: project/v1
+id: url-shortener
+title: URL shortener
+level: 3
+
+summary: >
+  A complete read-heavy service: ID generation, redirect handling, caching, analytics,
+  rate limiting, and a load test that finds its saturation point. Small enough to
+  finish, realistic enough to have every interesting problem.
+
+validates:
+  - Can design a read-heavy system and justify each component against a measured requirement.
+  - Can choose an ID generation strategy and defend it against the alternatives on collision, guessability, and coordination cost.
+  - Can place a cache correctly and demonstrate its effect with numbers.
+  - Can find a system's saturation point by load testing rather than by estimating.
+  - Can implement counting under concurrency without losing writes.
+
+topics: [caching, backend-development, rest-apis, system-design-fundamentals]
+
+constraints:
+  - Must persist to a real database. An in-process map is not a data layer.
+  - The redirect path must be measured end to end, with percentiles, under concurrent load.
+  - ID generation strategy must be chosen deliberately and the reasoning written down.
+  - Click counting must not lose events under concurrent load, and you must prove it with a test.
+  - Rate limiting must be implemented, and you must show it rejecting traffic correctly.
+
+stages:
+  - name: Working
+    goal: Shorten and redirect, persisted.
+    done_when:
+      - POST accepts a URL and returns a short code; GET on the code issues a redirect.
+      - Data survives a process restart.
+      - Invalid and hostile URLs are rejected with useful errors, including non-http schemes.
+      - The redirect uses a deliberately chosen status code and you can explain why that one.
+
+  - name: Identified
+    goal: An ID strategy you can defend.
+    done_when:
+      - You compared at least three strategies in writing - sequential encoded, random, and hash-of-URL.
+      - Collision behaviour is handled explicitly, not assumed away.
+      - You can state whether codes are guessable and whether that matters for your threat model.
+      - A test inserts 100,000 codes and confirms no collisions or correct collision handling.
+
+  - name: Fast
+    goal: Caching, measured.
+    done_when:
+      - Redirect lookups are cached and hit ratio is reported.
+      - You measured p50/p95/p99 for the redirect path with the cache enabled and disabled.
+      - Cache invalidation on update or deletion is implemented and tested.
+      - You can explain why this workload is a good caching candidate using its read/write ratio.
+
+  - name: Counted
+    goal: Analytics that do not lose data or slow the redirect.
+    done_when:
+      - Click counts are correct under 1,000 concurrent requests, verified by a test.
+      - Counting does not add measurable latency to the redirect path, and you have the numbers.
+      - You can explain the trade-off you accepted between accuracy and latency.
+
+  - name: Defended
+    goal: Behave correctly under abuse and overload.
+    done_when:
+      - Rate limiting rejects excess requests with the correct status and headers.
+      - A load test finds the saturation point, and you can name which resource saturated.
+      - Behaviour past saturation is deliberate - shedding load rather than collapsing.
+
+break_it:
+  - Load test until latency degrades, then identify the saturating resource. Predict it first.
+  - Stop the database while serving traffic. Decide what the service should do and make it do that.
+  - Stop the cache while serving traffic and measure the latency step and the database load.
+  - Fire 1,000 concurrent redirects for the same code and verify the click count is exactly 1,000.
+  - Submit a URL pointing at your own service to create a redirect loop, and a URL pointing at an internal address to test for SSRF.
+  - Submit a 100,000-character URL, and a code that does not exist, 10,000 times.
+
+anti_patterns:
+  - Storing links in a process-local map, which removes persistence, concurrency, and every interesting problem.
+  - Using an auto-increment ID directly in the URL without considering enumeration.
+  - Incrementing a click counter with read-modify-write in application code, which loses events under concurrency.
+  - Adding a cache without measuring the before and after.
+  - Load testing from the same machine as the service and drawing conclusions about the service.
+  - Reporting "it handles 10,000 requests per second" without stating the latency at that rate.
+
+stretch:
+  - Add custom aliases and reason about the reserved-word and squatting problems.
+  - Add expiring links and decide how expiry interacts with the cache.
+  - Add per-user accounts and make the analytics query efficient with an appropriate index, verified by an execution plan.
+  - Shard the storage by code prefix and measure what breaks.
+  - Serve redirects from two instances behind a load balancer and find every piece of state that stopped working.

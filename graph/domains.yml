@@ -1,0 +1,121 @@
+schema: domains/v1
+
+# Domains are storage shelves, not taxonomy. A topic's domain is where the file
+# lives so that humans can browse; it is never the topic's definition. Moving a
+# topic between domains is a cheap, non-breaking operation because everything
+# references topics by id.
+#
+# Adding a domain requires justification in the pull request. The threshold: an
+# existing shelf would otherwise hold more than roughly 25 topics.
+# See ../docs/architecture.md section 2.
+
+domains:
+  - id: foundations
+    title: Foundations
+    description: >
+      How computers work, before any programming. Level 0 only. The goal of this
+      shelf is that the machine stops being magic.
+
+  - id: programming
+    title: Programming
+    description: >
+      Language-agnostic programming concepts: values, control flow, abstraction,
+      concurrency, memory. Specific languages are paths, not topics.
+
+  - id: computer-science
+    title: Computer Science
+    description: >
+      Theory that predicts behaviour: data structures, algorithms, complexity,
+      computability, information. Excludes systems topics, which have their own
+      shelves.
+
+  - id: software-engineering
+    title: Software Engineering
+    description: >
+      Building software with other people, over time: version control, testing,
+      design, review, refactoring, architecture.
+
+  - id: systems
+    title: Systems and Operating Systems
+    description: >
+      What runs beneath your program: processes, scheduling, virtual memory,
+      filesystems, syscalls, and Linux as the concrete instance.
+
+  - id: networking
+    title: Networking
+    description: >
+      Getting bytes between machines correctly: addressing, DNS, TCP/IP, TLS,
+      HTTP, and network performance.
+
+  - id: databases
+    title: Databases
+    description: >
+      Storing data so it survives, stays correct, and can be queried: the
+      relational model, SQL, transactions, indexing, internals, NoSQL.
+
+  - id: backend
+    title: Backend
+    description: >
+      Server-side application engineering: APIs, authentication, jobs, caching,
+      queues, and service decomposition.
+
+  - id: frontend
+    title: Frontend
+    description: >
+      Building interfaces that run in a browser: markup and layout, the DOM,
+      component models, state, accessibility, and client-side performance.
+
+  - id: distributed-systems
+    title: Distributed Systems
+    description: >
+      What changes when more than one machine must agree: partial failure,
+      replication, consistency, consensus, partitioning, fault tolerance.
+
+  - id: system-design
+    title: System Design
+    description: >
+      Composing components into a system that meets requirements under
+      constraints, and defending the trade-offs you made.
+
+  - id: devops
+    title: DevOps and Operations
+    description: >
+      Running software: containers, pipelines, infrastructure as code,
+      observability, reliability, incidents, performance, cost.
+
+  - id: cloud
+    title: Cloud
+    description: >
+      Renting infrastructure: compute, storage, networking and identity
+      primitives, managed services, and architecting within a provider.
+
+  - id: security
+    title: Security
+    description: >
+      Keeping systems working when someone is trying to break them: threat
+      models, application security, cryptography in practice, supply chain.
+
+  - id: data
+    title: Data Engineering and Analytics
+    description: >
+      Moving and shaping data for analysis: pipelines, modelling, warehousing,
+      batch and stream processing, statistics.
+
+  - id: ai-ml
+    title: AI and Machine Learning
+    description: >
+      Learning functions from data, evaluating them honestly, and operating them
+      in production.
+
+  - id: platforms
+    title: Platforms
+    description: >
+      Targets with their own constraints: mobile, embedded, desktop, games.
+      Shared as one shelf until any one of them exceeds ~25 topics.
+
+  - id: mastery
+    title: Mastery and Research
+    description: >
+      The Level 4-5 meta-skills that no single technology contains: reading
+      source code and papers, designing experiments, building abstractions,
+      open source, mentoring, leadership, research.

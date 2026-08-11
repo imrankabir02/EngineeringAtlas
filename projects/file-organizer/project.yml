@@ -1,0 +1,68 @@
+schema: project/v1
+id: file-organizer
+title: File organiser
+level: 1
+
+summary: >
+  A tool that reorganises a directory of files according to rules you define, with a
+  dry-run mode, collision handling, and a log good enough to undo the operation. The
+  first project where being wrong destroys data.
+
+validates:
+  - Can write a program that interacts with a messy external world rather than only with its own data.
+  - Can enumerate failure cases before writing the code that must survive them.
+  - Can design for reversibility, because the operation is destructive.
+  - Can separate deciding what to do from doing it, and can demonstrate why that separation matters.
+
+topics: [programming-fundamentals, error-handling, files-and-directories]
+
+constraints:
+  - Dry-run must be the default. Making a change requires an explicit flag.
+  - Never overwrite an existing file silently. Every collision is resolved by a stated policy.
+  - Every action taken must be written to a log with enough detail to reverse it.
+  - Must handle names with spaces, quotes, newlines, unicode, and leading dashes.
+  - Must not follow symbolic links out of the target directory.
+
+stages:
+  - name: Plan
+    goal: Produce the list of intended moves without touching anything.
+    done_when:
+      - Running with no flags prints the planned moves and changes nothing on disk.
+      - The plan is a data structure your code can inspect, not printed text.
+      - Rules are data (extension to destination), not conditionals scattered through the code.
+      - A file matching no rule is reported explicitly rather than skipped silently.
+
+  - name: Execute
+    goal: Apply the plan safely.
+    done_when:
+      - A move happens only with an explicit --apply flag.
+      - Collisions are resolved by a documented policy and never by silent overwrite.
+      - Each completed action is appended to a log file before the next begins.
+      - Interrupting the program mid-run leaves the log consistent with what is on disk.
+
+  - name: Reverse
+    goal: Undo a run from its log.
+    done_when:
+      - An --undo mode restores files to their original locations using only the log.
+      - Undo is itself dry-run by default.
+      - Undo detects that a file has been modified or removed since the run and refuses rather than guessing.
+
+break_it:
+  - Create files named "a b.txt", "-rf.txt", "quote'.txt", one with a newline in the name, and one with an emoji. Run against them.
+  - Point it at a directory where you lack write permission. It must report which file failed and stop, not fail halfway silently.
+  - Create two files in different subdirectories with the same name that both map to the same destination.
+  - Kill the process mid-run with a large number of files. Then run --undo and verify the result.
+  - Make a symlink inside the target directory pointing at your home directory. Confirm the tool does not follow it.
+
+anti_patterns:
+  - Applying changes by default. A destructive default is the bug, regardless of how careful the code is.
+  - Building the destination path with string concatenation instead of the path API. This is where the space-in-filename bug lives.
+  - Deciding and acting in the same loop, which makes dry-run impossible to implement faithfully.
+  - Logging after the action rather than treating the log as the record of intent and completion.
+  - Catching an exception per file and continuing silently, so a run half-succeeds and nobody knows.
+
+stretch:
+  - Add rules based on file content rather than extension, by reading magic bytes.
+  - Add a duplicate detector using a content hash, and decide what a duplicate means when timestamps differ.
+  - "Make it resumable: interrupt a run of 100,000 files and continue from the log."
+  - Compare the wall-clock cost of hashing every file versus checking size first, and report the numbers.

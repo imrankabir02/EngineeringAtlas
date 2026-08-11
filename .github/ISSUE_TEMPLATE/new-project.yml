@@ -1,0 +1,121 @@
+name: Propose a project
+description: Suggest a project, or claim one from the ladder to specify
+title: "[project] "
+labels: [project]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check [projects/ladder.md](../blob/main/projects/ladder.md) first — most plausible projects are
+        already there as design briefs, each with what it validates and why it exists. Promoting one to
+        a full specification is usually more valuable than adding a new brief.
+
+        The bar is in [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md#specifying-a-project). The most
+        commonly failed test is **"not a tutorial"**: a project specification is a requirements
+        document. If a reader could follow it to a working system without making a decision, it is a
+        walkthrough and the learner gets typing practice instead of judgment.
+
+  - type: dropdown
+    id: intent
+    attributes:
+      label: What are you doing
+      options:
+        - Claiming a project from the ladder to specify
+        - Proposing a new project for the ladder
+    validations:
+      required: true
+
+  - type: input
+    id: project-id
+    attributes:
+      label: Project ID
+      placeholder: distributed-task-queue
+    validations:
+      required: true
+
+  - type: dropdown
+    id: level
+    attributes:
+      label: Level
+      description: The level of the learner who should attempt it.
+      options: ["0", "1", "2", "3", "4", "5"]
+    validations:
+      required: true
+
+  - type: textarea
+    id: topics
+    attributes:
+      label: Topics it validates
+      description: Existing topic IDs, one per line.
+      placeholder: |
+        background-jobs-and-queues
+        distributed-systems-fundamentals
+    validations:
+      required: true
+
+  - type: textarea
+    id: validates
+    attributes:
+      label: Competencies it validates
+      description: >
+        **The field that justifies the project's existence.** Competency statements beginning "Can …",
+        not features.
+
+        Weak: "Builds a task queue."
+        Strong: "Can demonstrate that a worker dying mid-execution results in the job being
+        completed exactly once from the caller's perspective, and explain the mechanism."
+
+        If you cannot write three of these, the project is not ready to propose.
+      placeholder: |
+        Can design an idempotent job handler and prove a duplicated delivery causes no double effect.
+        Can explain what happens to in-flight work when a worker is killed, from a test they wrote.
+        Can measure queue depth and consumer lag, and say what each one rising means.
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: >
+        What makes it educational rather than assembly work. At least one, and state the reason inside
+        the constraint so it does not read as arbitrary difficulty.
+
+        The best constraints forbid the shortcut that would skip the lesson — "no `eval`, the parser is
+        the assignment"; "no third-party cache library, the eviction is the assignment".
+      placeholder: |
+        No existing queue library for the broker itself. The delivery semantics are the assignment.
+        Workers must be killable at any point, and you must show the system recovers.
+    validations:
+      required: true
+
+  - type: textarea
+    id: break-it
+    attributes:
+      label: How the learner will break it
+      description: >
+        Failures they must cause deliberately. This is the section that separates a project from an
+        exercise — see [the standard breakages](../blob/main/docs/competency-gates.md).
+      placeholder: |
+        Kill a worker mid-job. Predict what happens to the job first, then find out.
+        Make the handler fail every time and watch what the retry policy does to the queue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: not-a-tutorial
+    attributes:
+      label: Why this is not a tutorial
+      description: >
+        What decisions does the learner have to make themselves? Name at least two where a reasonable
+        person could choose differently.
+    validations:
+      required: true
+
+  - type: input
+    id: effort
+    attributes:
+      label: Realistic effort for the core stages
+      placeholder: 2-3 weeks part-time
+    validations:
+      required: true

@@ -1,0 +1,68 @@
+schema: project/v1
+id: machine-anatomy
+title: Anatomy of your own machine
+level: 0
+
+summary: >
+  Investigate the computer in front of you until you can draw it: what hardware is
+  present, how fast each storage layer is, what is running, and where a program's
+  bytes live. Produces a written report rather than code.
+
+validates:
+  - Can name the components of a real machine and state each one's role and rough speed.
+  - Can measure rather than assume - has personally observed the memory/disk gap.
+  - Can read a process list and explain what a process is.
+  - Can navigate a filesystem and inspect a file's actual bytes from a terminal.
+
+topics: [computer-basics]
+
+constraints:
+  - Use your own machine, not a specification sheet you found online. The numbers must be yours.
+  - No programming required. Terminal commands and a text editor only.
+  - Every number in your report must come with the command that produced it.
+  - Write predictions down before each measurement. Comparing them is the point.
+
+stages:
+  - name: Inventory
+    goal: Establish what is physically present and what it is for.
+    done_when:
+      - You have recorded CPU model, core count, total RAM, and storage device type and size.
+      - For each, you have written one sentence on what it does and what it would mean to run out of it.
+      - You can state which components lose their contents when power is removed.
+
+  - name: Measure the hierarchy
+    goal: Observe the speed difference between memory and storage yourself.
+    done_when:
+      - You predicted, in writing, how long it takes to read 1 GB from RAM and from disk.
+      - You measured both and recorded the commands used.
+      - You can explain why the second read of the same file is faster than the first.
+      - Your report states the ratio you measured and how far your prediction was off.
+
+  - name: What is running
+    goal: See that a computer is running many programs at once.
+    done_when:
+      - You listed running processes and identified five, including one you did not start.
+      - You have recorded which process uses the most memory and which the most CPU.
+      - You started a program, found it in the process list, and stopped it deliberately.
+
+  - name: Where the bytes are
+    goal: Connect files as an abstraction to files as bytes.
+    done_when:
+      - You created a text file, found its size in bytes, and explained why that number and not another.
+      - You viewed its raw bytes and matched at least one byte to the character you typed.
+      - You explained why renaming the extension does not change the content.
+
+break_it:
+  - Fill a directory with a very large file until the disk is nearly full, then try to save something. Record the error, then delete the file. Do this on a scratch directory only.
+  - Start a program that consumes memory steadily and watch what the system does as memory runs out. Note what the OS does before it fails.
+  - Rename a text file to end in .png and try to open it in an image viewer. Explain the error using the difference between a convention and a fact.
+
+anti_patterns:
+  - Copying specifications from a manufacturer's website instead of measuring your machine.
+  - Recording numbers without predicting first, which removes the only calibration the project offers.
+  - Treating this as trivia collection. The goal is a mental model you will use for the next five levels.
+
+stretch:
+  - Time reading the same file three times, then explain the pattern using the words "page cache".
+  - "Draw the machine from memory: CPU, RAM, disk, and the paths data takes between them. Compare with your report."
+  - Find out how much of your RAM is currently used for caching files rather than by programs.

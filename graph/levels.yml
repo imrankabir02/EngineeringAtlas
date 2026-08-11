@@ -1,0 +1,61 @@
+schema: levels/v1
+
+# Levels are properties of topics, never directories. A level is defined by what
+# a learner can do unaided. Full definitions and the "you are here when" tests
+# are in ../docs/levels.md.
+
+levels:
+  - id: 0
+    name: Absolute Beginner
+    goal: The computer stops being magic.
+    test: >
+      Can navigate a filesystem and run a program from a terminal without a GUI,
+      and can explain why memory is fast and disks are slow.
+    dominant_axes: [knowledge]
+
+  - id: 1
+    name: Foundation
+    goal: You can make a computer do something you decided.
+    test: >
+      Can write a 200-500 line program from a blank file, solving a problem
+      nobody handed you a template for, and diagnose it yourself when it breaks.
+    dominant_axes: [knowledge, skill]
+
+  - id: 2
+    name: Intermediate
+    goal: You can build a correct application with more than one moving part.
+    test: >
+      Has designed, built, tested and deployed an application with a database, an
+      API and authentication, and can review a peer's pull request for design
+      rather than style.
+    dominant_axes: [knowledge, skill]
+
+  - id: 3
+    name: Advanced
+    goal: Your system survives contact with reality.
+    test: >
+      Has run something in production or an honest simulation of it, diagnosed a
+      performance problem with a profiler rather than a guess, and deliberately
+      broken their own system and fixed what that exposed.
+    dominant_axes: [skill, judgment]
+
+  - id: 4
+    name: Expert
+    goal: You can be accountable for a system.
+    test: >
+      Has designed a system others built that survived a predicted failure, can
+      size a system on paper to within an order of magnitude, and can state the
+      money, complexity and operational cost of their architectural choices.
+    dominant_axes: [judgment]
+
+  - id: 5
+    name: Guru
+    goal: You work correctly where no guidance exists, and raise others.
+    test: >
+      Other engineers' work is measurably better because of you: someone you
+      mentored, an abstraction people rely on, a diagnosis that saved a system,
+      or a design that held for years.
+    dominant_axes: [judgment, mastery]
+    note: >
+      Guru is not "knows more technologies". It has no exit criteria because
+      there is no next level, only the next problem.

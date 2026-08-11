@@ -1,0 +1,80 @@
+schema: registry/v1
+domain: computer-science
+
+topics:
+  - id: data-structures
+    title: Data structures
+    level: 2
+    status: published
+    dir: topics/computer-science/data-structures
+    summary: >
+      How data is arranged in memory and what that arrangement makes cheap or
+      expensive: arrays, linked lists, hash tables, trees, heaps, and graphs. The
+      topic that turns "it works" into "it works at scale".
+
+  - id: complexity-analysis
+    title: Complexity analysis
+    level: 2
+    status: planned
+    summary: >
+      Predicting how cost grows with input size: Big-O, amortised analysis, space
+      complexity, and the limits of the notation - constants, cache behaviour and
+      real input distributions all matter and none of them appear in O(n).
+    prerequisites:
+      hard: [programming-fundamentals]
+      soft: [discrete-math-for-engineers]
+
+  - id: algorithms
+    title: Algorithms
+    level: 2
+    status: planned
+    summary: >
+      Sorting, searching, traversal, recursion, divide and conquer, and greedy
+      methods - studied for the techniques they teach rather than as solutions to
+      memorise, since your standard library already has the implementations.
+    prerequisites:
+      hard: [data-structures, complexity-analysis]
+
+  - id: discrete-math-for-engineers
+    title: Discrete mathematics for engineers
+    level: 2
+    status: planned
+    summary: >
+      The mathematics that shows up in engineering rather than in exams: sets and
+      relations, logic and proof by induction, combinatorics, modular arithmetic,
+      and graph theory. Enough to read algorithm and systems papers.
+    prerequisites:
+      hard: [programming-fundamentals]
+
+  - id: advanced-algorithms
+    title: Advanced algorithms
+    level: 3
+    status: planned
+    summary: >
+      Graph algorithms, dynamic programming, string algorithms, and probabilistic
+      structures such as Bloom filters and HyperLogLog - chosen because each one
+      appears inside infrastructure you already use.
+    prerequisites:
+      hard: [algorithms]
+
+  - id: computation-theory
+    title: Theory of computation
+    level: 4
+    status: planned
+    summary: >
+      What computers cannot do: automata, decidability, halting, reductions, and
+      NP-completeness. The practical payoff is recognising when a problem is
+      intractable so you stop trying to solve it exactly.
+    prerequisites:
+      hard: [discrete-math-for-engineers, algorithms]
+
+  - id: information-theory
+    title: Information theory
+    level: 4
+    status: planned
+    summary: >
+      Entropy, coding, compression, and error detection and correction. Explains
+      the limits of compression, why hashing behaves the way it does, and how
+      networks and storage survive corrupted bits.
+    prerequisites:
+      hard: [discrete-math-for-engineers]

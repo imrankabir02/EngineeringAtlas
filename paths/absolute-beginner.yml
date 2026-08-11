@@ -1,0 +1,65 @@
+schema: path/v1
+id: absolute-beginner
+title: Absolute beginner
+audience: >
+  Someone who has never seriously studied technology and wants to reach the point where
+  they can write and debug a real program unaided. No prior knowledge assumed of any
+  kind.
+entry_level: 0
+exit_level: 1
+
+steps:
+  - topic: computer-basics
+    emphasis: >
+      Do the measurement project. The memory-versus-disk numbers you take yourself are
+      the foundation of every performance claim you will meet for years.
+
+  - topic: operating-system-basics
+    emphasis: >
+      Enough to know the OS is a program that manages the others. Do not go deeper yet.
+
+  - topic: files-and-directories
+    emphasis: >
+      Absolute versus relative paths, and that an extension is a convention rather than a
+      fact.
+
+  - topic: command-line-basics
+    emphasis: >
+      The goal is not speed. It is that the command line shows you what is actually
+      happening, which a graphical file manager hides.
+
+  - topic: internet-basics
+    emphasis: >
+      Client and server, and roughly what happens between pressing Enter and seeing a
+      page. Trace one real page load in browser devtools.
+
+  - topic: what-programming-is
+    emphasis: >
+      A program as a precise description of a process. This is the conceptual step that
+      makes the next topic possible.
+
+  - topic: problem-solving-basics
+    emphasis: >
+      Practise decomposition and hand-tracing away from a keyboard as well as at one. The
+      skill is not about syntax and it transfers to everything after this.
+
+  - milestone: >
+      You can navigate a filesystem and run programs from a terminal without a GUI, you can
+      explain why memory is fast and disks are slow using numbers you measured, and you can
+      read an error message and identify which part is the message, the location, and the
+      noise.
+
+  - topic: programming-fundamentals
+    emphasis: >
+      The longest step by far - budget 8 to 16 weeks. Pick one language and finish it.
+      Do both projects from a blank file.
+    projects: [cli-calculator, file-organizer]
+
+  - topic: version-control-git
+    emphasis: >
+      Learn what a commit actually is before learning the commands. Commit whenever
+      something works; that is the whole discipline at this stage.
+
+  - milestone: >
+      You can write a 300-line program from a blank file that solves a problem you chose,
+      with no tutorial, and diagnose it yourself when it breaks. You are Level 1.

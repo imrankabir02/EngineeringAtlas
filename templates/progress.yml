@@ -1,0 +1,75 @@
+# Copy this into your own fork or a private repository. The project stores no user state -
+# see ../docs/progress-tracking.md.
+#
+# States: not-started | started | learning | practicing | built | validated | mastered
+#
+# Every state beyond `learning` requires EVIDENCE THAT EXISTS OUTSIDE THIS REPOSITORY.
+# A checkbox records intent; evidence records capability.
+
+learner: your-github-handle
+updated: 2026-01-01
+
+topics:
+  # ---- a fully worked example
+  programming-fundamentals:
+    state: validated
+    evidence:
+      - "github.com/me/expression-calculator - recursive descent, no eval, 24 tests"
+      - "github.com/me/file-organizer - dry-run default, log-based undo, survives kill -9"
+      - "Wrote up why my first recursion approach blew the stack at 5,000 nested parens"
+    started: 2026-01-08
+    updated: 2026-03-02
+    note: >
+      Passed the aliasing and floating-point explain gates on the second attempt. Still not
+      confident about when to use a generator versus a list; noted for later.
+
+  # ---- built but not yet validated: the honest state most people are actually in
+  data-structures:
+    state: built
+    evidence:
+      - "github.com/me/ds-from-scratch - dynamic array, hash table (chaining), BST, heap"
+    started: 2026-03-05
+    updated: 2026-04-11
+    note: >
+      Benchmark gate not done. I still cannot explain why my hash table degrades sharply at
+      load factor 0.8 rather than gradually - that is the gap, and it is the next thing to fix.
+
+  # ---- in progress
+  caching:
+    state: learning
+    started: 2026-04-20
+    updated: 2026-04-28
+    note: >
+      Read fundamentals.md. The workload-versus-cache point about hit ratio was new to me and
+      probably explains why the cache at work does nothing.
+
+  # ---- an honest record of a deliberate skip
+  functional-programming:
+    state: not-started
+    note: >
+      Deliberately skipped for now to reach backend-development sooner. Recorded so I know
+      where to look when a testability problem turns out to be about purity.
+
+# ---------------------------------------------------------------------------------------
+# The `note` field is the most valuable one in this file. Write down what you know you do
+# not understand. That list is your actual curriculum, and it is more useful than any of
+# the state values.
+#
+# Review this every month or two, and ask:
+#
+#   - Many `learning` and few `built`? High knowledge, low skill. That is tutorial hell.
+#   - Many `built` and no `validated`? You build but never verify. You will be confidently
+#     wrong under load.
+#   - More than three or four topics in `started`/`learning` at once? That is technology
+#     hopping. Finish something.
+#   - More `mastered` entries than systems you have run in production? The tracker is
+#     measuring optimism. Recalibrate against docs/levels.md.
+#
+# `mastered` is not "I did the gates". It means at least one of: you taught it and the
+# person then did it unaided; you debugged a novel failure others could not; you contributed
+# to a tool implementing it; or you made an architectural decision involving it and lived
+# with the consequences.
+#
+# `validated` is a genuinely strong position. Most working engineers are `validated` on most
+# of what they use daily, and that is fine. Inflating it costs you the ability to tell the
+# difference, which is the only thing this file is for.

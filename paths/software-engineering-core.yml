@@ -1,0 +1,173 @@
+schema: path/v1
+id: software-engineering-core
+title: Software engineering, beginner to advanced
+audience: >
+  Anyone going from no technical background to being able to build, operate, and be trusted
+  with a real production system. The spine of the repository: the longest path, assuming
+  nothing, ending at Level 4. Expect two to four years of part-time work.
+entry_level: 0
+exit_level: 4
+
+steps:
+  # ---- Phase 1: the machine stops being magic (Level 0)
+  - topic: computer-basics
+    emphasis: >
+      Measure the memory hierarchy yourself. Everything later about why something is fast or
+      slow refers back to these numbers.
+    projects: [machine-anatomy]
+  - topic: operating-system-basics
+  - topic: files-and-directories
+  - topic: command-line-basics
+  - topic: internet-basics
+  - topic: what-programming-is
+  - topic: problem-solving-basics
+
+  - milestone: >
+      You can operate a computer deliberately rather than by memorised clicks, and you can
+      explain the memory-versus-disk difference using numbers you measured. Level 0 complete.
+
+  # ---- Phase 2: you can make a computer do something (Level 1)
+  - topic: programming-fundamentals
+    emphasis: >
+      The single longest step on this path. Pick one language, finish both projects from a
+      blank file, and do not move on until you can write 300 lines unaided.
+    projects: [cli-calculator, file-organizer]
+  - topic: debugging-fundamentals
+  - topic: error-handling
+  - topic: version-control-git
+  - topic: linux-fundamentals
+    emphasis: >
+      Almost all servers run Linux. Fluency here removes the environment as a permanent
+      source of mystery.
+  - topic: networking-fundamentals
+    emphasis: >
+      What "connection refused" versus "timeout" tells you about where the failure is. You
+      will use this weekly for the rest of your career.
+  - topic: databases-introduction
+
+  - milestone: >
+      You can write and debug a 300-line program unaided, use Git without fear, navigate a
+      Linux server over SSH, and explain why a network request failed. Level 1 complete.
+
+  # ---- Phase 3: you can build a correct application (Level 2)
+  - topic: object-oriented-programming
+  - topic: functional-programming
+  - topic: data-structures
+    emphasis: >
+      Build them and benchmark them. The theory-versus-measurement gap discovered here is the
+      beginning of engineering judgment.
+    projects: [ds-from-scratch]
+  - topic: complexity-analysis
+  - topic: algorithms
+  - topic: sql
+    emphasis: >
+      Learn the relational model as a model, not as syntax. NULL semantics cause most
+      incorrect query results.
+  - topic: relational-modeling
+  - topic: http
+    emphasis: >
+      Methods, status codes that mean what they say, and caching semantics. Read the RFC
+      sections rather than a tutorial.
+  - topic: rest-apis
+  - topic: tls-and-cryptography-basics
+  - topic: authentication-and-authorization
+    emphasis: >
+      Two different problems in one topic. Every mistake here is a real vulnerability, so
+      prefer the framework's implementation over your own.
+  - topic: testing-fundamentals
+  - topic: package-management
+  - topic: clean-code
+  - topic: git-workflows
+  - topic: code-review
+  - topic: software-design-principles
+  - topic: backend-development
+  - topic: linux-administration
+  - topic: security-fundamentals
+
+  - milestone: >
+      You have designed, built, tested and deployed an application with a database, an API and
+      authentication. You can review a peer's pull request for design, and explain what
+      happens between typing a URL and rendering a response through your own stack. Level 2
+      complete.
+
+  # ---- Phase 4: your system survives reality (Level 3)
+  - topic: operating-systems-fundamentals
+    emphasis: >
+      The topic that explains most surprising performance. Learn to read top, strace, and
+      /proc as evidence rather than as noise.
+  - topic: processes-and-scheduling
+  - topic: memory-management
+  - topic: concurrency-and-parallelism
+    emphasis: >
+      Two different problems sharing vocabulary. Produce a race condition on purpose before
+      trusting any concurrent code you write.
+  - topic: async-programming
+  - topic: transactions-and-isolation
+    emphasis: >
+      Learn which anomaly each isolation level permits, and check what your database's default
+      actually is. It is rarely what you assumed.
+  - topic: indexing-and-query-optimization
+  - topic: caching
+    emphasis: >
+      The cheapest place to learn that adding a component adds a failure mode. Cause a
+      stampede and a stale read yourself.
+    projects: [in-memory-cache, url-shortener]
+  - topic: containers-and-docker
+  - topic: ci-cd
+  - topic: refactoring
+  - topic: test-strategy
+  - topic: distributed-systems-fundamentals
+    emphasis: >
+      Partial failure, and the impossibility of distinguishing slow from dead. This is the
+      topic that reframes everything before it.
+  - topic: background-jobs-and-queues
+  - topic: message-queues-and-streaming
+  - topic: observability
+    emphasis: >
+      Debugging a system you cannot attach a debugger to. Alert on symptoms, not causes.
+  - topic: cloud-fundamentals
+  - topic: infrastructure-as-code
+  - topic: application-security
+  - topic: api-design
+  - topic: software-architecture
+  - topic: system-design-fundamentals
+    emphasis: >
+      Draw a diagram where you can justify every box. If you cannot, you have copied an
+      architecture rather than designed one.
+
+  - milestone: >
+      You have run something in production or an honest simulation of it, diagnosed a
+      performance problem with a profiler rather than a guess, and deliberately broken your own
+      system and fixed what that exposed. Level 3 complete - this is where most professional
+      engineers work.
+
+  # ---- Phase 5: you can be accountable for a system (Level 4)
+  - topic: performance-engineering
+    emphasis: >
+      Percentiles, coordinated omission, and Little's Law. Predict every number before you
+      measure it.
+  - topic: fault-tolerance
+  - topic: replication-and-consistency
+  - topic: partitioning-and-sharding
+  - topic: sre-and-reliability
+    emphasis: >
+      Reliability as a budget rather than an aspiration. Change is the dominant cause of
+      outages, which has uncomfortable implications for how you ship.
+  - topic: incident-response
+  - topic: capacity-planning
+  - topic: cost-optimization
+  - topic: large-scale-system-design
+  - topic: microservices
+    emphasis: >
+      Learn it in order to be able to say when it is wrong. Most systems should remain a
+      modular monolith and the honest answer matters more than the technique.
+  - topic: kubernetes
+  - topic: reading-source-code
+  - topic: open-source-engineering
+
+  - milestone: >
+      You have designed a system others built that survived a failure you predicted, led or
+      materially contributed to an incident response that produced real changes, and can state
+      the money, complexity and operational cost of your architectural choices. Level 4.
+      Beyond here, see the guru definition in docs/levels.md - it is not another list of
+      topics.

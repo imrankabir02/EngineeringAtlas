@@ -1,0 +1,83 @@
+schema: project/v1
+id: ds-from-scratch
+title: Data structures from scratch
+level: 2
+
+summary: >
+  Implement a dynamic array, hash table, binary search tree, and binary heap from
+  primitives, then benchmark them against your language's built-ins and explain every
+  difference you measure.
+
+validates:
+  - Can implement each structure from its invariants rather than from memory of the code.
+  - Can state the complexity of each operation and demonstrate it with measurements.
+  - Can explain why measured performance diverges from asymptotic prediction.
+  - Can recognise which structure a new problem calls for, and defend the choice.
+
+topics: [data-structures, complexity-analysis, programming-fundamentals]
+
+constraints:
+  - Build on fixed-size arrays and objects only. No built-in dynamic list, dict, set, or sorted container inside your implementations.
+  - Every structure exposes a way to inspect its internal state, for debugging and for the benchmark commentary.
+  - Every operation has a stated complexity in a comment, and a test that supports the claim.
+  - Benchmarks must exclude warm-up and report a distribution, not a single number.
+
+stages:
+  - name: Dynamic array
+    goal: Amortised O(1) append on top of fixed-size storage.
+    done_when:
+      - Append, index, insert-at, delete-at, and length all work with tests.
+      - Growth is by a multiplicative factor and you can state which factor and why not +1.
+      - You measured the cost of 1,000,000 appends and can point to the resize spikes.
+      - You can explain "amortised O(1)" using your own measurements rather than a definition.
+
+  - name: Hash table
+    goal: Average O(1) lookup, with collisions handled correctly.
+    done_when:
+      - Insert, lookup, delete, and iteration work, including deleting a key involved in a collision.
+      - You implemented one collision strategy and can describe the other.
+      - Resizing rehashes correctly and preserves every key.
+      - You measured lookup time at load factors 0.3, 0.7, 0.9, and 0.99 and can explain the curve.
+      - A test inserts 10,000 keys chosen to collide and shows the degradation.
+
+  - name: Binary search tree
+    goal: Ordered operations, and an honest account of the worst case.
+    done_when:
+      - Insert, search, delete (all three delete cases), and in-order traversal work.
+      - Inserting already-sorted data demonstrably degrades to a linked list, with a measured height.
+      - You can explain what a balanced variant fixes without necessarily implementing one.
+
+  - name: Binary heap
+    goal: A priority queue with O(log n) push and pop.
+    done_when:
+      - Push, pop, and peek work, with the heap invariant checked by a test after every operation.
+      - Heapify from an existing array is implemented and you can explain why it is O(n), not O(n log n).
+      - You used it to solve a problem where a sorted list would be the wrong choice.
+
+  - name: Benchmark and explain
+    goal: Numbers, then explanations.
+    done_when:
+      - Each structure is compared against the language built-in on the same workload.
+      - Results include p50 and p99, with warm-up excluded and the setup recorded.
+      - "A written analysis explains each gap: constant factors, memory layout, and implementation language."
+      - You predicted every result before measuring, and the predictions are recorded unedited.
+
+break_it:
+  - Insert 100,000 keys whose hashes all collide into your hash table. Measure lookup time and explain the shape.
+  - Insert sorted integers into your BST and measure its height against log2(n).
+  - Fill the dynamic array to a size where each resize copies noticeably. Graph append latency over time and identify the spikes.
+  - Grow the heap until memory pressure is visible, and observe what the allocator does.
+  - Use a mutable object as a hash key, mutate it after insertion, then try to find it. Explain the result.
+
+anti_patterns:
+  - Wrapping the built-in. If your dynamic array holds a Python list, there is no project.
+  - Copying an implementation. Work from the invariant; write the code yourself even if it takes longer.
+  - Benchmarking with uniformly random keys only. Real key distributions are skewed and adversarial.
+  - Reporting a mean. The whole point of the dynamic array is that its cost distribution is spiky.
+  - Concluding "the built-in is faster" and stopping. Why it is faster is the deliverable.
+
+stretch:
+  - Implement open addressing as well as chaining and compare cache behaviour at high load factors.
+  - Add a red-black or AVL tree and measure the height difference on sorted input.
+  - Implement a trie and compare it to your hash table for prefix queries.
+  - Implement a Bloom filter and measure the false-positive rate against the theoretical prediction.

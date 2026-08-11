@@ -1,0 +1,86 @@
+schema: project/v1
+id: in-memory-cache
+title: In-memory cache with eviction
+level: 3
+
+summary: >
+  A thread-safe cache library with O(1) LRU eviction, TTLs, metrics, and a benchmark
+  harness, placed in front of a real datastore and then deliberately made to fail.
+
+validates:
+  - Can implement an O(1) LRU and demonstrate the complexity claim by measurement rather than assertion.
+  - Can treat cache invalidation as a correctness problem with observable consequences.
+  - Can make a concurrent data structure safe, and can prove the race exists without the lock.
+  - Can produce a benchmark whose numbers a sceptical reviewer would trust.
+  - Can reason about hit ratio as a function of workload skew rather than as a fixed property.
+
+topics: [caching, data-structures, concurrency-and-parallelism]
+
+constraints:
+  - No third-party cache library. Standard library only. The eviction logic is the project.
+  - get and put must both be O(1). A linear scan to find the least-recently-used entry is a failure, not a simplification.
+  - Must be safe under concurrent readers and writers, and you must exhibit the failure that occurs without synchronisation.
+  - Must expose hit ratio, miss count, eviction count, and latency percentiles.
+  - Must sit in front of something real - a database, a file, or an HTTP endpoint with artificial latency - not a stub returning a constant.
+
+stages:
+  - name: Correct
+    goal: A single-threaded cache with fixed capacity and LRU eviction.
+    done_when:
+      - get, put, and delete work with a capacity limit that is never exceeded.
+      - Eviction order is verified by a test that checks which key was discarded, not merely that one was.
+      - Both get and put are O(1); you can point at the data structures that make this true.
+      - Tests cover capacity 1, capacity 0, updating an existing key, and re-getting an evicted key.
+
+  - name: Expiring
+    goal: Entries that become invalid with time.
+    done_when:
+      - Per-entry TTL works, and an expired entry is a miss even when still resident.
+      - Expiry is tested with an injected clock, not with sleep calls.
+      - You decided between lazy and active expiry and wrote down the trade-off you accepted.
+      - Memory does not grow without bound when every key expires and is never requested again.
+
+  - name: Concurrent
+    goal: Safe under parallel access.
+    done_when:
+      - A test fails reliably without synchronisation and passes with it. You have both versions.
+      - You can name the specific interleaving that corrupts the structure.
+      - Lock scope is documented; you can explain why one lock and not one per entry, or the reverse.
+
+  - name: Measured
+    goal: Numbers you can defend.
+    done_when:
+      - Benchmark reports p50, p95, p99 for hit path, miss path, and cache disabled.
+      - Warm-up is excluded and the setup is recorded in the output.
+      - Hit ratio is measured under a uniform and a Zipfian key distribution, and the difference is explained.
+      - You predicted every number before measuring and the predictions are recorded unedited.
+
+  - name: Broken and understood
+    goal: Failure modes you have personally caused.
+    done_when:
+      - You caused a cache stampede and have the origin-load graph that shows it.
+      - You implemented one mitigation and measured its effect.
+      - You produced a stale-read bug, traced it to the write path, and wrote up the mechanism.
+
+break_it:
+  - Send 500 concurrent requests for the same cold key. Measure how many reach the origin. It should be 500; explain why, then fix it.
+  - Set capacity to 1 with two equally hot keys. Measure the hit ratio and explain the number you get.
+  - Write to the datastore directly, bypassing the cache, then read through the cache. Record how long the wrong value is served.
+  - Restart the process under load with a cold cache and measure origin latency during recovery.
+  - Make the origin 2 seconds slow and confirm whether your cache amplifies or absorbs the latency.
+  - Insert entries whose values are large enough to exhaust memory. Find out whether capacity-by-count was the right limit.
+
+anti_patterns:
+  - Wrapping a dictionary and calling it a cache. Without eviction there is no project.
+  - Scanning all entries to find the least-recently-used one. That is O(n) and defeats the purpose.
+  - Using sleep in expiry tests, which makes the suite slow and flaky. Inject the clock.
+  - Benchmarking against a stub origin, which makes every result meaningless because there was no cost to avoid.
+  - Reporting a mean latency. The distribution is the entire subject.
+  - Testing only the hit path. The miss path under concurrency is where the interesting failures are.
+
+stretch:
+  - Add a second eviction policy (LFU or a small ARC) and compare hit ratios on the same Zipfian workload.
+  - Implement single-flight request coalescing and measure the reduction in origin calls.
+  - Add negative caching for missing keys, then find the bug it introduces when the key is created.
+  - Make it distributed across two processes with consistent hashing, then remove a node and measure the churn.
+  - Add stale-while-revalidate and describe precisely which guarantee you gave up.

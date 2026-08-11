@@ -1,0 +1,69 @@
+schema: registry/v1
+domain: security
+
+topics:
+  - id: security-fundamentals
+    title: Security fundamentals
+    level: 2
+    status: planned
+    summary: >
+      Thinking in terms of trust boundaries and attacker capability: threats versus
+      vulnerabilities versus risk, least privilege, defence in depth, and the fact
+      that all input from outside your process is hostile until validated.
+    prerequisites:
+      hard: [networking-fundamentals, http]
+
+  - id: application-security
+    title: Application security
+    level: 3
+    status: planned
+    summary: >
+      The vulnerability classes that keep recurring and their mechanisms: injection,
+      broken access control, SSRF, deserialisation, XSS and CSRF, secrets handling,
+      and building the fix into the framework rather than the review checklist.
+    prerequisites:
+      hard: [security-fundamentals, backend-development]
+
+  - id: cryptography-applied
+    title: Applied cryptography
+    level: 3
+    status: planned
+    summary: >
+      Using cryptography without inventing it: choosing primitives, authenticated
+      encryption, key management and rotation, password hashing, signing versus
+      encrypting, randomness, and why rolling your own is the classic failure.
+    prerequisites:
+      hard: [tls-and-cryptography-basics]
+
+  - id: secure-software-supply-chain
+    title: Secure software supply chain
+    level: 3
+    status: planned
+    summary: >
+      Trusting what you build with: dependency and transitive risk, lockfiles and
+      pinning, provenance and signing, SBOMs, build reproducibility, and CI as a
+      privileged system that attackers target directly.
+    prerequisites:
+      hard: [package-management, ci-cd]
+
+  - id: offensive-security
+    title: Offensive security
+    level: 4
+    status: planned
+    summary: >
+      Testing systems the way an attacker would, within authorised scope:
+      reconnaissance, exploitation, privilege escalation, lateral movement, and
+      reporting. Studied to build better defences and to know what real risk is.
+    prerequisites:
+      hard: [application-security, linux-administration, tcp-ip-internals]
+
+  - id: security-architecture
+    title: Security architecture
+    level: 4
+    status: planned
+    summary: >
+      Designing systems that limit the damage of a breach: threat modelling, blast
+      radius, segmentation, zero-trust as an architecture rather than a product,
+      identity federation, detection, and incident readiness.
+    prerequisites:
+      hard: [application-security, cloud-architecture]
